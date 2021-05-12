@@ -1,0 +1,155 @@
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% if work_order %}
+    <div class="row">
+          <div class="col-sm-12">
+            <section class="panel">
+                 <div class="panel-body" style="padding: 0 0 6rem 0;">
+                    <div class="tab tabs">
+                         <button class="tablinks active" onclick="openForm(event, 'WorkOrder')" id="defaultOpen">Work Order</button>
+                        {% comment %}{% if stations %}{% endcomment %}
+                         <button class="tablinks" onclick="openForm(event, 'Stations')">Stations</button>
+                        {% comment %}{% endif %}
+                        {% if serial_numbers %}{% endcomment %}
+                         <button class="tablinks" onclick="openForm(event, 'SerialNumbers')">Serial Numbers</button>
+                        {% comment %}{% endif %}{% endcomment %}
+                    </div>
+
+                       <div id="WorkOrder" class="tabcontent trace-tab-content">
+                         <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <table class="table table-striped table-bordered table-sm">
+                                    <tbody>
+                                     <tr class="table-header">
+                                       <th>Work Order</th>
+                                       <th style="border: none;"></th>
+                                       <th style="border: none;"></th>
+                                       <th style="border: none;"></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Work Order:</th>
+                                        <td>{{  work_order.pk }}</td>
+                                        <th scope="row">Route:</th>
+                                        <td>{{ route }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Type:</th>
+                                        <td> {{ work_order.workorder_type }}</td>
+                                        <th scope="row">WO Status:</th>
+                                        <td>{{ work_order.status_id.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Target QTY:</th>
+                                        <td>{{ work_order.target_qty }}</td>
+                                        <th scope="row">Current QTY:</th>
+                                        <td> {{ work_order.current_qty }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">SN Created:</th>
+                                        <td> {{ total_sn }}</td>
+                                        <th scope="row">SN Completed:</th>
+                                        <td> {{ completed_sn }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Last Edit By:</th>
+                                        <td> {{ work_order.updater }}</td>
+                                        <th scope="row">Last Edit At:</th>
+                                        <td> {{ work_order.update_date }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                         </div>
+                       </div>
+
+
+                    <div id="Stations" class="tabcontent trace-tab-content">
+                         <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    {% if stations %}
+                                        <table class="table table-striped table-bordered table-sm">
+                                            <tbody>
+                                                <tr class="table-header">
+                                                <th>Stations</th>
+                                                <th style="border: none;"></th>
+                                                </tr>
+                                                {% for station in stations %}
+                                                <tr class="pallet-row-height">
+                                                    <td class='col md-3'><p>{{ forloop.counter }}</p></td>
+                                                    <th class='col md-9'>{{ station }}</th>
+                                                </tr>
+                                                {% endfor%}
+                                            </tbody>
+                                        </table>
+                                        {% else %}
+                                              <div id="myModal" class="modal-log">
+                                                 <div class="modal-content"  style="width: 40%;">
+                                                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                      <div class="warning-modal-body">
+                                                         <p> The route for workorder <strong>{{work_order.pk}}</strong> has not been defined yet.</p>
+                                                       </div>
+                                                   </div>
+                                                <button style="display: none;" id="myBtn">Open Modal</button>
+                                             </div>
+                                        {% endif %}
+                                </div>
+                         </div>
+                    </div>
+
+                     <div id="SerialNumbers" class="tabcontent trace-tab-content">
+                         <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    {% if serial_numbers %}
+                                        <table class="table table-striped table-bordered table-sm">
+                                            <tbody>
+                                                <tr class="table-header">
+                                                <th>Serial Numbers</th>
+                                                    <th style="border: none;"></th>
+                                                    <th style="border: none;"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col">Serial Number</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Station</th>
+                                                </tr>
+
+                                                {% for sn in serial_numbers %}
+                                                    <tr>
+                                                        <td><a href="/manufacturing/tool_box/trace_sn?searchID=sn&q={{sn.serial_number}}">{{ sn.serial_number }}</a></td>
+                                                        <td>{{ sn.status }}</td>
+                                                        <td>{{ sn.station }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        {% else %}
+                                              <div id="myModal" class="modal-log">
+                                                 <div class="modal-content"  style="width: 40%;">
+                                                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                      <div class="warning-modal-body">
+                                                         <p>  No serial numbers have been generated for workorder <strong>{{work_order.pk}}.</strong></p>
+                                                       </div>
+                                                   </div>
+                                                <button style="display: none;" id="myBtn">Open Modal</button>
+                                             </div>
+                                        {% endif %}
+                                </div>
+                         </div>
+                     </div>
+                 </div>
+            </section>
+        </div>
+{%else%}
+         <div id="myModal" class="modal-log">
+             <div class="modal-content-error"  style="width: 40%;">
+                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                  <div class="warning-modal-body">
+                     <p>Work Order number <strong> {{values.q}} </strong> was not found.</p>
+                     </div>
+                     </div>
+                      <button style="display: none;" id="myBtn">Open Modal</button>
+                     </div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+{% endif %}
+

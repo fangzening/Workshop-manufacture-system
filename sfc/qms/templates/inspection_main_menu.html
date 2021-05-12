@@ -1,0 +1,68 @@
+
+<div class="table-header">
+   <div class="" id="mobile-pallet-input">
+    <input id="module-menu" class="form-control form-control-replacement" name="pallet_id" type="text" onkeyup="getSelectedModule()" style="width: 100%;" placeholder="Search module..."/>
+   </div>
+</div>
+
+<table class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0;">
+     <tbody>
+           <tr class="table-header">
+               <th style="padding: 0;">
+                <span class="col-sm-12 table-th-pallet scanner-td-pallet">Module function</span>
+               </th>
+           </tr>
+           <tr>
+              <th style="padding: 0;">
+                  <ul id="ModuleInfo" style="padding: 0; margin: 0;height: 645px; background: #fff; overflow: scroll; padding-left: 0;">
+
+                       <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">Material IQC</span>
+                      </a></li>
+
+                      <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection_waiting' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">Material IQC waiting list</span>
+                      </a></li>
+
+                      <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection_mrb' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">MRB audit</span>
+                      </a></li>
+
+                        <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection_reference_code' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">Reference code</span>
+                      </a></li>
+
+                        <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection_tool' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">Inspection tool</span>
+                      </a></li>
+
+                      <li class="qms-li"><a class="pallet-a" href="{% url 'maskconfig:inspection_parameters' %}"><i class="icon_folder-alt"></i>
+                          <span class="scanner-td scanner-td-pallet">Inspection parameters</span>
+                      </a></li>
+                  </ul>
+              </th>
+          </tr>
+     </tbody>
+  </table>
+
+
+ <!--      <form method="POST" action= "">-->
+<!--             <div  class="">-->
+<!--&lt;!&ndash;                 <label>Module function</label>&ndash;&gt;-->
+<!--                 <input id="menu_search_input" name="" class="form-control form-control-replacement" style="margin-top: 15px;" type="text" value="" style="color: #bbb8b8;" required placeholder="Search for Module function ..."/>-->
+<!--                    <section>-->
+<!--                         <div class="form-group">-->
+<!--                             <select onchange="getMenuOption(this);" name="model" class="form-control" id="searchMenu" size="10">-->
+<!--                                 <option value="">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">Material IQC inspection Item maintenance</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">Material IQC inspection</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">Material IQC inspection</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">IQC oncoming inspection query</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">Material supplier IQC reference maintenance</option>-->
+<!--                                 <option style="color: #222;" class="query-button" value="">Material IQC reference maintenance</option>-->
+<!--                             </select>-->
+<!--                        </div>-->
+<!--                </section>-->
+<!--            </div>-->
+<!--        </form>-->
+

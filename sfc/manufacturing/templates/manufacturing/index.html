@@ -1,0 +1,247 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+<link rel="stylesheet" href="{% static 'css/icon-animation.css' %}">
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i>Dashboard</li>
+
+        </ol>
+      </div>
+    </div>
+
+     <div class="row sn-page">
+          <section class="panel">
+               <section class="form-horizontal">
+                   <div class="login-wrap">
+                     <div class="">
+                         <section>
+                              {% comment %}{% if perms.is_staff %}
+                              <a target="_blank" href="{% url 'admin:index' %}">
+                                  <div class="col-lg-4">
+                                    <section class="panel">
+                                      <div class="panel-body text-center button index-button just-a-card">
+                                          {% load static %}
+                                            <div style=" background-image: url(../svg/rocket.svg) no-repeat center center fixed;">
+                                              <div class='card-description'>
+<!--                                                  <section class="talign-center">-->
+<!--                                                    <div class="spinner icon-spinner-4" aria-hidden="true"></div>-->
+<!--                                                </section>-->
+<!--                                                  <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/rocket-s.svg' %}" alt="icon"></div>-->
+                                                  <div> <h3 class="dash-h2"> ADMIN Site</h3></div>
+                                              </div>
+                                            </div>
+                                      </div>
+                                    </section>
+                                  </div>
+                              </a>
+                              {% endif %}{% endcomment %}
+
+                             <a href="{% url 'manufacturing:user_list' %}">
+                                  <div class="col-lg-4">
+                                    <section class="panel">
+                                      <div class="panel-body text-center button index-button just-a-card">
+                                          {% load static %}
+                                            <div style=" background-image: url(../svg/rocket.svg) no-repeat center center fixed;">
+                                              <div class='card-description'>
+<!--                                                  <section class="talign-center">-->
+<!--                                                    <div class="spinner icon-spinner-4" aria-hidden="true"></div>-->
+<!--                                                </section>-->
+                                                  <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/admin-bk.svg' %}" alt="icon"></div>
+                                                  <div class="card-text"> <h3 class="dash-h2">User ADMIN</h3></div>
+                                              </div>
+                                            </div>
+
+                                      </div>
+                                    </section>
+                                      <ul class="sub-ul">
+                                          {% if perms.is_staff %}
+                                          <li><a class="menu-sub-link" target="_blank" href="{% url 'admin:index' %}">ADMIN Site</a></li>
+                                          {% endif %}
+                                          <li><a class="menu-sub-link" href="{% url 'manufacturing:user_list' %}">User Management</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'manufacturing:profile_detail' user.pk %}">User Profile</a></li>
+                                      </ul>
+                                  </div>
+                              </a>
+
+
+                              <a href="{% url 'manufacturing:sub_config' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div>
+                                                  <div class='card-description'>
+                                                       <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/config-bk.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">Configuration</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'maskconfig:mask-list-reverse' %}">Mask Part</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'line:all-stations' %}">Station</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'maskconfig:ooba_list' %}">OOBA</a></li>
+                                        </ul>
+                                         <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'line:route' %}">Route</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'line:pack' %}">Pack</a></li>
+                                      </ul>
+                                   </div>
+                                 </a>
+
+                                  <a href="#">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div id="line">
+                                                  <div class='card-description'>
+                                                      <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/report-bk.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">Report</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+
+                                      </ul>
+                                   </div>
+                                 </a>
+
+                                <a href="{% url 'manufacturing:sub_toolbox' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div>
+                                                  <div class='card-description'>
+                                                      <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/assembly-s.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">Assembly<br> Management</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                            <li><a class="menu-sub-link" href="{% url 'manufacturing:workorder_list_reverse' %}">WorkOrder Manager</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'manufacturing:serialnumber_list' %}">SerialNumber Manager</a></li>
+                                             <li><a class="menu-sub-link" href="{% url 'manufacturing:label-center' %}">Label Center</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'manufacturing:label-create' %}">Create Label</a></li>
+                                        </ul>
+                                        <ul class="sub-ul">
+                                            <li><a class="menu-sub-link" href="{% url 'offline_station:offline_station' %}">Phantom Part</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'git:git-upload' %}">Git</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'manufacturing:hold_station' %}">Hold Station</a></li>
+                                        </ul>
+                                   </div>
+                                 </a>
+
+                                 <a href="{% url 'manufacturing:sub_wip' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div id="line">
+                                                  <div class='card-description'>
+                                                       <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/progress-bk.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">WIP<br> Management</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'line:wip' %}">Production Flow</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'line:check-in' %}">Check In</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:pallet_station' %}">Palletization</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:unpallet_station' %}">Un Pallet</a></li>
+                                      </ul>
+                                   </div>
+                                 </a>
+
+                                 <a href="{% url 'manufacturing:sub_shipping_manager' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div>
+                                                  <div class='card-description'>
+                                                      <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/truck-s.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">Shipping<br> Management</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:ship_out_station' %}">Shipping Start</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:truckload_station' %}">Truck Load</a></li>
+                                       </ul>
+                                        <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:salesorder_list' %}">SalesOrder Manager</a></li>
+                                          <li><a class="menu-sub-link" href="{% url 'shipping:deliverynumber_list' %}">DeliverNumber Manager</a></li>
+                                      </ul>
+                                   </div>
+                                 </a>
+
+                                  <a href="{% url 'manufacturing:sub_qms' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div>
+                                                  <div class='card-description'>
+                                                      <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/inspection.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">QMS</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                             <li><a class="menu-sub-link" href="{% url 'qms:inspection' %}">Material IQC</a></li>
+                                             <li><a class="menu-sub-link" href="{% url 'qms:inspection_waiting' %}">Material IQC waiting list</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'qms:inspection_mrb' %}">MRB audit</a></li>
+                                            <li><a class="menu-sub-link" href="{% url 'qms:inspection_manufacture_info' %}">Manufacture Info</a></li>
+                                       </ul>
+
+                                        <ul class="sub-ul">
+                                             <li><a class="menu-sub-link" href="{% url 'qms:inspection-tool' %}">Inspection Tool</a></li>
+                                             <li><a class="menu-sub-link" href="{% url 'qms:inspection-level' %}">Inspection Level</a></li>
+                                             <li><a class="menu-sub-link" href="{% url 'qms:inspection-free' %}">Inspection Free</a></li>
+                                             <li><a class="menu-sub-link" href="">Inspection Parameter</a></li>
+                                       </ul>
+                                   </div>
+                                 </a>
+
+
+                                <a href="{% url 'manufacturing:sub_wms' %}">
+                                   <div class="col-lg-4">
+                                      <section class="panel">
+                                          <div class="panel-body text-center button index-button just-a-card">
+                                              {% load static %}
+                                              <div>
+                                                  <div class='card-description'>
+                                                      <div class="desc-icon"> <img class="fit-picture" style="opacity:1" src="{% static 'svg/wms.svg' %}" alt="icon"></div>
+                                                      <div class="card-text"> <h3 class="dash-h2">WMS</h3></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </section>
+                                        <ul class="sub-ul">
+                                          <li><a class="menu-sub-link" href="{% url 'wms:wms_receiving_form' %}">Receiving Form</a></li>
+                                       </ul>
+
+                                   </div>
+                                 </a>
+                          </section>
+                       </div>
+                    </div>
+               </section>
+          </section>
+     </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

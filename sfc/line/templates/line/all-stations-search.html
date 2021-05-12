@@ -1,0 +1,74 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% include 'manufacturing/include/add-row-js.html' %}
+<div id="maxheight">
+{% if station_list %}
+  <table id="table" class="table table-striped table-advance table-hover table-flex" >
+      <tbody>
+        <tr id="table-header" class="column table-header">
+        <th ><i></i> &nbsp; #</th>
+        <th ><i class="icon_profile"></i> &nbsp; Station</th>
+        <!-- <th ><i class="icon_check"></i> &nbsp; Next Station</th> -->
+        <th ><i class="icon_check"></i> &nbsp; Updater</th>
+        <th ><i class="icon_check"></i> &nbsp; Update Date</th>
+        <th><i class="icon_check"></i>&nbsp; Edit</th>
+        </tr>
+        {% for station in station_list %}
+        <tr class="column" id="{{ station.pk }}">
+          <th class="col-xs-1"><p>&nbsp;{{ forloop.counter }}</p></th>
+          <th class="col-xs-3"> <p>{{ station }}</p></th>
+          <th class="col-xs-3"> <p>{{ station.updater }}</p></th>
+          <th class="col-xs-3 update-date"> <p>{{ station.update_date }}</p></th>
+          <th class="col-xs-3">
+              <a href="{% url 'line:edit-station' station_id=station.pk %}">
+          <button class="icon-text"  type="submit"  style="background: none; border: none;"><img style="width: 22px; margin-left: 3px;" src="{% static 'svg/pen.svg' %}" alt="icon">
+          <span>Edit</span>
+          </button></a>
+          </th>
+        </tr>
+        {% endfor %}
+          {% else %}
+               <div id="myModal" class="modal-log">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                         <p>No related data</p>
+                       </div>
+                   </div>
+                <button style="display: none;" id="myBtn">Open Modal</button>
+             </div>
+            </tbody>
+        </table>
+      {% endif %}
+     <table  class="table table-striped table-advance table-hover table-flex">
+        <tbody>
+           <div class = "column">
+                <!-- ############## page  ############## -->
+                {% include 'manufacturing/include/pagination.html' %}
+               {% if station_list.has_other_pages %}
+<!--                <nav aria-label="Page navigation conatiner"></nav>-->
+                <ul class="page-button pagination" >
+                {% if station_list.has_previous %}
+                <li class="page-links"><a href="?page={{ station_list.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+                <li class="page-item"><span class="page-item page-link" style="background: #357ecd; color: #fff;">
+                {{ station_list.number }} of {{ station_list.paginator.num_pages }}
+                </span></li>
+                {% endif %}
+                {% if station_list.has_next %}
+                <li><a href="?page={{ station_list.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+                {% endif %}
+                </ul>
+<!--                </nav>-->
+                {% endif %}
+                <!-- #################### end page #########   -->
+           </div>
+         </tbody>
+    </table>
+
+</div>
+<div id="btn-container"></div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+
+

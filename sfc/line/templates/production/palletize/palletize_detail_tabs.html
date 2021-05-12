@@ -1,0 +1,162 @@
+{% include 'manufacturing/include/error-modal-style.html' %}
+<style>
+   .highlight {
+    background-color: #bef3ee;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+
+    }
+th {
+
+    color: black;
+}
+th,.pallet-td {
+    padding:0.5rem 0.8em;
+    background: #b8596b;
+    color: #b8596b;
+}
+
+tr.duplicate td{
+   background-color: #a5bff4;
+}
+
+.cl{
+    background: #59b895;
+    color: #59b895;
+}
+</style>
+<!--<div class="col-sm-12" style="padding: 0;">-->
+<!--    <section class="panel">-->
+         <div class="panel-body" style="height: 457px; overflow-y: scroll; padding: 0;">
+               <div class="tab tabs">
+                     <button class="tablinks" style="cursor: none; background-color: #234192; color: #fff;">Pallet Detail
+                     &nbsp; &nbsp; <strong>{{ pallet.pallet_id }}</strong></button>
+               </div>
+               <!--  Pallet Detail  -->
+              <div id="compare"></div>
+               <div class="pallet-tab-content" style="padding: 0;">
+                 <div class="form-horizontal">
+                    <div class="mobile-tab-table">
+                        {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                        {% if forloop.last %}
+                        {% if pallet.pallet_id %}
+                        {% if pallet.status == 1 %}
+                        <div class="col-sm-6 pallet-button-div-left" id="dimension-button">
+                            <button data-toggle="modal" data-target="#save-close-pallet" class="btn btn-info pallet-header-button" id="close-pallet" onclick="ShowDimensions()" style="mergin-left: 0; padding: 0;">Close <strong>	&nbsp;{{ pallet.pallet_id }}</strong></button>
+                        </div>
+                        <div class="col-sm-6 pallet-button-div-right">
+                            <a href="{% url 'shipping:print_pallet_list' %}?pallet-id={{ pallet.pallet_id }}" target="_blank">
+                                <button class="btn btn-info pallet-header-button" style="mergin-left: 0; padding: 0;">Print <strong>	&nbsp;{{ pallet.pallet_id }}</strong> detail</button>
+                                <input type="hidden" name="pallet_id" value="{{ pallet.pallet_id }}">
+                            </a>
+                            <form action="{% url 'shipping:print_pallet_list' %}" method="get">
+
+                            </form>
+                            </div>
+                        {% endif %}{% endif %}
+                        {% if pallet.pallet_id %}
+                        {% if pallet.status == 0 %}
+
+                        <div class="col-sm-6" id="dimension-button" style="padding: 0;opacity: 0;">
+                            <div class="btn btn-info action-header-button" style="mergin-left: 0; padding: 0; cursor: none;">Close <strong>	&nbsp;{{ pallet.pallet_id }}</strong></div>
+                        </div>
+                        <div class="col-sm-6" style="padding: 0; opacity: 0;">
+                            <div class="btn btn-info action-header-button" style="mergin-left: 0; padding: 0; cursor: none;">Print <strong>	&nbsp;{{ pallet.pallet_id }}</strong> detail</div>
+                        </div>
+                        {% endif %}{% endif %}
+                        {% endif %}{% endfor %}
+
+                        <table class="table table-striped table-bordered table-sm" id="update-pallet" style="margin-bottom: 0; transition: 0.5s;">
+                             <p></p>
+                              {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                             {% if forloop.last %}
+
+                              <thead class="table-header">
+                                <tr>
+                                  <th><i class="icon_grid-3x3"></i> &nbsp; Serial Number</th>
+                                  <th><i class="icon_grid-3x3"></i> &nbsp; SKU</th>
+                                  <th><i class="icon_grid-3x3"></i> &nbsp; Action</th>
+                                </tr>
+                                </thead>
+                            {% endif %}
+                            {% empty %}
+
+                             <div id="myModal1" class="modal-log message-box-bottom" style="padding-top: 0;">
+                                 <div class="modal-content">
+                                     <span class="close1" data-dismiss="modal1" style="z-index: 10;">×</span>
+                                      <div class="warning-modal-body">
+                                         <p>Please select a pallet</p>
+                                       </div>
+                                   </div>
+                                <button style="display: none;" id="myBtn1">Open Modal</button>
+                             </div>
+
+                             {% endfor %}
+                              <tbody>
+                             {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                             {% if palletserialnumber.pallet_id_id %}
+                                <tr id="row{{ palletserialnumber.serialnumber }}">
+                                 {% comment%}<td>{{ forloop.counter }}</td>{%endcomment%}
+                                 <!-- <td>Serial Number:</td>-->
+                                 <td>{{ palletserialnumber.serialnumber }}</td>
+                                 <!-- <td scope="row">SKU:</td>-->
+                                 <td id="{{ palletserialnumber.serialnumber.model_id }}" scope="row">{{ palletserialnumber.serialnumber.model_id }}</td>
+                                 <td>
+<!--                                        <input type="text" name="row_id" id="row_id" value="{{ palletserialnumber.row_id }}">-->
+                                  {% comment %}<form name="create_pallet_id" onsubmit="return confirm('Confirm delete?');" action="{% url 'shipping:delete_sn' palletserialnumber.row_id %}" method="post" style="display: inline;">
+                                      {% csrf_token %}{% endcomment %}
+                                       <input type="hidden" name="pallet_id" class="form-control" value="{{ pallet.pallet_id }}">
+                                       <input type="hidden" name="updater" class="form-control" value="{{ user.get_username }}">
+                                       <input type="hidden" name="creator" class="form-control" value="{{ pallet.creator }}">
+                                       {% include 'production/palletize/palletize_hidden_input.html' %}
+                                        {% if pallet.pallet_id %}
+                                        {% if pallet.status == 1 %}
+                                       <button id="{{ palletserialnumber.serialnumber }}" class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                                      src="{% static 'svg/delete.svg' %}" alt="icon"><span>Remove</span></button>
+
+<!--                                  </form>-->
+                                     {% elif pallet.status == 0 %}
+                                     <div class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                                      src="{% static 'svg/accept.svg' %}" alt="icon"><span style="text-align: center;">Closed</span></div>
+                                     {% endif %} {% endif %}
+                                 </td>
+                                </tr>
+                             {% endif %}
+                             {% empty %}
+                             {% endfor %}
+                           </tbody>
+                        </table>
+
+                        <table style="display: none;">
+                            <tbody>
+                                <tr id="tr1">
+                                    {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                                    {% if palletserialnumber.pallet_id_id %}
+                                    <td class="pallet-td" id="td1"><p style="display: none;">{{ palletserialnumber.serialnumber.model_id }}</p></td>
+                                    {% if forloop.first %}
+                                    <input type="hidden"  name="first_sku" id="first_sku" value="{{ palletserialnumber.serialnumber.model_id }}">
+
+                                    {% endif %}
+                                    {% if forloop.last %}
+                                    <input type="hidden"  name="last_sn" id="last_sn" value="{{ palletserialnumber.serialnumber }}">
+                                    <input type="hidden" name="last_sku" id="last_sku" value="{{ palletserialnumber.serialnumber.model_id }}">
+                                    {% endif %}
+                                    {% endif %}{% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+             </div>
+            {% include 'production/palletize/palletize-js.html' %}
+         </div>
+<!--    </section>-->
+<!--</div>-->
+{% load static %}
+
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">

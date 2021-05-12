@@ -1,0 +1,70 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+          <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+          <li><i class="fa fa-square-o"></i>Palletize</li>
+        </ol>
+      </div>
+    </div>
+
+   <div class="row">
+       <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body" style="padding-bottom: 5rem;">
+                  <div style="width: 95%; margin: 2rem auto; padding:0.5rem;">
+                       <form action="" method="POST" class="form-horizontal">
+                       {% csrf_token %}
+                       <div class="col-lg-4" style="padding-left: 2rem;">
+                             <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="col-sm-12">
+                                        <label for="length">Length: </label>
+                                        <strong><input type="text" class="form-control" id="length" name="length" aria-describedby="" placeholder="Length..." value=""></strong>
+                                       </div>
+                                   </div>
+                                   <div class="form-group">
+                                       <div class="col-sm-12">
+                                        <label for="width">Width:</label>
+                                        <strong><input type="text" class="form-control" id="width" name="width" aria-describedby="" placeholder="width..." value=""></strong>
+                                       </div>
+                                   </div>
+                              </div>
+                              <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="col-sm-12">
+                                        <label for="height">Height:</label>
+                                        <strong><input type="text" class="form-control" id="height" name="height" aria-describedby="" placeholder="height..." value=""></strong>
+                                       </div>
+                                   </div>
+                                   <div class="form-group">
+                                       <div class="col-sm-12">
+                                         <label for="weight">Weight:</label>
+                                        <strong><input type="text" class="form-control" id="weight" name="weight" aria-describedby="" placeholder="weight..." value=""></strong>
+                                       </div>
+                                   </div>
+                              </div>
+                       </div>
+                       </form>
+                    </div>
+                 <div class="form-group col-lg-12" style="padding: 0;"></div>
+                </div>
+            </section>
+         </div>
+      </div>
+  </section>
+</section>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollTo.min.js"></script>
+<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="js/scripts.js"></script>
+<script src="{% static 'js/line/station/station-create.js'  %}"></script>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

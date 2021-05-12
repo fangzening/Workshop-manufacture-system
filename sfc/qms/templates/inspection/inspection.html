@@ -1,0 +1,48 @@
+{% include 'manufacturing/include/header-qms.html' %}
+{% load static %}
+<link href="{% static 'css/qms.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol class="breadcrumb">
+               <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+               <!-- <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+               <li><i class="fa fa-square-o"></i>IQC Inspection</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <section class="panel panel-body">
+             {% comment %}<div class="col-sm-3 qms-content-height" style="padding-left: 0;">
+                  <!--   ############ content #####################   -->
+                {% include 'inspection_main_menu.html' %}
+                <!--   ############ content #####################   -->
+               </div>{% endcomment %}
+               <div class="panel-body col-sm-12 qms-content-height">
+                <!--   ############ content #####################   -->
+                {% include 'inspection_path.html' %}
+                {% include 'inspection/inspection_detail.html' %}
+                <!--   ############ content #####################   -->
+                <!--   ############ tab #####################   -->
+                   <span style="opacity: 0;">IQC</span>
+               {% include 'inspection/inspection_tab.html' %}
+                <!--   ############ tab #####################   -->
+
+                </div>
+          </section>
+        </div>
+      </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+<script src="{% static 'js/qms/inspection.js' %}"></script>
+

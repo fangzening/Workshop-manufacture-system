@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% csrf_token %}
+    <button style="color: limegreen;" onclick="getBOL()">getBOL</button>
+
+    <script>
+
+var csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+function getBOL(){
+
+    data = {
+        "bol" : 12
+    }
+
+    let payload = JSON.stringify(data);
+
+    if (true){
+        var xhttp = new XMLHttpRequest();
+
+ 
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // console.log(this.responseText)
+                // let resp = JSON.parse(this.responseText)
+                console.log(this);
+
+                var fileName = 'Bill_Of_Lading.xls'
+
+                var blob = this.response;
+
+                if(window.navigator.msSaveOrOpenBlob){
+                    window.navigator.msSaveBlob(blob,"git.xls");
+                }else{
+                    console.log("works")
+                    // var downloadLink = window.document.createElement('a');
+                    // var contentTypeHeader = xhttp.getResponseHeader("Content-Type");
+                    // downloadLink.href = window.URL.createObjectURL(new Blob([blob], { type: contentTypeHeader }));
+                    // downloadLink.download = fileName;
+                    // document.body.appendChild(downloadLink);
+                    // downloadLink.click();
+                    // document.body.removeChild(downloadLink);
+                }
+
+            }else if(this.readyState == 2 && this.status == 203){
+                this.responseType = 'json';
+            }
+
+            if(this.readyState == 4 && this.status == 203){
+                console.log(this.response.status);
+                console.log(this.response.message);
+            }
+          };
+    
+        xhttp.open("GET", "http://127.0.0.1:8000/shipping/bol?bo=12", true);
+        xhttp.setRequestHeader("Content-type","application/vnd.ms-excel");
+        xhttp.setRequestHeader("X-CSRFToken", csrf);
+        xhttp.responseType = 'blob'
+        xhttp.send(payload);
+    }else {
+        console.log("crazy")
+        // message.innerHTML="ETA must be greater than ETD";
+        // modal.style.display = "block" 
+        // alert("ETD must be greater than ETA");
+    }
+
+
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/maskconfig/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+ {% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+          <div class="col-lg-12">
+             {% comment %}<h3 class="page-header"><i class="fa fa-laptop"></i>{{station_id}}</h3>{% endcomment %}
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+                <li><i class="fa fa-table"></i><a href="{% url 'line:wip' %}">Route List</a></li>
+                <li><i class="fa fa-table"></i><a href="/line/wip/?ver={{ver}}">Station List</a></li>
+                <li><i class="fa fa-laptop"></i>{{station_id}}</li>
+            </ol>
+          </div>
+        </div>
+
+         <div class="row">
+              <div class="col-lg-12">
+                <section class="panel">
+                    <div class="panel-body" style="padding-bottom: 5rem;">
+                        <section class="login-wrap mask-container clearfix ">
+                              <form method="POST" >
+                                {% csrf_token %}
+                                     <div class="form-group">
+                                       <label>Scan SN <span style="color: red;">*</span></label>
+                                          <input required class="station-name form-control" type="text" name="serial_number">
+                                          <input type="hidden" name="submit" value="1">
+                                          <input type="hidden" name='template' value="{{template}}">
+                                          <input type="hidden" name="route" value="{{route_id}}">
+                                          <input type="hidden" name="station" value="{{station_id}}">
+                                          <input type="hidden" name="ver" value="{{ver}}" >
+                                     </div>
+                                     <div class="form-group">
+                                        <label>Scan PASS/FAIL <span style="color: red;">*</span></label>
+                                        <input required class="station-name form-control" type="text" name="pass-fail">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>Symptom</label>
+                                         <input  class="station-name form-control" type="text" name="symptom">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Failure Code</label>
+                                        <input  class="station-name form-control" type="text" name="failure_code">
+                                    </div>
+                                     <button type="submit" hidden></button>
+                                     {% if result %}
+                                     {%if message == "Success"%}
+                                      <!-- <p class="alert alert-success">Action success</p>-->
+                                       <div id="myModal" class="modal-log message-box-bottom">
+                                          <div class="modal-content-success" >
+                                            <span class="close">&times;</span>
+                                               <div class="warning-modal-body">
+                                                  <p>{{message}}</p>
+                                               </div>
+                                          </div>
+                                        </div>
+                                        <button style="display: none;" id="myBtn">Open Modal</button>
+                                    {%else%}
+                                       <div id="myModal" class="modal-log message-box-bottom">
+                                          <div class="modal-content-error" >
+                                            <span class="close">&times;</span>
+                                               <div class="warning-modal-body">
+                                                  <p>{{message}}</p>
+                                               </div>
+                                          </div>
+                                        </div>
+                                        <button style="display: none;" id="myBtn">Open Modal</button>
+                                {%endif %}
+                                 {%endif%}
+                               <script src="{% static 'js/line/warning-modal.js' %}"></script>
+                              </form>
+                         </section>
+                    </div>
+                </section>
+              </div>
+         </div>
+    </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% if workorder.status_id.name == "Accepted" or workorder.status_id.name == "Released" or workorder.status_id.name == "Generated SN"  %}
+   {% load static %}
+           <button style="cursor:none" class="icon-text"  data-toggle="modal" data-target="#accepted{{ workorder.pk }}">
+           <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/done.svg' %}" alt="icon"><span>Accepted</span>
+           </button>
+                <div class="modal" id="accepted{{ workorder.pk }}" role="dialog">
+                 <div class="modal-content-detail modal-p">
+                     <div class="row">
+                         <div class="col-sm-12">
+                            <section class="panel">
+                             {% comment %}<header class="panel-heading ">Work Order: {{ workorder.pk }}</header>{% endcomment %}
+                                  <div class="whole whole-status">
+                                      <p> Work Order <strong>{{ workorder.pk }}</strong> has been accepted
+                                         <form action="{% url 'manufacturing:workorder-status' workorder.pk  %}" method="post" style="display: inline;" enctype="multipart/form-data">
+                                          {% csrf_token %}
+                                            <input type="hidden" class="edit-input-1" name="status" value="Accept">
+                                            <div class="modal-button-container">
+                                            <div class="flex-button">
+                                                <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue"
+                                                data-dismiss="modal">OK
+                                                </button>
+                                            </div>
+                                            </div>
+                                         </form>
+                                      </p>
+                                 </div>
+                            </section>
+                         </div>
+                     </div>
+                 </div>
+              </div>
+             {% else %}
+                <button class="icon-text  btn-confirm simple-confirm" data-toggle="modal" data-target="#accept{{ workorder.pk }}">
+                <img style="width: 22px; margin-left: 3px;"
+                src="{% static 'svg/accept.svg' %}" alt="icon"><span>Accept</span>
+               </button>
+              <div class="modal" id="accept{{ workorder.pk }}" role="dialog">
+                 <div class="modal-content-detail modal-p">
+                     <div class="row">
+                         <div class="col-sm-12">
+                            <section class="panel">
+                             {% comment %}<header class="panel-heading">Work Order: {{ workorder.pk }}</header>{% endcomment %}
+                                  <div class="whole whole-status">
+                                      <p>Accept Work Order <strong>{{ workorder.pk }}</strong> ?</p>
+                                     <form action="{% url 'manufacturing:workorder-status' workorder.pk  %}" method="post" style="display: inline;" enctype="multipart/form-data">
+                                      {% csrf_token %}
+                                        <input type="hidden" class="edit-input-1" name="status_id" value="2">
+                                         <div class="modal-button-container">
+                                         <div class="flex-button">
+                                            <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-red"
+                                            data-dismiss="modal">Cancel</button>
+                                           <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue">Ok</button>
+                                         </div>
+                                         </div>
+                                     </form>
+                                 </div>
+                            </section>
+                         </div>
+                     </div>
+                 </div>
+              </div>
+        {% endif %}
+{% load static %}
+<script src="{% static 'js/manufacturing/generate.js' %}"></script>

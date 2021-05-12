@@ -1,0 +1,57 @@
+<div id="save-dimension" class="icon-text">
+     <div class="col-sm-6 padding-left-0">
+        <div onclick="ShowDimensions()" class="btn btn-open header-button padding-left-0" style="float:left; mergin-left: 0;">Create another one?</div>
+    </div>
+    <div class="col-sm-6 padding-left-0">
+        <button data-toggle="modal" data-target="#save-close-pallet" class="btn btn-open header-button padding-left-0" id="close-pallet" style="float:left; mergin-left: 0;">Close <strong>	&nbsp;{{ pallet.pallet_id }}</strong></button>
+    </div>
+</div>
+
+<form action="{% url 'shipping:save_dimension' %}" method="post" style="display: inline;">
+   {% csrf_token %}
+    <div class="modal" id="save-close-pallet" role="dialog">
+         <div class="row whole whole-status modal-content-detail modal-p">
+              <div id="">
+                   <input type="hidden" name="updater" class="form-control" value="{{ user.get_username }}">
+                   <input type="hidden" name="creator" class="form-control" value="{{ pallet.creator }}">
+                   <input type="hidden" name="current_qty" class="form-control" value="{{ pallet.current_qty }}">
+                   <input type="hidden" name="pallet_id" id="pallet_id_input" class="form-control" value="{{ pallet.pallet_id }}">
+                   <input type="hidden" name="status" class="form-control" value="{{ pallet.status}}">
+                   <input type="hidden" name="full" class="form-control" value="1">
+                   <input type="hidden" name="full_date" class="form-control" value="{{ pallet.full_date |date:'Y-m-d H:i' }}">
+                   <input type="hidden" name="create_date" class="form-control" value="{{ pallet.create_date |date:'Y-m-d H:i'}}">
+                   <input type="hidden" name="wh_id" class="form-control" value="{{ pallet.wh_id }}">
+                   <input type="hidden" name="gross_weight" class="form-control" value="{{ pallet.gross_weight }}">
+                   <input type="hidden" name="net_weight" class="form-control" value="{{ pallet.net_weight }}">
+                   <input type="hidden" name="volume_weight" class="form-control" value="{{ pallet.volume_weight}}">
+
+                   <div class="col-sm-6 padding-left-0">
+                      <label for="" class=""><strong>Width:</strong> </label>
+                      <div><input name="width" class="col-sm-8 form-control" type="number" placeholder="0.00" step="0.01" min="0" required></div>
+                   </div>
+                   <div class="col-sm-6 padding-left-0">
+                     <label for="" class=""><strong>Weight:</strong> </label>
+                     <div><input name="weight" class="col-sm-8 form-control" type="number" placeholder="0.00" step="0.01" min="0" required></div>
+                   </div>
+                   <div class="col-sm-6 padding-left-0">
+                     <label for="" class=""><strong>Length:</strong> </label>
+                     <div><input name="length" class="col-sm-8 form-control" type="number" placeholder="0.00" step="0.01" min="0"  required></div>
+                   </div>
+                   <div class="col-sm-6 padding-left-0">
+                     <label for="" class=""><strong>Height:</strong> </label>
+                     <div><input name="height" class="col-sm-8 form-control" type="number" placeholder="0.00" step="0.01" min="0" required></div>
+                   </div>
+              </div>
+              <div class="col-sm-6 padding-left-0">
+                <button  class="col-sm-12 btn btn-primary modal-button-blue" type="submit" style="float:left; width: 99%; ">Close pallet <strong>{{ pallet.pallet_id }}</strong> ?</button>
+              </div>
+              <div class="col-sm-6 padding-left-0">
+                 <button class="col-sm-12 btn btn-error modal-button-red" type="submit" data-dismiss="modal" style="float:left; width:99%;">Cancel</button>
+              </div>
+         </div>
+    </div>
+</form>
+
+
+
+

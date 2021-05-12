@@ -1,0 +1,74 @@
+<form method="POST" class="form-horizontal" action= "">
+    <div class="login-wrap">
+         <div style="width: 90%; margin: 0 auto;">
+             {% csrf_token %}
+             {{ form.non_field_errors }}
+             {{ form.source.errors }}
+             {{ form.source }}
+             {% comment %}{{ form }}{% endcomment %}
+           <div class="nav top-menu">
+                 <form  class="navbar-form" id="search" action="" method="get">
+                        <div class="col-lg-5" style="float: left;">
+                             <select name="username" class="form-control" id="id_user" style="margin-bottom: 1rem;">
+                              <option value="" selected="">---------</option>
+                               {% if user_list %}
+                                 {% for user in user_list %}
+                                   <option style="color: #222;" class="query-button" value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                              {% endif %}
+                             </select>
+                        </div>
+                     <button class="btn btn-primary" type="submit">search</button>
+                </form>
+            </div>
+             <table class="table table-striped table-advance table-hover">
+                <tbody>
+                  <tr>
+                      <th> &nbsp; </th>
+                      <th><i class="icon_profile"></i> &nbsp; User Name</th>
+                      <th><i class="icon_profile"></i> &nbsp; Location</th>
+                      <th><i class="icon_profile"></i> &nbsp; Country</th>
+                      <th><i class="icon_mail_alt"></i> &nbsp; State</th>
+                      <th><i class="icon_calendar"></i>&nbsp; Role</th>
+                      <th><i class="icon_cogs"></i>&nbsp; Department</th>
+                      <th><i class="icon_cogs"></i>&nbsp; Action</th>
+                  </tr>
+                  {{ userdata.location }}{{ user.country }}
+                   {% if user_list %}
+                      {% for user in user_list %}
+                       {% for user in user.userdata_set.all %}
+                      <tr>
+                          <th> &nbsp; </th>
+                          <th><p>{{ user.user.username }}</p> </th>
+                          <th> <p>{{ user.location }}</p></th>
+                          <th><p>{{ user.country }}</p></th>
+                          <th><p>{{ user.state }}</p> </th>
+                          <th><p>{{ user.role }}</p> </th>
+                           <th><p>{{ user.department }}</p> </th>
+                          <th style="width: 20%;">
+                        {% load static %}
+                        <form onsubmit="return confirm('Confirm delete?');" action="{% url 'manufacturing:userdata-delete' user.id %}" method="post" style="display: inline;">
+                          {% csrf_token %}
+                        <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                          src="{% static 'svg/delete.svg' %}" alt="icon"><span>Delete</span></button></form>
+                         <form action="{% url 'manufacturing:userdatas_profiles_update' user.id  %}" method="post" style="display: inline;">
+                           {% csrf_token %}
+                        <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                          src="{% static 'svg/pen.svg' %}" alt="icon"><span>Edit</span></button></form>
+                              {% comment %}<form action="{% url 'manufacturing:userdata-details' user.id  %}" method="post" style="display: inline;">
+                           {% csrf_token %}
+                        <button class="icon-text"><a class="" href="{% url 'manufacturing:userdata-details' user.id %}">
+                            <img style="width: 22px; margin-left: 3px;" src="{% static 'svg/generated.svg' %}" alt="icon">
+                            <span>Detail</span></button></a></form>{% endcomment %}
+                        </th>
+                      </tr>
+                      {% endfor %}{% endfor %}
+                      {% else %}
+                      {% endif %}
+                  </tbody>
+             </table>
+         </div>
+    </div>
+</form>
+
+

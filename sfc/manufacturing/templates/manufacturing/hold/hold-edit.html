@@ -1,0 +1,129 @@
+{% include 'manufacturing/include/header.html' %}<!--header end-->
+{% load static %}<!--sidebar start-->
+{% include 'manufacturing/include/sidebar.html' %}<!--sidebar end-->
+{% comment %} <link href="{% static 'css/bootstrap4.min.css' %}" rel="stylesheet"> {% endcomment %}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+                    <li><i class="fa fa-laptop"></i><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Management</a></li>
+                    <li><i class="fa fa-barcode"></i><a href="{% url 'manufacturing:hold_station' %}">Hold Station</a></li>
+                    <li><i class="fa fa-file-text-o"></i>Edit Hold</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <div class="panel-body" style="padding: 0;">
+                        <div class="tab tabs">
+                            {% if perms.manufacturing.can_user_view_user_list %}
+                                <button class="tablinks"> <a href="{% url 'manufacturing:hold_station' %}">Hold List</a></button>
+                            {% endif %}
+                            <button class="tablinks active-id" id="defaultOpen" onclick="openForm(event, 'HoldInfoUpdate')">
+                                Hold Information
+                            </button>                            
+                        </div>
+
+                        <div class="tabcontent"  id="HoldInfoUpdate" style="display: block;">
+                            <div style="width: 90%; margin: 0 auto;">                               
+                                <div class="login-wrap">  
+                                    <div class="alert alert-info" role="alert">
+                                        <div class="card text-left">                                           
+                                            <h4 class="card-title"><b>{{ hold.hold_value }}</b></h5>
+                                            <h5 class="card-title">By: <b>{{ hold.hold_by }}</b></h5>
+                                            <h5 class="card-title">Date: <b>{{ hold.hold_date }}</b></h5>  
+                                            <h5 class="card-title">Type: <b>{{hold.type_id}}   </b></h5>  
+                                            <h5 class="card-title">Station: <b>{{hold.station}}   </b></h5>                                         
+                                        </div>
+                                    </div>
+                                                                                                                                                                                                                                                       
+                                    <form method="post" class="form-horizontal half-form">                                     
+                                        {% csrf_token %}
+                                        {{ form.non_field_errors }}
+                                        {{ form.source.errors }}
+                                        {{ form.source }}
+                                        {{ form.error }}
+                                        {% if form.errors %}
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <div id="myModal" class="modal-log">
+                                                        <div class="modal-content-error"  style="width: 40%;" >
+                                                            <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                            <div class="warning-modal-body">
+                                                                <p>{{ error|escape }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <button style="display: none;" id="myBtn">Open Modal</button>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% endif %}       
+
+                                        <div clas="form-row">                             
+                                            <div class="form-group ">
+                                                <div>
+                                                    <label class="control-label col-sm-12">
+                                                        <p style="float: left;">Hold Reason:</p>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" type="text" value="{{ hold.hold_reason }}" name="hold_reason" id="id_hold_reason">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div clas="form-row">                             
+                                            <div class="form-group ">
+                                                <div>
+                                                    <label class="control-label col-sm-12">
+                                                        <p style="float: left;">UnHold Reason:</p>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    {% if hold.unhold_reason|length > 0 %}
+                                                        <input class="form-control" type="text" value="{{ hold.unhold_reason }}" name="unhold_reason" id="id_unhold_reason">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" value="" name="unhold_reason" id="id_unhold_reason" disabled>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr>
+
+                                        {% if messages %}
+                                            <div class="alert alert-danger" role="alert">
+                                                <div class="card text-left">  
+                                                    {% for error in messages %}
+                                                        <h5 class="card-title"><strong>Error: </strong>{{ error }}</h5>
+                                                    {% endfor %}                                                                                   
+                                                </div>
+                                            </div>
+                                        {% endif %} 
+
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        
+                                        <input type="hidden" name='username' value="{{user.username}}">                                                                                       
+                                        <input type="hidden" name='hold_id' value="{{hold.hold_id}}">   
+                                        <input type="hidden" name='hold_value' value="{{hold.hold_value}}"> 
+                                        <input type="hidden" name='hold_type' value="{{hold.type_id}}">
+                                        <input type="hidden" name='hold_station' value="{{hold.station}}">
+                                    </form>                                                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
+
+ {% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+</body>
+</html>

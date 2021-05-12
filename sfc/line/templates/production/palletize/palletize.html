@@ -1,0 +1,127 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% load static %}
+<link href="{% static 'css/pallet.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/dist/jquery.tree-multiselect.min.css' %}" rel="stylesheet">
+<script src="{% static 'js/vendor/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/manufacturing/jquery.tree-multiselect.js' %}"></script>
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!--<li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_wip' %}">WIP Management</a></li>-->
+            <!--<li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_shipping_manager' %}">Shipping Management</a></li>-->
+            <li><i class="fa fa-square-o"></i>Palletization</li>
+        </ol>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body" style="padding-bottom: 5rem;">
+                     <div class="form-horizontal mobile-content-pallet">
+                            <div class="form-group section-border">
+                              <div class="col-sm-6 scanner-content">
+                                    <div class="col-sm-12" id="open-available-pallet" style="padding: 0;">
+<!--                                        <div class="col-sm-6 padding-left-0" id="create-button-div">-->
+<!--                                            <button data-toggle="modal" data-target="#generated" class="btn btn-close action-header-button" id="open_input" type="submit" style="float:left; mergin-left: 0; padding: 0;" onclick="ShowNew()">Create New</button>-->
+<!--                                        </div>-->
+                                         <div id="create_pallet_id" class="col-sm-12 padding-left-0" style="padding: 0;">
+                                           <div class="col-sm-6 padding-left-0">
+                                            <button class="btn btn-open header-button padding-left-0"  type="submit" style="float:left; mergin-left: 0; display: none;" onclick="ShowNew()">Back to List1</button>
+                                           </div>
+                                        </div>
+                                        <div class="col-sm-6 padding-left-0" style="display: none;">
+                                            <button class="btn btn-open header-button padding-left-0" id="close-pallet" onclick="ShowDimensions()" style="float:left; mergin-left: 0;display:none;">Close</button>
+                                        </div>
+                                    </div>
+                                   {% include 'production/palletize/palletize-create-pallet.html' %}
+                                   <section class="panel">
+                                       <div class="col-sm-12 scanner-content">
+                                             <div class="form-group section-border">
+                                                  <div class="scanner-content" >
+                                                 <h2 class="pallettization-title main-pallet-list" style="margin-left: 15px">Pallet List</h2>
+                                                  <button data-toggle="modal" data-target="#generated" class="btn btn-info pallet-header-button" id="open_input" type="submit" style="float:left; mergin-left: 0; padding: 0;" onclick="ShowNew()">Create a new pallet</button>
+                                                  </div>
+                                             </div>
+                                       </div>
+                                        <div id="open-pallet">
+                                        {% include 'production/palletize/palletize_open_only_pallet.html' %}
+                                        </div>
+                                   </section>
+                                </div>
+                                 <div class="col-sm-6 scanner-content">
+                                    <section class="panel">
+<!--                                     <div class="col-sm-12" style="padding: 0;">-->
+<!--                                      <div class="form-group">-->
+                                         <div class="col-sm-12 scanner-content">
+                                                    <h2 class="pallettization-title">Pallet Detail</h2>
+                                                  <div class="form-group section-border disable-add-sn" style="margin-top: 26px;">
+                                                   <!--  add sn to pallet -->
+                                                   <div class="form-horizontal"  id="search" action="{% url 'shipping:add_sn_to_pallet' %}" method="POST" enctype="multipart/form-data">
+                                                       <div class="col-sm-12">
+                                                           <div class="icon-text" >
+                                                               <div class="" style="margin:0; width:100%;">
+                                                                   <div id="repaircode" class="form-control form-control-replacement" type="text" placeholder="">Please select a pallet.</div>
+                                                               </div>
+                                                                <input type="hidden" name="current_qty" class="form-control" value="{{ pallet.current_qty }}">
+        <!--                                                                                                <input type="hidden" name="model" class="form-control" value="{{ pallet.model }}">-->
+                                                                <input type="hidden" name="updater" class="form-control" value="{{ user.get_username }}">
+                                                               {% include 'production/palletize/palletize_hidden_input.html' %}
+                                                            </div>
+                                                       </div>
+
+                                                      <div class="col-sm-5 icon-text " style="padding-left:0; display: none;">
+                                                        <div class="btn btn-info header-button col-sm-12" id="sn-button-main" style="margin: 0;float: left; cursor: none;"><strong>&#x271A;&nbsp;Serial Number</strong></div>
+                                                          <span class="span-pallet-sn"><button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                                                               src="{% static 'svg/delete.svg' %}" alt="icon"></button>Please select a pallet.
+                                                          </span>
+                                                     </div>
+                                                 </div>
+                                            <!--  end add sn to a pallet -->
+                                            </div>
+                                         </div>
+                                          <div class="">
+                                                {% if messages %}
+                                                    {% for message in messages %}
+                                                         <div id="myModal" class="modal-log message-box-bottom" style="padding-top: 0; z-index: 100;">
+                                                              {% if message.tags %}
+                                                             <div class="modal-content-{{ message.tags }}">
+                                                                 {% endif %}
+                                                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                                  <div class="warning-modal-body">
+                                                                     <p>{{ message }}</p>
+                                                                   </div>
+                                                               </div>
+                                                            <button style="display: none;" id="myBtn">Open Modal</button>
+                                                         </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                          </div>
+<!--                                    </div>-->
+                                        {% include 'production/palletize/palletize_detail_tabs.html' %}
+<!--                                    </div>-->
+                                  </section>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+             </section>
+         </div>
+    </div>
+ </section>
+</section>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/pallet/pallet.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/javascript-for-permission.html' %}
+</body>
+</html>

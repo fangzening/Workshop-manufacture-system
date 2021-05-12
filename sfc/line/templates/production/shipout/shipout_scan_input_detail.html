@@ -1,0 +1,209 @@
+
+{% load static %}
+<script src="{% static 'js/ship_out/jquery-1.7.1.min.js' %}"></script>
+<!-- scan pallet scan_pallet_view -->
+ <div class="" style="mergin-bottom: 5px;" >
+      <div class="icon-text" style="merge-bottom: 5px;">
+          <div class="shipout-button" style="width:100%;">
+              <input type="hidden" name="salesorder_id" class="form-control" value="{{ salesorder.salesorder_id }}">
+              <input id="scan_pallet_input" name="pallet_id" class="form-control" type="text" value="{{ pallet.pallet_id }}" style="color: #bbb8b8;" required placeholder="Scan Pallet..."/>
+           </div>
+           <span class="span-repair" style="">
+               <select name="pallet_id" required id="id_pallet_id" style="display: none;">
+                   <option value="{{ pallet.pallet_id }}" selected="">{{ pallet.pallet_id }}</option>
+                       {% for pallet in pallet_list %}
+
+                   <option value="{{ pallet.pallet_id }}">{{ pallet.pallet_id }}</option>
+                   {% endfor %}
+                </select>
+                <select onchange="getPalletTableB(this);" name="serial_number_id" required class="col-sm-12 form-control" id="id_scan_pallet" style="display: none;" >
+                  <option value='
+                       <div id="pallet-option-value">
+                         <table id="save_pallet" class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; table-layout: fixed;">
+                             <tbody id="" class=" panel-body" style="height: 350px; overflow-y: scroll; padding: 0; margin: 0;">
+                                   <tr class="table-header" >
+                                       <th class="col-sm-3">Pallet</th>
+                                       <th class="col-sm-3">SKU No</th>
+                                       <th class="col-sm-3">SN</th>
+                                   </tr>
+                                  <tr id="myUL" style="padding: 0; margin: 0; height: 250px; overflow-y: scroll;">
+                                  </tr>
+                              </tbody>
+                           </table>
+                        </div>
+
+                          <div id="myModal" class="modal-log-shipout message-box-bottom">
+                             <div class="modal-content-error" style="background: #34aadc;">
+                                 <span class="close" data-dismiss="modal-log" style="z-index: 100;"></span>
+                                  <div class="warning-modal-body">
+                                     <p><strong>Please choose a pallet.</p>
+                                   </div>
+                               </div>
+                            <button style="display: none;" id="myBtn">Open Modal</button>
+                         </div>
+                    '>---------</option>
+
+                   {% if pallet_list %}
+                   {% for pallet in pallet_list %}
+                   {% for palletdeliverynumber in pallet.palletdeliverynumber_set.all %}
+                    <option value='
+                    <div id="pallet-option-value">
+                         <table id="save_pallet" class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; table-layout: fixed;">
+                            <tbody id="" class=" panel-body" style="height: 350px; overflow-y: scroll; padding: 0; margin: 0;">
+                               <tr class="table-header" >
+                                   <th class="col-sm-3">Pallet</th>
+                                   <th class="col-sm-3">SKU No</th>
+                                   <th class="col-sm-3">SN</th>
+                               </tr>
+                               <tr id="myUL" style="padding: 0; margin: 0; height: 250px; overflow-y: scroll;">
+                               </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                     <div id="myModal" class="modal-log-shipout message-box-bottom">
+                         <div class="modal-content-error">
+                             <span class="close" data-dismiss="modal-log" style="z-index: 100;"></span>
+                              <div class="warning-modal-body">
+                                 <p><strong>{{ pallet.pallet_id }}</strong> has a deliver number.</p>
+                               </div>
+                           </div>
+                        <button style="display: none;" id="myBtn">Open Modal</button>
+                     </div>
+                    '>{{ pallet.pallet_id }}</option>
+
+                   {% empty %}
+                   {% if pallet.status == 0 %}
+                   <option value='
+                    <div id="pallet_sn_all" style="display: none;">  {% for palletserialnumber in pallet.palletserialnumber_set.all %}{{ palletserialnumber.serialnumber }} {% endfor %}</div>
+                       <div id="pallet-option-value">
+                          <table class="table table-bordered table-sm  panel-body table-pallet" id="pallet_table" style="padding: 0; margin: 0; height: 250px; overflow-y: scroll;">
+                              <tbody>
+                                 <thead>
+                                     <tr class="table-header">
+                                       <th class="col-sm-3">Pallet</th>
+                                       <th class="col-sm-3">SKU No</th>
+                                       <th class="col-sm-3">SN</th>
+                                     </tr>
+                                 </thead>
+
+                                   {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                                      <tr id="pallet_th">
+                                        <td id="get_pallet_id">{{ pallet.pallet_id }}</td>
+                                        {% if forloop.last %}<input type=text" id="display-sku" style="display: none;" value="{{ palletserialnumber.serialnumber.model_id }}">{% endif %}
+                                        <td class="get_pallet_sku" id="get_pallet_sku">{{ palletserialnumber.serialnumber.model_id }}</td>
+                                        <td id="th_sn">{{ palletserialnumber.serialnumber }}</td>
+                                     </tr>
+                                    {% endfor %}
+                              </tbody>
+                          </table>
+                       <input type="text" id="pallet_sku" name="sku" style="display: none;" onkeyup="getSkuDetail()" value="{% for palletserialnumber in pallet.palletserialnumber_set.all %}{% if forloop.first %}{{ palletserialnumber.serialnumber.model_id }}{% endif %}{% endfor %}">
+                      </div>
+                    '>{{ pallet.pallet_id }}</option>
+
+                  {% elif pallet.status == 1 %}
+                   <option value='
+                    <div id="pallet-option-value">
+                         <table id="save_pallet" class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; table-layout: fixed;">
+                             <tbody id="" class=" panel-body" style="height: 350px; overflow-y: scroll; padding: 0; margin: 0;">
+                               <tr class="table-header" >
+                                   <th class="col-sm-3">Pallet</th>
+                                   <th class="col-sm-3">SKU No</th>
+                                   <th class="col-sm-3">SN</th>
+                               </tr>
+                              <tr id="myUL" style="padding: 0; margin: 0; height: 250px; overflow-y: scroll;">
+                              </tr>
+                            </tbody>
+                         </table>
+                     </div>
+
+                      <div id="myModal" class="modal-log-shipout message-box-bottom">
+                         <div class="modal-content-error" style="background: #34aadc;">
+                             <span class="close" data-dismiss="modal-log" style="z-index: 100;"></span>
+                              <div class="warning-modal-body">
+                                 <p><strong>{{ pallet.pallet_id }}</strong> is still open.</p>
+                               </div>
+                           </div>
+                        <button style="display: none;" id="myBtn">Open Modal</button>
+                     </div>
+                    '>{{ pallet.pallet_id }}</option>
+                    {% else %}
+                      <div id="myModal" class="modal-log-shipout message-box-bottom">
+                         <div class="modal-content-error" style="background: #34aadc;">
+                             <span class="close" data-dismiss="modal-log" style="z-index: 100;"></span>
+                              <div class="warning-modal-body">
+                                  <p><strong>The pallet does not exist.</strong></p>
+                               </div>
+                           </div>
+                        <button style="display: none;" id="myBtn">Open Modal</button>
+                     </div>
+                   {% endif %}
+                   {% endfor %}{% endfor %}
+                </select>
+             </span>
+            </div>
+           {% endif %}
+
+           {% include 'production/shipout/shipout_js_add_pallet_element.html' %}
+          <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px;  display: none;">
+          <button type="submit" id="pallet_button" class="btn btn-info header-button col-sm-12t" style="margin: 0;float: left;" onclick="add_pallet_element()"><strong>&#x271A;&nbsp;Pallet</strong> </button>
+         </div>
+     <div id="pallet_all"></div>
+     <div id="pallet_value" class="" style=""></div>
+     <button type="button" onclick="sku_match()" style="display:none;">SKU match</button>
+</div>
+<!-- scan SN -->
+<div class="" style="mergin: 2px;" id="scan-sn-input">
+   <div class="icon-text" style="merge-bottom: 5px;">
+       <div class="shipout-button pallet-button-div-right" style="width:100%;">
+       <input id="t1" name="serial_number" class="form-control" type="text" value="" style="color: #bbb8b8; margin-bottom: 10px;" required placeholder="Scan SerialNumber..."/>
+       <input id="t2" class="form-control form-control-replacement" type="text" value="" style="display: none;" placeholder="Error..."/>
+       </div>
+       <span class="span-repair">
+         <select onchange="getPalletTableC(this);" style="display: none;" name="serial_number_id" required class="col-sm-12 form-control" id="id_scan_sn">
+          <option value="">---------</option>
+            {% if pallet_list %}
+          {% for pallet in pallet_list %}
+          {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+
+           <option value="{{ palletserialnumber.serialnumber }}">{{ palletserialnumber.serialnumber }}</option>
+           {% endfor %}
+           {% endfor %}{% endif %}
+         </select>
+       </span>
+    </div>
+    <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px;  display: none;">
+      <button id="push_to_list" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onClick="push_data_to_list();TorF()"><strong>&nbsp;Verify SN</strong> </button>
+      <!-- <button id="highlight" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onClick="push_data_to_list();TorF()"><strong>&nbsp;Verify SN</strong> </button>-->
+    </div>
+</div>
+
+<div id="errorSection" style="float: right;"></div>
+{% if messages %}
+    <div id="myModal" class="modal-log message-box-bottom">
+         <div class="modal-content-{{ message.tags }} bottom-message">
+        {% for error in messages %}
+          <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+          <div class="warning-modal-body">
+            <p class="card-title"><strong>Error: </strong>{{ error }}</p>
+          </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+<script type="text/javascript">
+ $("#t1").keydown(function(event ) {
+    if (event.keyCode == 13) {
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        event.preventDefault();
+        document.getElementById("push_to_list").click();
+        const sn = document.getElementById("t1").value;
+        console.log("shipout" + sn);
+        main.ValidateSN(sn, csrftoken);
+    }
+});
+</script>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/pallet/pallet.js' %}"></script>
+{% include 'manufacturing/include/javascript-for-permission.html' %}

@@ -1,0 +1,49 @@
+   <div class="panel-body" style="height: 457px; overflow-y: scroll; padding: 0;">
+       <div class="tab tabs">
+<!--           <button class="tablinks" onclick="openForm(event, 'OpenPallet')">Open Pallet</button>-->
+           <button class="tablinks" style="cursor: none; background-color: #234192; color: #fff;">Closed Pallet</button>
+       </div>
+       <div id="" class="pallet-tab-content">
+             <div class="table-header">
+                   <div class="navbar-form pallet_open_close_tab" id="mobile-pallet-input">
+                    <input id="pallet_id" class="form-control form-control-replacement" name="pallet_id" type="text" onkeyup="getPalletDetail()" style="width: 100%;" placeholder="Search Current Open Pallet..."/>
+                   </div>
+                </div>
+        <table class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; border-right: none;">
+             <tbody>
+                   <tr class="table-header">
+                       <th style="padding: 0;">
+                        <span class="col-sm-3 table-th-pallet scanner-td-pallet">Pallet</span>
+                        <span class="col-sm-6 table-th-pallet scanner-td-model">SKU No</span>
+                        <span class="col-sm-3 table-th-pallet scanner-td-qty" style="border-right: none;">Qty</span>
+                       </th>
+                   </tr>
+                   <tr>
+                      <th style="padding: 0;">
+                          <ul id="myUL" style="padding: 0; margin: 0;height: 335px; background: #fff;">
+                              {% if pallet_list %}
+                              {% for pallet in pallet_list %}
+                              {% if pallet.status == 0 %}
+                              <li><a class="pallet-a" href='{% url "shipping:unpallet_detail" pallet.pallet_id  %}'>
+                                  <span class="col-sm-3 table-th-pallet scanner-td scanner-td-pallet">{{ pallet.pallet_id }}</span>
+                                  {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                                  {% if palletserialnumber.pallet_id_id %}
+                                  {% if forloop.last %}
+                                  <span class="col-sm-6 table-th-pallet scanner-td scanner-td-model">{{ palletserialnumber.serialnumber.model_id }}</span>
+                                  {% endif %}
+                                  {% endif %}
+                                  {% empty %}
+                                  <span class="col-sm-6 table-th-pallet scanner-td scanner-td-model" style="color: #b8596b;">no data</span>
+                                  {% endfor %}
+                                  <sapn id="{{ pallet.pallet_id }}" class="col-sm-3 table-th-pallet scanner-td scanner-td-qty">{{ pallet.current_qty}}</sapn>
+                              </a></li>
+                              {% endif %}{% endfor %}{% endif %}
+                          </ul>
+                      </th>
+                  </tr>
+             </tbody>
+          </table>
+       </div>
+
+
+   </div>

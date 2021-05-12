@@ -1,0 +1,29 @@
+<div class="modal" id="generated" role="dialog">
+     <div class="row whole whole-status modal-content-detail modal-p">
+          <p> Create a new pallet?</p>
+          <div class="modal-button-container">
+             <form name="create" class="form-horizontal modal-scanner-version" action="{% url 'shipping:create_new_pallet' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex-button">
+
+                    <button class="nav-user-search-icon btn btn-error modal-button-red" type="submit" data-dismiss="modal">Cancel</button>
+                    <button class="nav-user-search-icon btn btn-primary modal-button-blue" type="submit">Confirm</button>
+                </div>
+                <input class="form-control col-sm-12" type="hidden" name="pallet_id" value="" id="create_new_pallet">
+                <input type="hidden" name="updater" id="updater_input" class="form-control" value="{{ user.get_username }}">
+                <input type="hidden" name="creator" id="creator" class="form-control" value="{{ user.get_username }}">
+                 {% for pallet in pallet_list %}
+                 {% if forloop.last %}
+                 <input type="hidden" name="last_pallet_id" id="last_pallet_id" class="form-control" value="{{ pallet.pallet_id }}">
+                 {% endif %}
+                 {% empty %}
+                 <input type="hidden" name="last_pallet_id" id="last_pallet_id" class="form-control" value="P_00000">
+                 {% endfor %}
+             </form>
+          </div>
+     </div>
+</div>
+
+
+
+

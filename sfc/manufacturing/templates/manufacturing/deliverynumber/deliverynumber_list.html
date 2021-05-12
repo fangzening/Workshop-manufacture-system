@@ -1,0 +1,105 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+    <section id="main-content" class="login-wrap">
+      <section  class="wrapper">
+           <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                         <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                        <!--<li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_shipping_manager' %}">Shipping Management</a></li>-->
+                         <li><i class="fa fa-th-list"></i><a href="{% url 'shipping:deliverynumber_list' %}">DeliveryNumber Manager </a></li>
+                    </ol>
+                </div>
+            </div>
+
+       <div class="row" >
+          <div class="col-lg-12">
+            <section class="panel">
+               <div class="whole whole-table">
+                    <div class="main-content">
+                            <div class="nav-user-search  clearfix header-search-box">
+                                  <div class="nav top-menu top-button">
+                                          <form  class="navbar-form" id="search" action="{% comment %}{% url 'manufacturing:so_list' %}{% endcomment %}" method="get">
+                                             <div class="nav search-row list-title-search" id="top_menu">
+                                                 <div><input class="form-control" name="deliverynumber" class="form-control" type="text" placeholder="Search DeliveryNumbe..." value="{{ values.q }}" autofocus required></div>
+                                                 <div style="width: 30px;">
+                                                 <button class="nav-user-search-icon" type="submit" style="padding: 0;">
+                                                      <i _ngcontent-crw-c2="" style="font-size: 3rem;" class="icon_search-2 search-icon text-muted i-Magnifi-Glass1"></i>
+                                                 </button>
+                                                </div>
+                                             </div>
+                                        </form>
+                                  </div>
+                                  <div class="btn top-btn-container top-button top-right">
+                                    <!--#### Generate DN ####-->
+                                      {% include 'manufacturing/deliverynumber/deliverynumber_generate_dn_form.html' %}
+                                    <!--#### Generate DN ####-->
+                                 </div>
+                                </div>
+                            </div>
+
+                           <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="printer-error-modal" aria-hidden="true" id="printer-error-modal">
+                             <div class="modal-dialog modal-sm">
+                               <div class="modal-content">
+                               </div>
+                             </div>
+                           </div>
+                  {% if deliverynumber_list %}
+                     <div id="maxheight">
+                          <table class="table table-striped table-advance table-hover" id="print-sn-table">
+                            <tbody>
+                              <tr class="table-header">
+                                <th> No.</th>
+                                <th><i class="icon_cogs"></i> Delivery No.</th>
+                                <th><i class="icon_cogs"></i> SalesOrder No.</th>
+                                <th><i class="icon_cogs"></i> Customer PO</th>
+                                <th><i class="icon_cogs"></i> Customer Name</th>
+                                <th><i class="icon_cogs"></i> Customer No.</th>
+<!--                                <th class="column-action">Other</tr>-->
+                              {% for deliverynumber in deliverynumber_list %}
+                                <tr>
+                                  <th><p>&nbsp;&nbsp;{{ forloop.counter }}</p></th>
+                                  {% load static %}
+                                  <th><a style="font-size: 12px;" class="table-btn-a btn" target="_blank" href='{% url "shipping:deliverynumber_detail" deliverynumber.deliverynumber_id  %}'>{{ deliverynumber.deliverynumber_id }}</a></th>
+                                  <th><p>{{ deliverynumber.salesorder_id  }}</p> </th>
+                                  <th><p>{{ deliverynumber.customer_po }}</p></th>
+                                  <th><p>{{ deliverynumber.customer_name }}</p></th>
+                                  <th><p>{{ deliverynumber.customer_no }}</p></th>
+                                  {%comment%}<th class="column-action">
+                                       <button class="icon-text">
+                                           <a class="table-btn-a btn" target="_blank" href='{% url "shipping:deliverynumber_detail" deliverynumber.deliverynumber_id  %}'>
+                                               <img style="width: 22px; margin-left: 3px;" src="{% static 'svg/rules.svg' %}" alt="icon"><span>Detail</span>
+                                           </a>
+                                       </button>
+                                  </th>{% endcomment%}
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        {% include 'manufacturing/include/pagination.html' %}
+                        {% else %}
+                            <div id="myModal" class="modal-log">
+                             <div class="modal-content"  style="width: 40%;">
+                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                  <div class="warning-modal-body">
+                                     <p>No related data found</p>
+                                   </div>
+                               </div>
+                            <button style="display: none;" id="myBtn">Open Modal</button>
+                         </div>
+                    {% endif %}
+                    </div>
+                 </div>
+              </section>
+           </div>
+        </div>
+    </section>
+</section>
+{% load static %}
+ <script src="{% static 'js/line/warning-modal.js' %}"></script>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

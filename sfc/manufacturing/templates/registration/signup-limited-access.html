@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+<meta name="author" content="GeeksLabs">
+<meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+ {% load static %}
+<link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+<link href="{% static 'css/style.css' %}" rel="stylesheet" />
+<link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+<title>Smart Manufacturing</title>
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/elegant-icons-style.css' %}" rel="stylesheet" />
+<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/fullcalendar/fullcalendar/fullcalendar.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css' %}" rel="stylesheet" type="text/css" media="screen" />
+<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+<link href="{% static 'css/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/fullcalendar.css' %}">
+<link href="{% static 'css/widgets.css' %}" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/style-responsive.css' %}" rel="stylesheet" />
+<link href="{% static 'css/xcharts.min.css' %}" rel=" stylesheet">
+<link href="{% static 'css/jquery-ui-1.10.4.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+<!-- =======================================================
+Theme Name: NiceAdmin
+Theme URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+Author: BootstrapMade
+Author URL: https://bootstrapmade.com
+======================================================= -->
+{% include 'line/error-modal-style.html' %}
+</head>
+<body class="login-img3-body">
+   <div class="login-form desktop-login">
+         <div class="col-lg-6 form-left" style="margin-top: 0;">
+              <form method="post" class="login-form-signup" style="background: none;">
+                   <div class="login-wrap login-page-form " style="width: 100%;">
+                        <p class="login-img" style="font-size: 20px; margin-bottom: 0; color: #fff;">
+                        {% csrf_token %}
+                             {{ form.non_field_errors }}
+                             {{ form.source.errors }}
+                              {{ form.source }}
+                            <div class="input-group col-sm-12">
+                              <label><p>Username</p></label>
+                              {{form.username }}
+                            </div>
+
+                            <div class="input-group col-sm-12">
+                                <label><p>First name</p></label>
+                              {{form.first_name }}
+                            </div>
+
+                             <div class="input-group col-sm-12">
+                                 <label><p>Last Name</p></label>
+                              {{form.last_name }}
+                            </div>
+
+                            <div class="col-sm-12">
+                              <label><p>Email</p></label>
+                              {{form.email }}
+                            </div>
+                        {% comment %}{% for field in form %}
+                        {{ field.label_tag }}<br>
+                          <div class="input-group" style="width: 100%; "><div class="form-control">{{ field }}</div> </div>
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                  </p>
+                 {% endfor %}{% endcomment %}
+              </div>
+          </div>
+          <div class="col-lg-6">
+               <p class="login-img login-wrap login-page-form " style="font-size: 20px; margin-bottom: 0; color: #fff;">
+               <div class="input-group col-sm-12">
+                  <label><p>Password</p></label>
+                  {{form.password1 }}
+                </div>
+
+                <div class="input-group col-sm-12">
+                    <label><p>Password Confirmation:</p></label>
+                  {{form.password2 }}
+                </div>
+
+                 <div class="input-group col-sm-12">
+                  <label><p>Department</p></label>
+                  {{form.department }}
+                </div>
+                </p>
+           </div>
+            <div class="col-sm-12">
+                <button class="btn btn-info btn-lg btn-block login-button" type="submit" style="border-radius: 5px; margin: 5px auto;">
+                    <p>Sign up</p>
+                </button>
+            </form>
+                <button class="btn btn-danger btn-lg btn-block login-button" type="submit" style="border-radius: 5px;margin: 0 auto;">
+                    <a href="{% url 'manufacturing:home' %}" >
+                        <p style="color: #fff;">Login</p></a>
+                </button>
+            </div>
+        </div>
+         {% if form.errors %}
+             {% for field in form %}
+                {% for error in field.errors %}
+                <div id="myModal" class="modal">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                        <p>{{ error|escape }}</p>
+                      </div>
+                 </div>
+                  <button style="display: none;" id="myBtn">Open Modal</button>
+                 </div>
+                {% endfor %}
+             {% endfor %}
+         {% endif %}
+   </div>
+
+ </body>
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+</html>

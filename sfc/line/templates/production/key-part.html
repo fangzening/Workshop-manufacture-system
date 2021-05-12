@@ -1,0 +1,232 @@
+ {% include 'manufacturing/include/header.html' %}
+    {% load static %}
+ <link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+ {% include 'manufacturing/include/sidebar.html' %}
+ {% include 'manufacturing/include/error-modal-style.html' %}
+
+      <section id="main-content">
+        <section class="wrapper">
+          <div class="row">
+            <div class="col-lg-12">
+             {% comment %}<h3 class="page-header"><i class="icon_lightbulb_alt"></i>{{station_id}}</h3>{% endcomment %}
+              <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+                    <li><i class="fa fa-th-list"></i><a href="{% url 'line:wip' %}">Route List</a></li>
+                    <li><i class="fa fa-th-list"></i><a href="/line/wip/?ver={{ver}}">Station List</a></li>
+                    <li><i class="icon_lightbulb_alt"></i>{{station_id}}</li>
+              </ol>
+            </div>
+          </div>
+          <div class="row">
+             <!-- chart morris start  -->
+            <section class="panel">
+              <div class="panel-body">
+                <div  class="row">
+                  <div class="col-lg-12">
+                    {% for label in labels %}
+                    
+                      <input type="hidden" id="{{label.name}}" value="{{label.zpl}}">
+                    {% endfor %}
+
+                    {% if station_id == 'ASSY 6' %}
+                    <!-- print asset tag label -->
+                      <div class="row">
+                        <div style="float: right; margin-right: 50px;">
+                        <button class="btn btn-primary btn-print-asset-tag" id="btn-print-asset-tag" type="">Print Asset Tag</button>                        
+                        </div>
+                      </div>
+                      <script type="text/javascript" src="{% static 'js/label-print.js' %}"></script>   
+                    {%  endif %}
+
+                    
+                    {% if station_id == 'Visual Inspection' %}
+                    <!-- print mac address label -->
+                      <div class="row">
+                        <div style="float: right; margin-right: 50px;">
+                        <button class="btn btn-primary btn-print-asset-tag" id="btn-print-mac-address-label" type="">Print MAC Address Label</button>
+                        </div>
+                      </div>
+                    {%  endif %}  
+
+
+                    {% if station_id == 'Pack Out - 2' %}
+                      <!-- print PO and Shipping Label -->
+                      <div class="row">
+                        <div style="float: right; margin-right: 50px;">
+                        <button class="btn btn-primary btn-print-asset-tag" id="btn-print-shipping-label" type="">Shipping Label</button>
+                        <button class="btn btn-primary btn-print-asset-tag" id="btn-print-po-info-label" type="">PO Info Label</button>
+                        </div>
+                      </div>
+                    {%  endif %}                      
+
+
+                          <div class="counter"></div>
+                          
+                             {% if result %}
+                               {%if message == "Success" %}
+                                  <div id="myModal" class="modal-log message-box-bottom">
+                                    <!-- Modal content -->
+                                    <div class="modal-content-card-success">
+                                      <span class="close">&times;</span>
+                                         <div class="warning-modal-body">
+                                            <p>{{message}}</p>
+                                         </div>
+                                    </div>
+                                  </div>
+                                  <button style="display: none;" id="myBtn">Open Modal</button>
+                              {%else%}
+                                     <div id="myModal" class="modal-log message-box-bottom">
+                                        <!-- Modal content -->
+                                        <div class="modal-content-error">
+                                          <span class="close">&times;</span>
+                                             <div class="warning-modal-body">
+                                                <p>{{message}}</p>
+                                             </div>
+                                        </div>
+                                      </div>
+                                      <button style="display: none;" id="myBtn">Open Modal</button>
+                              {%endif %}
+                           {%endif%}
+                               <!-- ######################## input field box  ############### -->
+                                   <div class="col-lg-12">
+                                    <form id="kp_form" action="" method="post">
+                                        <section class="panel">
+                                          <div class="panel-body key-input" style=" height: auto; transition: 1s; padding: 0;">
+                                                  {% load static %}
+                                                        <input type="hidden" name="submit" value="1">
+                                                        <input type="hidden" name='template' value="{{template}}">
+                                                        <input type="hidden" name="route" value="{{route_id}}">
+                                                        <input type="hidden" name="station" value="{{station_id}}">
+                                                        <input type="hidden" name="ver" value="{{ver}}" >
+                                                      {% csrf_token %}
+
+                                                       <div class='col-sm-4 form-group'>
+                                                           <div class='col-sm-12'>
+                                                               <label>Serial Number: &nbsp;</label>
+                                                           </div>
+                                                           <div class='col-sm-12'>
+                                                             <input onkeypress="changeInputBox(event)" id="serial_number" class="sn-input form-control" type="text" name="serial_number" value="{{sn}}">
+                                                           </div>
+                                                        </div>
+
+                                                        {% if scan_types %}
+                                                          {% if "CSERIALNO" in scan_types or "OFFLINE" in scan_types %}
+                                                         <div class='col-sm-4 form-group'>
+                                                            <div class='col-sm-12'>
+                                                            <label>Key Part Serial Number: &nbsp;</label>
+                                                            </div>
+
+                                                             <div class='col-sm-12'>
+                                                             <input onkeypress="changeInputBox(event)" id="kp_serialnumber" class="sn-input form-control"  type="text" name="kp_serialnumber">
+                                                             </div>
+                                                         </div>
+                                                          {% elif "CUSTPARTNO" in scan_types %}
+                                                          <div class='col-sm-4 form-group'>
+                                                            <div class='col-sm-12'>
+                                                            <label>Key Part Number: &nbsp;</label>
+                                                            </div>
+
+                                                             <div class='col-sm-12'>
+                                                              <input onkeypress="changeInputBox(event)" id="partnum" class="sn-input form-control"  type="text" name="partnum">
+                                                             </div>
+                                                          </div>
+
+                                                          {% else %}
+                                                          <div class='col-sm-4 form-group'>
+                                                              <div class='col-sm-12'>
+                                                              <label>Key Part: &nbsp;</label>
+                                                              </div>
+
+                                                              <div class='col-sm-12'>
+                                                              <input onkeypress="changeInputBox(event)" id="partnum" class="sn-input form-control" type="text" name="part">
+                                                              </div>
+                                                          </div>
+                                                          <div class='col-sm-4 form-group'>
+                                                              <div class='col-sm-12'>
+                                                              <label>Key Part Serial Number: &nbsp;</label>
+                                                              </div>
+
+                                                              <div class='col-sm-12'>
+                                                              <input onkeypress="changeInputBox(event)" id="kp_serialnumber" class="sn-input form-control"  type="text" name="kp_serialnumber">
+                                                              </div>
+                                                          </div>
+                                                  {% endif %}
+                                                {% endif %}
+                                              </div>
+                                          </section>
+                                      </form>
+                                   </div>
+                
+                             <!-- ###################### Confirmed box (green)  ########################  -->
+                         <div id="key-part-container">
+                             <!-- ###################### Wait for next step box (purple)  ########################  -->
+                             {% if keyparts %}
+                                {% for keypart in keyparts %}
+                                  {% if keypart.serial_number == "" %}
+                                    <div class="col-lg-4" onclick='changePart(this,"{{ keypart.model_id }}")'>
+                                          <section class="panel">
+                                            <div class="major panel-body text-center button key-part-container key-part-container-action" style="  transition: .25s;">
+                                                {% load static %}
+                                              <header class="major panel-heading col-sm-4 key-part-container-action">
+                                                    <p><strong>{{ keypart.part }}</strong></p>
+                                                  </header>
+                                                  <div class='key-description col-sm-8 key-container-action'>
+                                                    <ul class="ul-key-part">
+                                                        <li><p class="txt-mid-action"><strong>ALT: {{ keypart.alt }}  </strong></p></li>
+                                                        <li><hr></li>
+                                                        <li><p class="txt-mid-action"><strong>Desc: {{ keypart.desc }}  </strong></p></li>
+                                                        <li><hr></li>
+                                                        <li><p class=""><strong>Part SN: {{ keypart.serial_number }}  </strong></p></li>
+                                                    </ul>
+                                                  </div>
+                                            </div>
+                                          </section>
+                                    </div>
+                                  {% endif %}
+                                {% endfor %}
+                              {% endif %}
+
+                                  {% if keyparts %}
+                                   {% for keypart in keyparts %}
+                                      {% if keypart.serial_number != "" %}
+                                        <div class="col-lg-4" >
+                                            <section class="panel">
+                                              <div class="panel-body text-center button key-part-container-confirmed key-part-container" style="  transition: 1s;">
+                                                  {% load static %}
+                                                    <header class="panel-heading col-sm-4 key-confirmed">
+                                                        {% comment %}<p><strong>Key Part {{ forloop.counter }}</strong></p>{% endcomment %}
+                                                        <p class=""><strong>{{ keypart.part }}</strong></p>
+                                                    </header>
+                                                    <div class='key-description key-container-confirmed'>
+                                                      <ul class="ul-key-part ul-key-part-confirmed">
+                                                          <li><p class="txt-mid"><strong>ALT: {{ keypart.alt }}  </strong></p></li>
+                                                          <li><hr></li>
+                                                          <li><p class="txt-mid"><strong>Desc: {{ keypart.desc }}  </strong></p></li>
+                                                          <li><hr></li>
+                                                          <li><p class=""><strong>Part SN: {{ keypart.serial_number }}  </strong></p></li>
+                                                      </ul>
+                                                    </div>
+                                              </div>
+                                            </section>
+                                        </div>
+                                      {% endif %}
+                                   {% endfor %}
+                                {% endif %}
+                               </div>
+                          </div>
+                       </div>
+                  </div>
+                </section>
+              </div>
+      </section>
+  </section>
+ {% include 'manufacturing/include/javascript-sidebar.html' %}
+
+ {% load static %}
+    <script src="{% static 'js/line/keypart.js' %}"></script>
+    <script src="{% static 'js/line/timer.js' %}"></script>
+    <script src="{% static 'js/line/assembly.js' %}"></script>
+    <script src="{% static 'js/line/warning-modal.js' %}"></script>
+    <script type="text/javascript" src=" {% static 'js/BrowserPrint-2.0.0.75.min.js' %}"></script>
+  </body>
+</html>

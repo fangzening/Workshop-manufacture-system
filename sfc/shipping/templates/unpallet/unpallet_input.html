@@ -1,0 +1,31 @@
+<div class="">
+   <div class="icon-text" style="merge-bottom: 5px;">
+        <input id="scan_pallet" name="scan_pallet" class="form-control" type="text" value="{{ pallet.pallet_id }}" style="color: #bbb8b8;" required placeholder="Scan Pallet..."/>
+           <span class="span-repair">
+              <select  onchange="getPallet(this);" id="test_select" class="form-control" required="" style="display: none;">
+                <option value="#">------------</option>
+                  {% if pallet_list %}
+                  {% for pallet in pallet_list %}
+                <option value='{% url "shipping:unpallet_detail" pallet.pallet_id  %}'>{{ pallet.pallet_id }}</option>
+                 {% endfor %} {% endif %}
+                <script>
+                  function gotDetail() {
+                  window.location = document.getElementById("test_select").value;
+                }
+                </script>
+
+            </select>
+       </span>
+   </div>
+
+   <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px; display: none;">
+         <button id="go" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onclick="gotDetail()">Pallet</button>
+   </div>
+
+</div>
+
+<script>
+    function gotosite() {
+    window.location = document.getElementById("scan_pallet").value;
+}
+</script>

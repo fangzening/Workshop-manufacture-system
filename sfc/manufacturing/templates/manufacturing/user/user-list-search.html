@@ -1,0 +1,71 @@
+{% load static %}
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+<div id="maxheight">
+   <table class="table table-striped  table-advance table-hover table-flex table-margin">
+        <tbody>
+          <tr class="table-header">
+              <th> &nbsp; </th>
+              <th><i class="icon_profile"></i> &nbsp; User Name</th>
+              <th> &nbsp; First Name</th>
+              <th> &nbsp; Last Name</th>
+              <th><i class="icon_mail_alt"></i> &nbsp; Email</th>
+              <th><i class="icon_profile"></i> &nbsp; Role</th>
+              <th><i class="icon_house_alt table-icon" style="color: #fff;"></i>&nbsp; Department</th>
+              {% comment %}<th><i class="icon_genius"></i>&nbsp; Plant code</th>{% endcomment %}
+              <th><i class="icon_calendar"></i>&nbsp; Joined</th>
+              <th><i class="icon_cogs"></i>&nbsp; Others</th>
+          </tr>
+            <script>
+                function Show() {
+                document.getElementById("show-edit").style.display = "block";
+                }
+            </script>
+        {% if user_list %}
+              {% for user in user_list %}
+                  <tr>
+                      <th> &nbsp; </th>
+                      <th><p>{{ user.username }}</p> </th>
+                      <th> <p>{{ user.first_name }}</p></th>
+                      <th><p>{{ user.last_name }}</p></th>
+                      <th><p>{{ user.email }}</p> </th>
+                      <th><p>{{ user.groups.all.0 }}</p> </th>
+                      <th><p>{{ user.profile.department }}</p> </th>
+                      {% comment %}<th><p>{{ user.profile.plant_code }}</p> </th>{% endcomment %}
+                      <th><p>{{ user.date_joined }}</p> </th>
+                      <th class="column-action">
+                    {% load static %}
+                        {% if perms.manufacturing.can_user_delete_user %}
+                        <form onsubmit="return confirm('Confirm delete?');" action="{% url 'manufacturing:user-delete' user.id %}" method="post" style="display: inline;">
+                          {% csrf_token %}
+                        <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                          src="{% static 'svg/delete.svg' %}" alt="icon"><span>Delete</span></button></form>
+                        {% endif %}
+                        {% if perms.manufacturing.can_user_update_user %}
+                        <form action="{% url 'manufacturing:user-update' user.id  %}" method="get" style="display: inline;">
+
+                        <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                          src="{% static 'svg/edit-pen.svg' %}" alt="icon"><span>Edit</span></button></form>
+                         {% endif %}
+                        {% if perms.manufacturing.can_add_permission %}
+                        <form action="{% url 'manufacturing:add-permissions' user.id  %}" method="get" style="display: inline;">
+
+                        <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                         src="{% static 'svg/generate.svg' %}" alt="icon"><span style="z-index: 10;">Modify Permission</span></button></form>
+                        {% endif %}
+                    </th>
+                  </tr>
+          {% endfor %}
+        {% else %}
+              <div id="myModal" class="modal-log">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                         <p>No related data found</p>
+                       </div>
+                   </div>
+                <button style="display: none;" id="myBtn">Open Modal</button>
+             </div>
+      {% endif %}
+        </tbody>
+   </table>
+</div>

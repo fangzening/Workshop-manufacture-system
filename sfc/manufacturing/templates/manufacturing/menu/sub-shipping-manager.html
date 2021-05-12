@@ -1,0 +1,109 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <li><a class="menu-sub-link" href="{% url 'manufacturing:user_list' %}">User Management</a></li>
+            <li><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>
+            <li><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Management</a></li>
+            <li><a href="{% url 'manufacturing:sub_wip' %}">WIP Management</a></li>
+            <li>Shipping Management</li>
+            <li><a href="{% url 'manufacturing:sub_qms' %}">QMS</a></li>
+            <li><a href="{% url 'manufacturing:sub_wms' %}">WMS</a></li>
+        </ol>
+      </div>
+    </div>
+
+     <div class="row sn-page">
+          <section class="panel">
+                   <section class="form-horizontal">
+                        <div class="login-wrap">
+                               <div class="" style="background: #fff;">
+                                   <section>
+
+                                       <a href="{% url 'shipping:ship_out_station' %}">
+                                            <div class="col-lg-3">
+                                              <section class="panel">
+                                                <button type="submit" class="panel-body  button-hover text-center button index-button" style="height: 180px;">
+                                                        {% load static %}
+                                                      <div>
+                                                        <div class='card-description'>
+                                                            <div>
+                                                                <h3 class="dash-h2">Shipping Start</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  </button>
+                                              </section>
+                                            </div>
+                                       </a>
+
+                                       <a href="{% url 'shipping:truckload_station' %}">
+                                            <div class="col-lg-3">
+                                              <section class="panel">
+                                                <button type="submit" class="panel-body  button-hover text-center button index-button" style="height: 180px;">
+                                                        {% load static %}
+                                                      <div>
+                                                        <div class='card-description'>
+                                                            <div>
+                                                                <h3 class="dash-h2">Truck Load</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  </button>
+                                              </section>
+                                            </div>
+                                       </a>
+
+                                        <a href="{% url 'shipping:salesorder_list' %}">
+                                        <div class="col-lg-3">
+                                          <section class="panel">
+                                            <button type="submit" class="panel-body  button-hover text-center button index-button" style="height: 180px;">
+                                                  <div id="line">
+                                                    <div class='card-description'>
+                                                        <div>
+                                                            <h3 class="dash-h2">SalesOrder Manager</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </button>
+                                          </section>
+                                        </div>
+                                       </a>
+
+                                       <a href="{% url 'shipping:deliverynumber_list' %}">
+                                        <div class="col-lg-3">
+                                          <section class="panel">
+                                            <button type="submit" class="panel-body  button-hover text-center button index-button" style="height: 180px;">
+                                                  <div id="line">
+                                                    <div class='card-description'>
+                                                        <div>
+                                                            <h3 class="dash-h2">DeliverNumber Manager</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </button>
+                                          </section>
+                                        </div>
+                                       </a>
+
+                                </section>
+                            </div>
+                          </div>
+                    </section>
+             </section>
+         </div>
+    </section>
+</section>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

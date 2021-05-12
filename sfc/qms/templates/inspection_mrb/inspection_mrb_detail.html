@@ -1,0 +1,118 @@
+{% load static %}
+<link href="{% static 'css/qms.css' %}" rel="stylesheet">
+<div class="inspection_detail" style="width: 100%; height: 220px; padding-top: 1rem;">
+    <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">MRB Code:</label>
+        </div>
+          <div  class="col-sm-8">
+          <div class="col-sm-11 form-control-qms none-typing" style="padding: 4px;">
+              <div class="col-sm-11">
+               <div class="" id="showMRB"></div>
+              </div>
+               <div class="col-sm-1" style="padding: 0;">
+               <div class="three-dot-button" data-target="#mrb-name" data-toggle="modal" id="" value=""> <img style="width: 22px;"
+            src="{% static 'svg/3-dots.svg' %}" alt="icon"></div>
+               </div>
+           </div>
+         <div class="col-sm-1" style="padding: 0;">
+         </div>
+       </div>
+     </div>
+
+    <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">MRB result:</label>
+        </div>
+        <div  class="col-sm-8">
+        <select id="receiving-type" class="form-control-qms" onchange="showMRBResult(this);">
+            <option class="from-group">---</option>
+            <option class="from-group">Accept</option>
+            <option class="from-group">Selected </option>
+            <option class="from-group">Reject</option>
+        </select>
+       </div>
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">IQC Form ID:</label>
+        </div>
+        <div  class="col-sm-8">
+        <textarea class="form-control none-typing" id="showIQCform" style="height: 30px;"></textarea>
+       </div>
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Model:</label>
+        </div>
+        <div  class="col-sm-8">
+          <div class="col-sm-11 form-control-qms none-typing" style="padding: 4px;">
+              <div class="col-sm-11">
+               <div class="" id="showMaterial"></div>
+              </div>
+               <div class="col-sm-1" style="padding: 0;">
+               <div class="three-dot-button" data-target="#material-name" data-toggle="modal" id="" value=""> <img style="width: 22px;"
+            src="{% static 'svg/3-dots.svg' %}" alt="icon"></div>
+               </div>
+           </div>
+         <div class="col-sm-1" style="padding: 0;">
+         </div>
+       </div>
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Material Qty:</label>
+        </div>
+        <div  class="col-sm-8">
+            <div class="form-control-qms none-typing" id="showMRBqy"></div>
+       </div>
+     </div>
+
+    <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Selected Qty:</label>
+        </div>
+        <!--  ######## selected qty #########  -->
+        <!--  ##################### #########  -->
+        <div  class="col-sm-8">
+         <input class="form-control-qms" name=""  type="number" value="" style="color: #bbb8b8;" required>
+       </div>
+        <!--  ######## selected qty #########  -->
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Selector:</label>
+        </div>
+        <div  class="col-sm-8">
+            <div class="form-control-qms none-typing" id="showSelector"></div>
+       </div>
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Completed Time:</label>
+        </div>
+        <div  class="col-sm-8">
+            <div class="form-control-qms none-typing" id="showDate"></div>
+       </div>
+     </div>
+
+     <div  class="col-sm-6 inspection-form">
+        <div  class="col-sm-4">
+         <label class="" for="">Material Spec:</label>
+        </div>
+        <div  class="col-sm-8">
+         <input class="form-control-qms" id="scan_model_input" name=""  type="text" value="" style="color: #bbb8b8;">
+       </div>
+     </div>
+  </div>
+ {% include 'inspection_mrb/inspection_mrb_modal.html' %}
+
+
+
+
+

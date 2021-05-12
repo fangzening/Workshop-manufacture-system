@@ -1,0 +1,97 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% if user.is_authenticated %}
+<section id="main-content">
+   <section class="wrapper">
+          <div class="">
+        <div class="row">
+          <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                <li><i class="icon_genius"></i>User Management</li>
+<!--                <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+<!--                <li><i class="icon_desktop"></i><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Managementn</a></li>-->
+<!--                <li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_wip' %}">WIP Management</a></li>-->
+<!--                <li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_shipping_manager' %}">Shipping Managementn</a></li>-->
+            </ol>
+          </div>
+        </div>
+       <div class="row">
+              <div class="col-sm-12">
+                <section class="panel">
+                     <div class="panel-body tab-panel-body">
+                            <div class="tab tabs">
+                                {% if perms.manufacturing.can_user_view_user_list %}
+                                <button class="tablinks active" onclick="openForm(event, 'UserList')" id="defaultOpen">User List</button>
+                                 {% else %}
+                                   <div id="myModal" class="modal-log">
+                                     <div class="modal-content"  style="width: 40%;">
+                                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                          <div class="warning-modal-body">
+                                             <p>No permission</p>
+                                           </div>
+                                       </div>
+                                    <button style="display: none;" id="myBtn">Open Modal</button>
+                                 </div>
+                                {% endif %}
+                                 {% if perms.manufacturing.can_add_user %}
+                                <button class="tablinks" ><a href="{% url 'manufacturing:signup_sidebar' %}">Add User</a></button>
+                                {% endif %}
+                                {% if perms.manufacturing.can_view_user_group_list %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:user_group_list' %}">User Group/Type List</a></button>
+                                {% endif %}
+                                {% if perms.manufacturing.can_add_permission %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:permissions' %}">User Permissions</a></button>
+                                {% endif %}
+                                {% if perms.manufacturing.can_add_profile %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:users_add_profiles' %}">Add User Profile</a></button>
+                                {% endif %}
+                            </div>
+
+                            <div id="UserList" class="tabcontent">
+                                <div class="">
+                                    <div class="whole whole-table">
+                                       <div class="main-content">
+                                              <div class="nav-user-search  clearfix header-search-box">
+                                                  <div class="nav top-menu top-button">
+                                                     <form  class="navbar-form" id="search" action="" method="get">
+                                                          <div class="nav search-row list-title-search" id="top_menu">
+                                                                <div><input name="q" class="form-control" type="text" placeholder=" Search"></div>
+                                                            <div style="width: 30px;">
+                                                              <button class="nav-user-search-icon" type="submit" style="padding: 0;">
+                                                                  <i _ngcontent-crw-c2="" style="font-size: 3rem;" class="icon_search-2 search-icon text-muted i-Magnifi-Glass1"></i>
+                                                              </button>
+                                                            </div>
+                                                          </div>
+                                                    </form>
+                                                   </div>
+
+                                                    {% if perms.manufacturing.can_add_user %}
+                                                    <div class="btn top-btn-container top-button top-right">
+                                                        <a class="table-a" href="{% url 'manufacturing:signup_sidebar' %}">
+                                                          <button type="submit" class="btn btn-primary header-button">
+                                                              New
+                                                          </button>
+                                                        </a>
+                                                     </div>
+                                                    {% endif %}
+                                                </div>
+                                        </div>
+<!-- #########################################-->
+ {% include 'manufacturing/user/user-list-search.html' %}
+ </div>
+    </div> </div>
+ </div> </section></div></div></div></section></section>
+ {% include 'manufacturing/include/javascript-sidebar.html' %}
+{% endif%}
+{% endblock %}
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+</body>
+</html>

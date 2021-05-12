@@ -1,0 +1,146 @@
+{% load static %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% include 'manufacturing/include/add-row-js.html' %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+<script>
+ $(document).ready(function(){
+ var $form = $('form');
+ $form.submit(function(){
+  $.post($(this).attr('action'), $(this).serialize(), function(response){
+        // do something here on success
+  },'json');
+  return false;
+ });
+ });
+</script>
+ <div id="maxheight">
+    <table id="table" class="table table-striped table-advance table-hover table-flex" >
+          <tbody>
+           <tr id="table-header" class="table-header">
+              <th> <input type="hidden" name="chk"/>&nbsp; </th>
+              <th ><i class="icon_grid-3x3"></i> &nbsp; Position</th>
+              <th ><i class="icon_grid-3x3"></i> &nbsp; Name</th>
+              <th ><i class="icon_profile"></i> &nbsp; Data Type</th>
+              <th ><i class="icon_check"></i> &nbsp; Length</th>
+              <th ><i class="icon_check"></i> &nbsp; Value</th>
+              <th ><i></i> &nbsp; Update</th>
+              <th ><i></i> &nbsp; Delete</th>
+            </tr>
+
+          {% if segment_list %}
+          {% for segment in segment_list %}
+              <iframe name="formDestination" style="display: none;"></iframe>
+             {% csrf_token %}
+             {{ form.non_field_errors }}
+             {{ form.source.errors }}
+             {{ form.source }}
+            <tr id="{{ segment.pk }}" class="column">
+              <th  class="col-xs-1"><input type="hidden" name="model_id" vailue=""></th>
+              <th class="col-xs-3"><p>{{ segment.position}}</p></th>
+              <th contenteditable="true"  class="col-xs-3">
+                  <div class="edit-save-1 hover" id="edit-save-1">
+                      <p><input type="text" class="edit-input-1 edit-row" name="name" value="{{ segment.name}}"></p>
+                  </div>
+              </th>
+              <th class="col-xs-3"> <p>{{ segment.data_type }}</p></th>
+              <th contenteditable="true"  class="col-xs-3">
+                  <div class="edit-save-2" id="edit-save-2">
+                      <p><input type="text" class="edit-input-1 edit-row" name="length" value="{{ segment.length}}"></p>
+                  </div>
+              </th>
+              <th contenteditable="true"  class="col-xs-3">
+                <div class="edit-save-2" id="edit-save-2">
+                    <p><input type="text" class="edit-input-1 edit-row" name="length" value="{{ segment.value}}"></p>
+                </div>
+              </th>
+              <th  class="col-xs-3">
+                <div>
+                    <form action= "{% url 'maskconfig:edit-segment' %}" method="GET">
+                      <input type="hidden" name='segment' value="{{ segment.pk }}">
+                      <input type="hidden" name='model' value="{{ model }}">
+                      <button type="submit" id="save-button-1"  style="background: none; border: none;" class="icon-text-mask icon-text  btn-confirm simple-confirm" >
+                      <img  src="{% static 'svg/generate.svg' %}" alt="icon"><span>Modify</span></button>
+                    </form>
+               </div>
+               {% comment %}{% include 'maskconfig/masksegment-list-modal.html' %}{% endcomment %}
+              </th>
+              <th   class="col-xs-3">
+                <div>
+                    <form action= "{% url 'maskconfig:delete-segment' segment.pk %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name='model' value="{{ model }}">
+                      <button type="submit" id="save-button-1"  style="background: none; border: none;" class="icon-text-mask icon-text  btn-confirm simple-confirm" >
+                      <img  src="{% static 'svg/delete.svg' %}" alt="icon"><span>Delete</span></button>
+                    </form>
+               </div>
+               {% comment %}{% include 'maskconfig/masksegment-list-modal.html' %}{% endcomment %}
+              </th>
+            </tr>
+          {% endfor %}
+          {% else %}
+                  <div id="myModal" class="modal-log">
+                     <div class="modal-content"  style="width: 40%;">
+                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                          <div class="warning-modal-body">
+                             <p>No related data found</p>
+                           </div>
+                       </div>
+                    <button style="display: none;" id="myBtn">Open Modal</button>
+                 </div>
+          {% endif %}
+         </tbody>
+        </table>
+        <form method="POST" action="{% comment %}{% url 'maskconfig:create-mask-row' %}{% endcomment %}" class="table-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+             <table id="dataTable" class="table table-striped table-advance table-hover table-flex">
+            <tbody>
+<!--              <tr class="table-header">-->
+<!--              <th> <input type="hidden" name="chk"/>&nbsp; </th>-->
+<!--              <th ><i class="icon_grid-3x3"></i> &nbsp; Position</th>-->
+<!--              <th ><i class="icon_grid-3x3"></i> &nbsp; Name</th>-->
+<!--              <th ><i class="icon_profile"></i> &nbsp; Data Type</th>-->
+<!--              <th ><i class="icon_check"></i> &nbsp; Length</th>-->
+<!--              <th ><i class="icon_check"></i> &nbsp; Value</th>-->
+<!--              <th ><i></i> &nbsp; Update</th>-->
+<!--              <th ><i></i> &nbsp; Delete</th>-->
+<!--            </tr>-->
+
+            <tr>
+              <td class="col-xs-1"><input type="checkbox" name="chk"/></td>
+                  <td class="col-xs-2" style="width: 18%;"><input class="add-row" type="text" name="position" value="1" style="display: none;"></td>
+                  <td class="col-xs-3"><input class="add-row" type="text" name="line_name" required></td>
+                  <td class="col-xs-3">
+                    <select name="data_type" class="form-control" id="searchID">
+                      <option selected="true" value="">All</option>
+                      <option value="Hard Code">Hard Code</option>
+                      <option value="Date">Date</option>
+                      <option value="Numeric">Numeric</option>
+                      <option value="Alpha Numeric">Alpha Numeric</option>
+                      <option value="Text">Text</option>
+                      <option value="Model">Model</option>
+                   </select>
+                  </td>
+                  <td class="" ><input class="add-row" type="text" name="length" style="border: none; border-radius: 5px; height: 35px;"></td>
+                  <td class="col-xs-3"><input class="add-row" type="text" name="value"></td>
+                  <td class="col-xs-3 add-row"> </td>
+                  <td class="col-xs-3">
+                      <button type="hidden"  style="cursor: none; " class="icon-text"></button>
+                  </td>
+            </tr>
+            </tbody>
+          </table>
+           <div class="mask-btn-container" style="margin-top: 0.5rem;">
+              <div class="add-btn"><input class="btn btn-primary" style="border-radius: 5px;" type="button" value="Add Row" onclick="addRow('dataTable')" /></div>
+              <div class="add-btn"><input class="btn btn-danger" style="border-radius: 5px;" type="button" value="Delete Row" onclick="deleteRow('dataTable')" /></div>
+              <button type="submit" style="background: none; border: none;" class="icon-text ">
+              <img  src="{% static 'svg/add-cross.svg' %}" alt="icon"><span style="left: 0;">Save all</span></button>
+           </div>
+        </form>
+    </div>
+{% load static %}
+<script src="{% static 'js/maskconfig/update-changes.js' %}"></script>
+<script src="{% static 'js/manufacturing/inline.js' %}"></script>
+<script src="{% static 'js/line/warning-modal.js' %}"></script>

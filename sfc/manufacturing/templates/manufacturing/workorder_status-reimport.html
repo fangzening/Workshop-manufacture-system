@@ -1,0 +1,34 @@
+
+   {% load static %}
+
+       <button style="cursor:none" class="icon-text"  data-toggle="modal" data-target="#re-import{{ workorder.pk }}">
+           <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/re-import.svg' %}" alt="icon"><span>Re-import</span>
+       </button>
+        <div class="modal" id="re-import{{ workorder.pk }}" role="dialog">
+                 <div class="modal-content-detail modal-p">
+                     <div class="row">
+                         <div class="col-sm-12">
+                            <section class="panel">
+                                  <div class="whole whole-status">
+                                      <p>Re-Import Work Order <strong>{{ workorder.pk }}</strong>?
+
+                                          {% csrf_token %}
+                                            <div class="modal-button-container">
+                                            <div class="flex-button">
+                                                <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue">
+                                                    OK
+                                                </button>
+                                            </div>
+                                            </div>
+
+                                      </p>
+                                 </div>
+                            </section>
+                         </div>
+                     </div>
+                 </div>
+              </div>
+
+
+<script src="{% static 'js/manufacturing/generate.js' %}"></script>

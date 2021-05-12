@@ -1,0 +1,167 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="">
+            <div class="row">
+              <div class="col-lg-12">
+                <ol class="breadcrumb">
+                     <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                     <li><i class="icon_genius"></i><a class="menu-sub-link" href="{% url 'manufacturing:user_list' %}">User Management</a></li>
+                     <li><i class="fa fa-file-text-o"></i><a class="" href="{% url 'manufacturing:user_profile' %}">User Profile</a></li>
+                     <li><i class="fa fa-file-text-o"></i>Edit My Profile</li>
+                </ol>
+              </div>
+            </div>
+
+             <div class="row">
+                  <div class="col-lg-12">
+                    <section class="panel">
+                          <div class="panel-body tab-panel-body">
+                                        <div class="tab tabs">
+                                            <button class="tablinks active-id" id="defaultOpen" onclick="openForm(event, 'UserInfoUpdate')">Edit My Profile</button>
+                                            <button class="tablinks"><a href="{% url 'manufacturing:change_password' %}">Change My Password</a></button>
+                                         </div>
+
+                                              <div  class="tabcontent"  id="UserInfoUpdate" style="display: block;">
+                                                <div style="width: 90%; margin: 0 auto;">
+                                                     <div class="login-wrap">
+                                                      <div style="width: 90%; margin: 0 auto;">
+                                                            <form method="POST" id="" class="form-horizontal" action= "{% url 'manufacturing:user_top_update'%}">
+                                                                  {% csrf_token %}
+                                                                  {{ form.non_field_errors }}
+                                                                  {{ form.source.errors }}
+                                                                  {{ form.source }}
+                                                                  {{  messages.error }}
+                                                                  {% comment %}
+                                                                  {{ user_form.as_p }}
+                                                                  {{ profile_form.as_p }}{% endcomment %}
+
+                                                                <!--  username -->
+                                                                 <div class="form-group col-lg-12 section-border">
+                                                                  <div class="profile-h2"><h2 style="margin-bottom: 5px;">Basic Info</h2></div>
+                                                                 </div>
+
+                                                                 <div class="form-group col-lg-6 border-section">
+                                                                     <div class="">
+                                                                          <label class="col-sm-12 control-label">
+                                                                          <p style="float: left;">UserName:</p>
+                                                                          </label>
+                                                                     <div class="col-sm-12">
+                                                                         <input class="form-control" type="text" name="username" value="{{ user.username}}" maxlength="100" required="" id="id_username">
+                                                                     </div>
+                                                                   </div>
+                                                                </div>
+
+                                                                   <!-- email -->
+                                                                  <div class="form-group col-lg-6 section-border">
+                                                                     <div>
+                                                                          <label class="col-sm-12 control-label">
+                                                                              <p style="float: left;">Email: </p>
+                                                                          </label>
+                                                                      </div>
+                                                                     <div class="col-sm-12">
+                                                                       <input class="form-control" type="email" name="email" value="{{ user.email }}" id="id_email">
+                                                                     </div>
+                                                                  </div>
+                                                                  <!--  first & last name -->
+                                                                  <div class="form-group col-lg-6 section-border">
+                                                                       <div>
+                                                                         <label class="col-sm-12 control-label">
+                                                                             <p style="float: left;">First Name:</p>
+                                                                         </label>
+                                                                       </div>
+
+                                                                        <div class="col-sm-12">
+                                                                         <input class="form-control" type="text" name="first_name" value="{{ user.first_name }}" id="id_first_name">
+                                                                        </div>
+                                                                   </div>
+                                                                     <!--  last name -->
+                                                                    <div class="form-group col-lg-6 section-border">
+                                                                         <div>
+                                                                          <label class="col-sm-12 control-label"><p style="float: left;">Last Name:</p></label>
+                                                                          </div>
+                                                                         <div class="col-sm-12">
+                                                                           <input class="form-control" type="text" name="last_name" value="{{ user.last_name }}" id="id_last_name">
+                                                                         </div>
+                                                                   </div>
+                                                                  <!--  role -->
+                                                                     <div class="form-group col-lg-12 section-border">
+                                                                          <div class="profile-h2" style="margin-top: 0;"><h2 style="margin-bottom: 0;">Permission Group/Role:</h2></div>
+                                                                     </div>
+                                                                       <div class="form-group col-lg-12 section-border">
+                                                                         <div>
+                                                                              <label class="control-label col-sm-12">
+                                                                              <p style="float: left;">Role:</p>
+                                                                              </label>
+                                                                         </div>
+                                                                         <div class="col-sm-12">
+                                                                              {{ user.groups.all.0 }}
+                                                                         </div>
+
+                                                                     </div>
+
+                                                                   <div class="form-group col-lg-6 border-section">
+                                                                        <div class="profile-h2"><h2 style="margin-bottom: 0;">Information</h2></div>
+                                                                        <br>
+                                                                          <label class="col-sm-12 control-label"><p style="float: left;">Department: </p></label>
+                                                                         <div class="col-sm-12">
+                                                                           <input type="text" name="department" value="{{ user.profile.department }}" maxlength="100" required="" id="id_department">
+                                                                         </div>
+                                                                    </div>
+                                                                  <!--   time stamp      -->
+                                                                   <div class="col-lg-6" style="padding: 0 6rem;">
+                                                                        <div class="profile-h2" ><h2 style="margin-bottom: 0;">Time stamp</h2></div>
+                                                                         <br>
+                                                                         <div class="">
+                                                                             <label class="col-sm-12 control-label"><p style="float: left; height: 35px;">Last Login:</p></label>
+                                                                             <div class="col-sm-12">
+                                                                                 {{ user.last_login }}</div>
+                                                                         </div>
+                                                                         <div class="">
+                                                                             <label class="col-sm-12 control-label"><p style="float: left; height: 35px;">Date Join:</p></label>
+                                                                              <div class="col-sm-12">
+                                                                             {{ user.date_joined }}</div>
+                                                                         </div>
+                                                                    </div>
+
+                                                                  <div class="form-group">
+                                                                     <div>
+                                                                        <label class="col-sm-12 control-label">
+                                                                        </label>
+                                                                     </div>
+                                                                     <div class="col-sm-6">
+                                                                          <button style="float: left; margin-bottom: 1rem;" type="submit" class="btn btn-primary profile-btn">Save Profile</button>
+                                                                     </div>
+                                                                 </div>
+                                                             </form>
+                                                             {% for message in messages %}
+                                                                  <div id="myModal" class="modal-edit">
+                                                                     <div class="modal-content-error" >
+                                                                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                                          <div class="warning-modal-body">
+                                                                            <p>{{ message }}</p>
+                                                                          </div>
+                                                                     </div>
+                                                                      <button style="display: none;" id="myBtn">Open Modal</button>
+                                                                </div>
+                                                     {% endfor %}
+                                              </div>
+                                         </div>
+                                    </div>
+                              </div>
+                          </div>
+                    </section>
+                  </div>
+             </div>
+       </div>
+  </section>
+</section>
+  <!-- javascripts -->
+ {% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+</body>
+</html>

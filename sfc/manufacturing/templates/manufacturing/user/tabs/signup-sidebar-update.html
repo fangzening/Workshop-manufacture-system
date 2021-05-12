@@ -1,0 +1,217 @@
+{% include 'manufacturing/include/header-update.html' %}
+{% load static %}
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+<script type="text/javascript" src="/static/admin/js/SelectBox.js"></script>
+<script type="text/javascript" src="/static/admin/js/SelectFilter2.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'line/error-modal-style.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="">
+        <div class="row">
+          <div class="col-lg-12">
+            <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+            <li><i class="fa fa-laptop"></i>Admin</li>
+            <li><i class="icon_profile"></i><a class="" href="{% url 'manufacturing:user_list' %}">User List</a></li>
+            <!--<li><i class="icon_profile"></i><a href="{% url 'manufacturing:signup_sidebar' %}">User Manager</a></li>-->
+          <li><i class="fa fa-file-text-o"></i><span class="path-breadcrumb">{{ user.username }}</span> Info Update</li>
+        </ol>
+      </div>
+    </div>
+
+       <div class="row">
+          <div class="col-lg-12">
+            <section class="panel">
+                <div class="panel-body" style="padding: 0;">
+                    <div class="tab tabs">
+                        {% if perms.manufacturing.can_user_view_user_list %}
+                        <button class="tablinks"> <a href="{% url 'manufacturing:user_list' %}">User List</a></button>
+                        {% endif %}
+                        <button class="tablinks active-id" id="defaultOpen" onclick="openForm(event, 'UserInfoUpdate')">{% comment %}<em>{{ user.username }}</em>'s{% endcomment %}
+                           {% if profile_list %}
+                              {% for profile in profile_list %}
+                                  {% if user.id == profile.user_id %}
+                                      <em>{{ profile.user.username }}</em>'s
+                                  {% endif %}
+                              {% endfor %}
+                          {% endif %}
+                            Info Update
+                        </button>
+                         {% if perms.manufacturing.can_add_permission %}
+                        <button class="tablinks get-button">
+                            <a href="{% url 'manufacturing:add-permissions' user.id  %}">
+                            Update
+                             {% if profile_list %}
+                                  {% for profile in profile_list %}
+                                      {% if user.id == profile.user_id %}
+                                          <em>{{ profile.user.username }}</em>'s
+                                      {% endif %}
+                                  {% endfor %}
+                              {% endif %}
+                               Permissions</a>
+                        </button>
+                        {% endif %}
+                    </div>
+                     <div  class="tabcontent"  id="UserInfoUpdate" style="display: block;">
+                        <div style="width: 90%; margin: 0 auto;">
+                            <div class="login-wrap">
+                              <div style="width: 90%; margin: 0 auto;">
+                                 <form method="post" class="form-horizontal half-form">
+                                 {% csrf_token %}
+                                 {{ form.non_field_errors }}
+                                 {{ form.source.errors }}
+                                  {{ form.source }}
+                                  {{ form.error }}
+                                  <div class="form-group col-lg-6 section-border">
+                                       <div>
+                                            <label class="control-label col-sm-12">
+                                            <p style="float: left;">UserName:</p>
+                                            </label>
+                                       </div>
+                                       <div class="col-sm-12">
+                                            <input class="form-control" type="text" name="username" value="{{ user.username }}" id="id_username">
+                                       </div>
+                                  </div>
+                                 {% if form.errors %}
+                                     {% for field in form %}
+                                       {% for error in field.errors %}
+                                        <div id="myModal" class="modal-log">
+                                             <div class="modal-content-error"  style="width: 40%;" >
+                                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                  <div class="warning-modal-body">
+                                                    <p>{{ error|escape }}</p>
+                                                  </div>
+                                             </div>
+                                              <button style="display: none;" id="myBtn">Open Modal</button>
+                                         </div>
+                                        {% endfor %}
+                                     {% endfor %}
+                                    {% endif %}
+                                     <!--   ##### email #######-->
+                                     <div class="form-group col-lg-6 section-border">
+                                         <div>
+                                              <label class="control-label col-sm-12">
+                                              <p style="float: left;">Email:</p>
+                                              </label>
+                                         </div>
+                                         <div class="col-sm-12">
+                                              <input class="form-control" type="text" name="email" value="{{ user.email }}" id="id_email">
+                                         </div>
+                                     </div>
+                                     <!--   ##### first name #######-->
+                                     <div class="form-group col-lg-6 section-border">
+                                         <div>
+                                              <label class="control-label col-sm-12">
+                                              <p style="float: left;">First Name</p>
+                                              </label>
+                                         </div>
+                                         <div class="col-sm-12">
+                                          <input class="form-control" type="text" name="first_name" id="id_first_name" value="{{ user.first_name }}">
+                                         </div>
+                                     </div>
+                                     <!--  ##### last name #######-->
+                                     <div class="form-group col-lg-6 section-border">
+                                         <div>
+                                              <label class="control-label col-sm-12">
+                                              <p style="float: left;">Last rName</p>
+                                              </label>
+                                         </div>
+                                         <div class="col-sm-12">
+                                             <input class="form-control" type="text" id="id_last_name" name="last_name" value="{{ user.last_name }}">
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                          <div class="col-lg-12">
+                                          <button class="btn btn-primary" style="float:right; width: 150px; margin: 0 2rem 1rem 0;" type="submit">Save Info</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                                 <!--   ##### role #######-->
+                                 <div class="form-group">
+                                     <div class="col-lg-12">
+                                      <div class="profile-h2" style="margin-top: 0;"><h2 style="margin-bottom: 0;">Permission Group/Role</h2></div>
+                                         <br>
+                                     <div>
+                                          <label class="control-label col-sm-12">
+                                          <p style="float: left;">Role:</p>
+                                          </label>
+                                     </div>
+                                     <div class="col-sm-12">
+                                          {{ user.groups.all.0 }}
+                                     </div>
+                                 </div>
+                             </div>
+                              <div class="form-group">
+                             {% if profile_list %}
+                                   {% for profile in profile_list %}
+                                  {% if user.id == profile.user_id %}
+                                   <div class="col-lg-6">
+                                        <div class="profile-h2" style="margin-top: 0;"><h2 style="margin-bottom: 0;">Information</h2></div>
+                                       <br>
+                                       <div>
+                                      <label class="col-sm-12 control-label"><p style="float: left;">Department: </p></label>
+                                         <div class="col-sm-12">
+                                             <p>{{ profile.department }}</p>
+                                         </div>
+                                       </div>
+                                        <div>
+                                         </div>
+                                        </div>
+                                    </div>
+                                     <!-- ######time stamp ##### -->
+                                   <div class="col-lg-6">
+                                        <div class="profile-h2" style="margin-top: 0;"><h2 style="margin-bottom: 0;">Time stamp</h2></div>
+                                         <br>
+                                         <div class="">
+                                             <label class="col-sm-12 control-label"><p style="float: left; height: 35px;">Last Login:</p></label>
+                                             <div class="col-sm-12">
+                                                 {{ user.last_login }}</div>
+                                         </div>
+                                         <div class="">
+                                             <label class="col-sm-12 control-label"><p style="float: left; height: 35px;">Date Join:</p></label>
+                                              <div class="col-sm-12">
+                                             {{ user.date_joined }}</div>
+                                         </div>
+                                    </div>
+                               </div>
+                              {% endif %}
+                              {% endfor %}
+                              {% endif %}
+                             <div class="form-group col-lg-12" style="padding: 1.5rem 2.5rem;">
+                                 {% if profile_list %}
+                                   {% for profile in profile_list %}
+                                  {% if user.id == profile.user_id %}
+                                 <div class="col-lg-12">
+                                    <a class="btn btn-info" style="width: 150px; float: right; color:#fff;" href="{% url 'manufacturing:users_profiles_update' profile.id %}">
+                                    Edit Profile
+                                    </a>
+                                 </div>
+                                   {% endif %}
+                                  {% endfor %}
+                                  {% endif %}
+                                  </div>
+                            </div>
+                      </div>
+                </div>
+             </div>
+            </section>
+          </div>
+       </div>
+    </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+</body>
+</html>

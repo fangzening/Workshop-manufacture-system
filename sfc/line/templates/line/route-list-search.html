@@ -1,0 +1,52 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+<div id="maxheight">
+{% include 'manufacturing/include/error-modal-style.html' %}
+  {% if route_list %}
+      <table id="table" class="table table-striped table-advance table-hover table-flex" >
+          <tbody>
+            <tr id="table-header" class="table-header">
+            <th ><i></i> &nbsp; Order</th>
+            <th ><i class="icon_profile"></i> &nbsp; Prod Version</th>
+            <th ><i class="icon_check"></i> &nbsp; Plant Code</th>
+            <th ><i></i> &nbsp; Updater</th>
+            <th>&nbsp; Updated Date </th>
+            <th>&nbsp; Edit</th>
+            </tr>
+            {% for route in route_list %}
+            <tr id="{{ route.pk }}">
+              <th class="col-xs-1"><p>&nbsp;{{ forloop.counter }}</p></th>
+              <th class="col-xs-3"> <p>{{ route.prod_version }}</p></th>
+              <th class="col-xs-3"> <p>{{ route.plant_code }}</p></th>
+              <th class="col-xs-3"> <p>{{ route.updater }}</p></th>
+              <th class="col-xs-3 update-date"> <p>{{ route.update_date }}</p></th>
+              <th class="col-xs-3">
+               <form action= "{% url 'line:stations' %}" method="GET">
+                 <input type="text" hidden name='route_id' value="{{ route.route_id }}">
+                  <button class="icon-text"  type="submit"  style="background: none; border: none;"><img style="width: 22px; margin-left: 3px;" src="{% static 'svg/pen.svg' %}" alt="icon">
+                  <span>Edit</span>
+                  </button>
+                </form>
+              </th>
+            </tr>
+      {% endfor %}
+      {% else %}
+           <div id="myModal" class="modal-log">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                         <p>No related data</p>
+                       </div>
+                   </div>
+                <button style="display: none;" id="myBtn">Open Modal</button>
+             </div>
+      {% endif %}
+       </tbody>
+  </table>
+</div>
+<div id="btn-container"></div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+
+
+

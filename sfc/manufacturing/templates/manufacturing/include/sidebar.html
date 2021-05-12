@@ -1,0 +1,86 @@
+{% load static %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+<aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar tabs start-->
+        <ul class="sidebar-menu">
+          <li class="active">
+            <a class="" href="{% url 'manufacturing:home' %}">
+                <div class="sidebar-flexbox">
+                <div class="sidebar-icon icon-center"><i class="icon_house_alt"></i></div>
+                <div><p>Dashboard</p></div></div>
+            </a>
+          </li>
+           <li class="sub-menu">
+               <a class="" href="{% url 'manufacturing:user_list' %}">
+                    <div class="sidebar-flexbox">
+                        <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/admin-bk.svg' %}" alt="icon"></div>
+                      <div><p>Admin</p></div>
+                    </div>
+                </a>
+           </li>
+
+            <li class="sub-menu">
+                <a class="sidebar-a" href="{% url 'manufacturing:sub_config' %}">
+                <div class="sidebar-flexbox">
+                     <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/config-bk.svg' %}" alt="icon"></div>
+                    <div><p>Configuration</p></div>
+                </div>
+               </a>
+            <ul class="sub">
+            </ul>
+          </li>
+
+           <li class="sub-menu">
+                <a class="sidebar-a" href="{% url 'manufacturing:sub_toolbox' %}">
+                <div class="sidebar-flexbox">
+                     <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/assembly-s.svg' %}" alt="icon"></div>
+                    <div><p>Assembly Management</p></div>
+                </div>
+                </a>
+            </li>
+
+            <li class="sub-menu">
+                <a class="sidebar-a" href="{% url 'manufacturing:sub_wip' %}">
+                    <div class="sidebar-flexbox">
+                         <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/progress-bk.svg' %}" alt="icon"></div>
+                    <div><p style="line-height: 0.8; margin-top: 0.5rem;">WIP Management</p></div>
+                    </div>
+                </a>
+            </li>
+
+            <li class="sub-menu">
+                <a class="sidebar-a" href="{% url 'manufacturing:sub_shipping_manager' %}">
+                    <div class="sidebar-flexbox">
+                         <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/truck-s.svg' %}" alt="icon"></div>
+                    <div><p style="line-height: 0.8; margin-top: 0.5rem;">Shipping Management</p></div>
+                    </div>
+                </a>
+            </li>
+
+           <li class="sub-menu">
+                <a class="sidebar-a" href="{% url 'manufacturing:sub_qms' %}">
+                <div class="sidebar-flexbox">
+                     <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/inspection.svg' %}" alt="icon"></div>
+                    <div><p>QMS</p></div>
+                </div>
+               </a>
+          </li>
+
+         <li class="sub-menu">
+            <a class="sidebar-a" href="">
+            <div class="sidebar-flexbox">
+                 <div class="sidebar-icon"><img class="fit-picture" style="opacity:1" src="{% static 'svg/wms.svg' %}" alt="icon"></div>
+                <div><p>WMS</p></div>
+            </div>
+           </a>
+          </li>
+      </ul>
+        <!-- sidebar tabs end-->
+      </div>
+    </aside>
+{% load static %}
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+
+

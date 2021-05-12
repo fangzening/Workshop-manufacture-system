@@ -1,0 +1,142 @@
+{% load static %}
+<script src="{% static 'js/modal.forms.min.js' %}"></script>
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% if workorder.status_id.name == "Generated SN" %}
+{% load static %}
+       <button style="cursor:none" class="icon-text  btn-confirm simple-confirm" data-toggle="modal" data-target="#generated{{ workorder.pk }}">
+        <img style="width: 22px; margin-left: 3px;"
+        src="{% static 'svg/generated.svg' %}" alt="icon"><span>Generated SN</span>
+       </button>
+          <div class="modal" id="generated{{ workorder.pk }}" role="dialog">
+             <div class="modal-content-detail modal-p">
+                 <div class="row">
+                     <div class="col-sm-12">
+                        <section class="panel">
+                          {% comment %}<header class="panel-heading ">Work Order: {{ workorder }}</header>{% endcomment %}
+                              <div class="whole whole-status">
+                                  <p> Work Order <strong>{{ workorder.pk }}</strong> has been generated. </p>
+                                     <div class="modal-button-container">
+                                     <div class="flex-button">
+                                         <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue"
+                                            data-dismiss="modal">Ok
+                                         </button>
+                                     </div>
+                                     </div>
+                             </div>
+                        </section>
+                     </div>
+                 </div>
+             </div>
+        </div>
+      {% elif workorder.status_id.name != "Released" and workorder.status_id.name != "Accepted" and workorder.status_id.name != "Generated SN" %}
+             <button style="cursor:none" class="icon-text"  data-toggle="modal" data-target="#nongenerated{{ workorder.pk }}">
+           <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/generate.svg' %}" alt="icon"><span>Generate SN</span>
+           </button>
+            <div class="modal" id="nongenerated{{ workorder.pk }}" role="dialog">
+             <div class="modal-content-detail modal-p">
+                 <div class="row">
+                     <div class="col-sm-12">
+                        <section class="panel">
+                          {% comment %}<header class="panel-heading ">Work Order: {{ workorder.pk }}</header>{% endcomment %}
+                              <div class="whole whole-status">
+                                  <p> Work Order <strong>{{ workorder.pk }}</strong> hasn't been Accepted or Released</p>
+                                   <div class="modal-button-container">
+                                   <div class="flex-button">
+                                     <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue"
+                                        data-dismiss="modal">OK
+                                     </button>
+                                   </div>
+                                   </div>
+                                 </div>
+                        </section>
+                     </div>
+                 </div>
+             </div>
+        </div>
+    {% elif workorder.status_id.name != "Released" and workorder.status_id.name == "Accepted" %}
+           <button style="cursor:none" class="icon-text"  data-toggle="modal" data-target="#nongenerated1{{ workorder.pk }}">
+           <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/generate.svg' %}" alt="icon"><span>Generate SN</span>
+           </button>
+            <div class="modal" id="nongenerated1{{ workorder.pk }}" role="dialog">
+             <div class="modal-content-detail modal-p">
+                 <div class="row">
+                     <div class="col-sm-12">
+                        <section class="panel">
+                          {% comment %}<header class="panel-heading ">Work Order: {{ workorder }}</header>{% endcomment %}
+                              <div class="whole whole-status">
+                                  <p> Work Order <strong>{{ workorder.pk }}</strong> hasn't been Accepted or Released.</p>
+                                  <div class="modal-button-container">
+                                  <div class="flex-button">
+                                    <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue"
+                                     data-dismiss="modal">OK
+                                    </button>
+                                  </div>
+                                  </div>
+                             </div>
+                        </section>
+                     </div>
+                 </div>
+             </div>
+        </div>
+    {% elif workorder.status_id.name == "Released" and workorder.status_id.name == "Accepted" and workorder.status_id.name == "Generated SN" %}
+           <button style="cursor:none" class="icon-text"  data-toggle="modal" data-target="#nongenerated2{{ workorder.pk }}">
+           <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/generated.svg' %}" alt="icon"><span>Generated SN</span>
+           </button>
+            <div class="modal" id="nongenerated2{{ workorder.pk }}" role="dialog">
+             <div class="modal-content-detail modal-p">
+                 <div class="row">
+                     <div class="col-sm-12">
+                        <section class="panel">
+                          {% comment %}<header class="panel-heading ">Work Order: {{ workorder.pk }}</header>{% endcomment %}
+                              <div class="whole whole-status">
+                                  <p> Work Order <strong>{{ workorder.pk }}</strong> has been Generated.</p>
+                                   <div class="modal-button-container">
+                                    <div class="flex-button">
+                                     <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue"
+                                     data-dismiss="modal">OK
+                                     </button>
+                                    </div>
+                                   </div>
+                                 </div>
+                        </section>
+                     </div>
+                 </div>
+             </div>
+         </div>
+          {% else %}
+          <button class="icon-text  btn-confirm simple-confirm" data-toggle="modal" data-target="#generate{{ workorder.pk }}">
+            <img style="width: 22px; margin-left: 3px;"
+            src="{% static 'svg/generate.svg' %}" alt="icon"><span>Generate SN</span>
+           </button>
+          <div class="modal" id="generate{{ workorder.pk }}" role="dialog">
+             <div class="modal-content-detail modal-p">
+                 <div class="row">
+                     <div class="col-sm-12">
+                        <section class="panel">
+                          {% comment %}<header class="panel-heading ">Work Order: {{ workorder }}</header>{% endcomment %}
+                              <div class="whole whole-status">
+                                <p class="">Generate Serial Number(s) for the Work Order <strong>{{ workorder.pk }}</strong> ?</p>
+                                 <form action="{% url 'manufacturing:last_button' %}" method="post" style="display: inline;">
+                                  {% csrf_token %}
+                                     <input type="hidden" class="edit-input-1" name="serial_number" value="sn">
+                                     <input type="hidden" class="edit-input-1" name="workorder_id" value="{{ workorder.pk }}">
+                                      <div class="modal-button-container">
+                                      <div class="flex-button">
+                                          <button type="submit" class="btn nav-user-search btn-primary modal-button-red" type="submit"
+                                          data-dismiss="modal">Cancel</button>
+                                          <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue" type="submit">Ok</button>
+                                      </div>
+                                      </div>
+                                  </form>
+                             </div>
+                        </section>
+                     </div>
+                 </div>
+             </div>
+        </div>
+{% endif %}
+{% load static %}
+<script src="{% static 'js/manufacturing/generate.js' %}"></script>

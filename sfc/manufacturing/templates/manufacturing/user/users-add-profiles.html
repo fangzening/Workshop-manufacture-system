@@ -1,0 +1,109 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+  <section class="wrapper">
+        <div class="">
+            <div class="row">
+              <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                    <li><i class="icon_genius"></i>User Management</li>
+<!--                  <li><i class="fa fa-laptop"></i>Admin</li>-->
+<!--                  <li><i class="icon_profile"></i><a class="" href="{% url 'manufacturing:user_list' %}">User List</a></li>-->
+<!--                  <li><i class="fa fa-square-o"></i>Add User</li>-->
+                </ol>
+              </div>
+            </div>
+
+           <div class="row">
+              <div class="col-lg-12">
+                <section class="panel">
+                    <div class="panel-body tab-panel-body">
+
+                        <div class="tab tabs">
+                            {% if perms.manufacturing.can_user_view_user_list %}
+                            <button class="tablinks"> <a href="{% url 'manufacturing:user_list' %}">User List</a></button>
+                            {% endif %}
+                             {% if perms.manufacturing.can_add_user %}
+                             <button class="tablinks"><a href="{% url 'manufacturing:signup_sidebar' %}">Add User</a></button>
+                                {% endif %}
+                            {% if perms.manufacturing.can_view_user_group_list %}
+                            <button class="tablinks"><a href="{% url 'manufacturing:user_group_list' %}">User Group/Type List</a></button>
+                            {% endif %}
+                             {% if perms.manufacturing.can_add_permission %}
+                             <button class="tablinks"><a href="{% url 'manufacturing:permissions' %}">User Permissions</a></button>
+                            {% endif %}
+                            <button class="tablinks active" id="defaultOpen" onclick="openForm(event, 'AddProfile')">Add Profile</button>
+                        </div>
+                        <!--############################## form ##########################################-->
+                         <div id="AddProfile" class="tabcontent">
+                             <form method="POST" class="form-horizontal" action= "{% url 'manufacturing:users_add_profiles' %}">
+                                    <div class="login-wrap">
+                                         <div style="width: 80%; margin: 0 auto;">
+                                            {% csrf_token %}
+                                                 {{ form.non_field_errors }}
+                                                 {{ form.source.errors }}
+                                                  {{ form.source }}
+                                                 {{ form.errors }}
+                                                 {% comment %}{{ form }}{% endcomment %}
+                                                <div class="form-group col-lg-12 section-border">
+                                                 <div>
+                                                      <label class="col-sm-12 control-label">
+                                                      <p style="float: left;">UserName</p>
+                                                      </label>
+                                                 </div>
+                                                 <div class="col-sm-6">
+                                                     <div class="" style="width: 97.5%;">
+                                                     {{ form.user }}
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group  col-lg-6 section-border">
+                                                      <button class="btn btn-primary" style="margin-left: 1rem; float: left;" type="submit">Add Profile</button>
+                                                 </div>
+                                                 </div>
+
+                                                 <div class="form-group  col-lg-6">
+                                                      <label class="col-sm-12 control-label">
+                                                      <p style="float: left;">Department</p>
+                                                      </label>
+                                                     <div class="col-sm-12">
+                                                        <input type="text" class="form-control" name="department" maxlength="100" required id="id_department">
+                                                     </div>
+                                                 </div>
+                                             {% if form.errors %}
+                                              {% for field in form %}
+                                               {% for error in field.errors %}
+                                                    <div id="myModal" class="modal-log">
+                                                         <div class="modal-content-error"  style="width: 40%;">
+                                                             <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                              <div class="warning-modal-body">
+                                                                <p>{{ error|escape }}</p>
+                                                              </div>
+                                                         </div>
+                                                          <button style="display: none;" id="myBtn">Open Modal</button>
+                                                         </div>
+                                                    {% endfor %}
+                                                 {% endfor %}
+                                                {% endif %}
+                                             </div>
+                                        </div>
+                                  </form>
+                         </div>
+                         <div class="tabcontent">
+                            {% include 'manufacturing/include/profile-form.html' %}
+                         </div>
+                      </div>
+                </section>
+            </div>
+         </div>
+        </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+</body>
+</html>

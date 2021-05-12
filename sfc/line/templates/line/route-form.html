@@ -1,0 +1,82 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/maskconfig/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol class="breadcrumb">
+               <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                <!--<li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+               <li><i class="fa fa-th-list"></i><a href="{% url 'line:route' %}">Route List</a></li>
+               <li><i class="fa fa-square-o"></i>Create Route</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-lg-12">
+            <section class="panel">
+              <div class="panel-body">
+                  <div class="login-wrap">
+                       <section class="login-wrap mask-container">
+                           <form method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                  <label for="id_route_id" class="col-sm-12 control-label" >Route Name</label>
+                                    <div class="col-sm-12">
+                                    <input type="text" name="route_id" class="form-control" placeholder="Name..." maxlength="20" required="" id="id_route_id">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="id_model" class="col-sm-12 control-label" >Production Version</label>
+                                    <div class="col-sm-12">
+                                        <input id="search_ver_input" name="" class="form-control form-control-replacement" type="text" value="" style="color: #bbb8b8;" required placeholder="Search for versions..."/>
+                                        <select onchange="getModelRoute(this);" name="ver" class="form-control" required="" id="ver">
+                                              <option value="" selected="">---------</option>
+                                              {% if prod_versions %}
+                                                {% for ver in prod_versions %}
+                                                  <option value="{{ver.prod_version_id}}">{{ ver.prod_version_id}}</option>
+                                                {% endfor %}
+                                              {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="id_plantcode" class="col-sm-12 control-label" >Plant Code</label>
+                                    <div class="col-sm-12">
+                                    <input type="text" name="plantcode" class="form-control" placeholder="Plant Code..." maxlength="20" required="" id="id_plantcode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="id_first_station" class="col-sm-12 control-label" >First Station</label>
+                                    <div class="col-sm-12">
+                                    <select name="first_station" class="form-control" required="" id="id_first_station">
+                                          <option value="" selected="">---------</option>
+                                          {% if stations %}
+                                            {% for station in stations %}
+                                              <option value="{{station.pk}}">{{ station}}</option>
+                                            {% endfor %}
+                                          {% endif %}
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                <div class="col-sm-12">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                                </div>
+                             </form>
+                          </section>
+                      </div>
+                  </div>
+                </section>
+              </div>
+             </div>
+      </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}
+<script src="{% static 'js/route/route-mask.js' %}"></script>

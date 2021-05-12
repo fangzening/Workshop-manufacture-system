@@ -1,0 +1,73 @@
+<!--  ################## replacement form ################################   -->
+<span class="span-repair-out">
+   <select multiple style="{% comment %}height:0; opacity:0;{% endcomment %}" class="form-control repair-select" id="selectout"  onchange="getOutPartOption(this);">
+       <option value="">-- Pick --</option>
+        {% for serialnumber in serialnumber_list %}
+        {% for keypart in serialnumber.keypart_set.all %}
+        <option value='
+            {{  messages.error }}
+            <table class="table-striped table-repair repair-form" style="padding: 0;">
+            <tr>
+            <th class="col-sm-4 repair-select">
+              <label><strong>Repair Code</strong>: </label>
+            </th>
+            <th class="col-sm-8">
+              <input type="text" id="replacement-repair-code" class="form-control"  name="repaired_code" placeholder="search code...">
+            </th>
+            </tr>
+            <tr>
+            <th class="col-sm-4 repair-select">
+              <label><strong>Out PartNo: <strong></label>
+            </th>
+            <th class="col-sm-8">
+              <input type="text" id="replacement-out-part" class="form-control"  name="out_part_no" placeholder="out part no..." value="{{ keypart.pk }}">
+            </th>
+            </tr>
+           {% comment %} {%if keypart.serial_number %} {% endcomment %}
+            <tr>
+            <th class="col-sm-4 repair-select">
+              <label><strong>Out PartCSN: </strong></label>
+            </th>
+            <th class="col-sm-8">
+              <input type="text" id="replacement-out-sn" class="form-control"  name="" placeholder="out part csn..." value="{{ keypart.cserialnumber }}">
+            </th>
+            </tr>
+            {% comment %}{% endif %}{% endcomment %}
+            <tr>
+            <th class="col-sm-4 repair-select">
+              <label><strong>In PartNo: </strong></label>
+            </th>
+            <th class="col-sm-8">
+              <input type="text" id="replacement-in-part" class="form-control"  name="in_part_no" placeholder="in part no..." value="">
+            </th>
+            </tr>
+            {% comment %}{%if keypart.serial_number %}{% endcomment %}
+            <tr>
+            <th class="col-sm-4 repair-select">
+              <label><strong>In PartCSN: </strong></label>
+            </th>
+            <th class="col-sm-8">
+              <input type="text" id="replacement-in-sn" class="form-control"  name="" placeholder="in part csn..." value="">
+            </th>
+            </tr>
+            {% comment %}{% endif %}{% endcomment %}
+                <input type="hidden" class="edit-input-1 edit-row" id="failure_sequence" name="failure_sequence" value="{{ repairmain.failure_sequence }}">
+                <input type="hidden" class="edit-input-1 edit-row" id="replacement" name="replacement" value="1">
+                <input type="hidden" class="edit-input-1 edit-row" id="creator" name="creator">
+                <input type="hidden" class="edit-input-1 edit-row" id="repaired_date" name="repaired_date">
+                <input type="hidden" id="serial_number" name="serial_number" value="{{ serialnumber.pk }}">
+                <input type="hidden" class="edit-input-1 edit-row" id="result" name="result" value="1">
+            </table>
+            <div class="form-group section-border repair-select col-sm-12" style="margin-top: 15px; padding:0;margin-left: 0;">
+                  {% for repairmain in serialnumber.repairmain_set.all %}
+                  {% if repairmain.result == 0 %}
+                  {% if forloop.last %}
+              <button type="button" class="btn btn-primary" id="btn-replace-part" style="width: 100%;" onclick="replacePart(); return false;">Replace</button>
+              {% endif %}{% endif %}{% endfor %}
+            </div>
+          '>{{ keypart.model_id }}</option>
+            {% endfor %}
+          {% endfor %}
+      <script src="{% static 'js/repair/replace-part.js' %}"></script>
+   </select>
+</span>

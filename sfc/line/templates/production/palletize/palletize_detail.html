@@ -1,0 +1,283 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+
+<!--header end-->
+{% load static %}
+
+<link href="{% static 'css/pallet.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/dist/jquery.tree-multiselect.min.css' %}" rel="stylesheet">
+<script src="{% static 'js/vendor/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/manufacturing/jquery.tree-multiselect.js' %}"></script>
+<script src="{% static 'js/modal.forms.min.js' %}"></script>
+<script src="{% static 'js/truckload/jquery-3.5.1.min.js' %}"></script>
+<!--sidebar start-->
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $("#box").load("line/proudction/palletize_detail.html #update-pallet");
+    });
+});
+</script>
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<!--sidebar end-->
+<!--main content start-->
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!--<li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_wip' %}">WIP Management</a></li>-->
+            <!--<li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_shipping_manager' %}">Shipping Management</a></li>-->
+            <li><i class="fa fa-square-o"></i>Palletization
+            <span class="path-breadcrumb">	&nbsp;{{ pallet.pallet_id }}</span></li>
+        </ol>
+      </div>
+    </div>
+
+          <div class="row">
+                <div class="col-lg-12">
+                  <section class="panel">
+                    <div class="panel-body" style="padding-bottom: 5rem;">
+                               <div class="form-horizontal mobile-content-pallet">
+                                <!-- current Open Pallet -->
+                                  <div class="form-group section-border">
+
+                                      <div class="col-sm-6 scanner-content" id="Pallet-List">
+
+                                          <div class="col-sm-12" id="open-available-pallet">
+                                            <!--  <div class="col-sm-6" style="padding: 0;">-->
+                                            <!--  <button data-toggle="modal" data-target="#generated" class="btn btn-close action-header-button" id="open_input" type="submit" style="float:left; mergin-left: 0; padding: 0;" onclick="ShowNew()">Create New</button>-->
+                                            <!--  </div>-->
+                                                    <div id="create_pallet_id" class="col-sm-12">
+                                                       <div class="col-sm-6 padding-left-0">
+                                                        <button class="btn btn-open header-button padding-left-0"  type="submit" style="float:left; mergin-left: 0; display: none;" onclick="ShowNew()">Back to List1</button>
+                                                       </div>
+                                                    </div>
+                                                    <!-- end create new pallet_id -->
+                                                    {% comment %}<div class="col-sm-6" id="dimension-button" style="padding: 0;">
+                                                        {% if pallet.pallet_id %}
+                                                        {% if pallet.status == 1 %}
+                                                        <button data-toggle="modal" data-target="#save-close-pallet" class="btn btn-close action-header-button" id="close-pallet" onclick="ShowDimensions()" style="mergin-left: 0; padding: 0;">Close <strong>	&nbsp;{{ pallet.pallet_id }}</strong></button>
+                                                        {% endif %}{% endif %}
+                                                    </div>{% endcomment %}
+                                                </div>
+                                            <!--   ################################  change content dimensions  #########################################          -->
+                                          {% include 'production/palletize/palletize-save-dimension-form.html' %}
+                                          {% include 'production/palletize/palletize-create-pallet.html' %}
+                                            <!-- ######################################## end dimensions    ##############################################                        -->
+                                          <section class="panel">
+                                               <div class="col-sm-12 scanner-content">
+                                                     <h2 class="pallettization-title main-pallet-list">Pallet List</h2>
+                                                      <a class="mobile-link"  href="#Pallet-Detail">go to Pallet Detail</a>
+                                                      <div class="form-group section-border">
+                                                          <button data-toggle="modal" data-target="#generated" class="btn btn-info pallet-header-button" id="open_input" type="submit" style="float:left; mergin-left: 0; padding: 0;" onclick="ShowNew()">Create a new pallet</button>
+                                                     </div>
+                                               </div>
+                                          <div id="open-pallet">
+                                               {% include 'production/palletize/palletize_open_and_close_pallet.html' %}
+                                            </div>
+                                          </section>
+                                      </div>
+
+                                      <div class="col-sm-6 scanner-content" id="Pallet-Detail">
+                                        <section class="panel">
+                                              <div class="col-sm-12 scanner-content">
+                                                    <h2 class="pallettization-title main-pallet-list">Pallet Detail</h2>
+                                                    <a class="mobile-link" href="#Pallet-List">go to Pallet List</a>
+                                                   <div class="form-group section-border">
+                                                            <!-- add sn to pallet -->
+                                                               <form class="form-horizontal" id="search" action="{% url 'shipping:add_sn_to_pallet' %}" method="POST" enctype="multipart/form-data">
+
+                                                                   <div class="scanner-content">
+                                                                       <div class="icon-text" >
+                                                                       <div class="" style="margin:0; width:100%;">
+                                                                        <!-- <input type="text" class="form-control form-control-replacement" id="nameValidation" value="scan.." style="color: #bbb8b8;" onchange="myFunction()"/>-->
+                                                                        {% if pallet.pallet_id %}
+                                                                        {% if pallet.status == 1 %}
+
+<!--                                                                           <button id="pallet_button_id" class="btn btn-info" type="button" onclick="SaveSN()"><strong> Get data</strong></button>-->
+<!--                                                                       <input id="repaircode" name="serialnumber" class="form-control mobile-add-sn" type="text" value="" style="color: #bbb8b8;" required placeholder="Scan Serial Number..."/>-->
+
+                                                                            {% for palletserialnumber in pallet.palletserialnumber_set.all %}
+                                                                             {% if forloop.last %}
+                                                                           <input id="serialnumber_json" name="serialnumber_json" class="form-control mobile-add-sn" type="text" value="" style="color: #bbb8b8;" required placeholder="Scan Serial Number..."/>
+
+                                                                            {% endif %}
+                                                                            {% empty %}
+
+                                                                               {% csrf_token %}
+                                                                            <input id="repaircode" onclick="RemoveMessage()" name="serialnumber" class="form-control mobile-add-sn" type="text" value="" style="color: #bbb8b8;" required placeholder="Scan Serial Number..."/>
+
+                                                                             {% endfor %}
+
+                                                                           {% endif %} {% endif %}
+                                                                            {% if pallet.pallet_id %}
+                                                                        {% if pallet.status == 0 %}
+                                                                           <div id="hide-input" class="form-control form-control-replacement"style="opacity: 0;"></div>
+                                                                           {% endif %} {% endif %}
+                                                                       </div>
+                                                                            <input type="hidden" name="current_qty" id="current_qty" class="form-control" value="{{ pallet.current_qty }}">
+                                                                            <input type="hidden" name="model" class="form-control" value="{{ pallet.model }}">
+                                                                            <input type="hidden" name="creator" class="form-control" value="{{ user.get_username }}">
+                                                                            <input type="hidden" name="creator_pallet" class="form-control" value="{{ pallet.creator }}">
+                                                                            <input type="hidden" name="updater" class="form-control" value="{{ user.get_username }}">
+                                                                            {% include 'production/palletize/palletize_hidden_input.html' %}
+                                                                         <span class="span-repair" style="opacity: 0;">
+                                                                           <select name="pallet_id" required id="id_pallet_id" style="display: none;">
+                                                                              <option value="{{ pallet.pallet_id }}" selected="">{{ pallet.pallet_id }}</option>
+                                                                                   {% for pallet in pallet_list %}
+                                                                               <option value="{{ pallet.pallet_id }}">{{ pallet.pallet_id }}</option>
+                                                                               {% endfor %}
+                                                                         </select>
+                                                                            <!--  oninvalid="this.setCustomValidity('Please Enter valid SN')"  -->
+                                                                         <select onchange="getOption(this);" name="serial_number_id" class="col-sm-12" style="width: 100%;" id="id_serial_number">
+                                                                              <option value="">---------</option>
+                                                                                 {% if serialnumber_list %}
+                                                                              {% for serialnumber in serialnumber_list %}
+                                                                               <option value="{{ serialnumber.serial_number }}">{{ serialnumber.serial_number }} <span id="sn_model" style="color: blue;">{{ serialnumber.model }}</span></option>
+                                                                              {% endfor %} {% endif %}
+                                                                            </select>
+                                                                         </span></div>
+                                                                  </div>
+                                                                  <div class="col-sm-5" style="padding-left:0; display: none;">
+                                                                  <button id="add_sn" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;"><strong>&#x271A;&nbsp;Serial Number</strong> </button>
+                                                                 </div>
+                                                             </form>
+                                                       <script>
+                                                           function RemoveMessage(){
+                                                           document.getElementById('myModal1').style.display = "none";
+
+                                                           }
+
+                                                       </script>
+
+                                                        {% if messages %}
+                                                            {% for message in messages %}
+                                                                 <div id="myModal" class="modal-log message-box-bottom" style="padding-top: 0; z-index: 100;">
+                                                                     {% if message.tags %}
+                                                                     <div class="modal-content-{{ message.tags }}">
+                                                                         {% endif %}
+                                                                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                                          <div class="warning-modal-body">
+                                                                             <p>{{ message }}</p>
+                                                                           </div>
+                                                                       </div>
+                                                                    <button style="display: none;" id="myBtn">Open Modal</button>
+                                                                 </div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+                                              </div>
+                                        {% include 'production/palletize/palletize_detail_tabs.html' %}
+                                        </section>
+                                     </div>
+                                      <p id="text1"></p>
+
+                                      <div id="json_message"></div>
+                                  </div>
+                            </div>
+                      </div>
+                  </section>
+              </div>
+            </div>
+     </section>
+</section>
+<!-- container section end -->
+<!-- javascripts -->
+{% load static %}
+<script>
+    $("#serialnumber_json").keydown(function(event ) {
+    if (event.keyCode == 13) {
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+
+        event.preventDefault();
+        const sn = document.getElementById("serialnumber_json").value;
+        document.getElementById("serialnumber_json").click();
+        const button = $(this).attr('id');
+
+        var current = 0;
+        var validate = main.ValidateSN(sn, csrftoken);
+
+
+
+
+
+
+        if(validate.length < 1) {
+        const sn = document.getElementById("serialnumber_json").value;
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        main.SaveSN(sn, csrftoken);
+        }else{
+
+        }
+        }
+
+    });
+
+
+    $("#update-pallet button").keydown(function(event ) {
+     var palletID = document.getElementById("pallet_id_input").value;
+     var palletQty = document.getElementById(palletID).innerText;
+     var palletQty = parseInt(palletQty)- 1;
+     $('#' + palletID).text(palletQty);
+    if (event.keyCode == 13) {
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        event.preventDefault();
+        const sn = $(this).attr('id');
+        console.log('delete test');
+
+        main.DeleteSN(sn, csrftoken);
+
+
+        }
+    });
+
+
+    var x = document.getElementById("last_sku").value;
+    var y = document.getElementById("first_sku").value;
+    if(x === y){
+
+
+    }else{
+     $('#json_message').html('<div id="myModal" class="modal-log message-box-bottom" style="padding-top: 0;"><div class="modal-content-error"><span class="close" data-dismiss="modal" style="z-index: 100;">×</span><div class="warning-modal-body"><p>SKU does not match.</p></div><button style="display: none;" id="myBtn">Open Modal</button></div>');
+    }
+
+</script>
+{% block javascript %}
+<script type="text/javascript">
+function DeleteSN() {
+    const sn = document.getElementById("serialnumber_json").value;
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+
+};
+
+$("#update-pallet button").click(function() {
+   const sn = $(this).attr('id');
+   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+   console.log(sn);
+   main.DeleteSN(sn, csrftoken);
+   var rowID = this.id;
+   $('#row'+ rowID).remove();
+   var palletID = document.getElementById("pallet_id_input").value;
+   var palletQty = document.getElementById(palletID).innerText;
+   var palletQty = parseInt(palletQty)- 1;
+   $('#' + palletID).text(palletQty);
+});
+</script>
+
+{% endblock %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/pallet/pallet.js' %}"></script>
+<script src="{% static 'js/pallet/pallet-json.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/javascript-for-permission.html' %}
+</body>
+
+</html>

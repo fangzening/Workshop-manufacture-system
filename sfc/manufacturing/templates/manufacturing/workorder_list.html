@@ -1,0 +1,188 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% if user.is_authenticated %}
+    <section id="main-content" class="login-wrap">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                    <!--<li><i class="fa fa-laptop"></i><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Management</a></li>-->
+                    <li><i class="fa fa-th-list"></i> Work Order List</li>
+                </ol>
+          </div>
+        </div>
+
+          <div class="row">
+              <div class="col-sm-12">
+                <section class="panel">
+                        <div class="whole whole-table">
+                            <div class="main-content">
+                                <div class="nav-user-search  clearfix header-search-box">
+                                      <div class="nav top-menu top-button">
+                                         <tr class="function-bar">
+                                              <form  class="navbar-form" id="search" action="{% url 'manufacturing:workorder_list' %}" method="get">
+                                                  <th>
+                                                     <select required class="form-control" id="searchID"  name="searchID" style="margin-bottom:2px;" autofocus>
+                                                        <option selected="true" value="">------</option>
+                                                        {% for key,value in search_by.items %}
+                                                            <option value="{{ key }}"
+                                                            {% if key == values.searchID %}
+                                                                selected
+                                                            {% endif %}
+                                                            >{{ value }}</option>
+                                                        {% endfor %}
+                                                     </select>
+                                                  </th>
+                                                  <th>
+                                                    <input name="query" class="form-control search-control" style="margin-bottom: 2px;" type="text" placeholder="WO or SN" value="{{ values.query }}">
+                                                  </th>
+                                                  <th>
+                                                    <select name="status" class="form-control-selection" style="padding-left: 5px;">
+                                                      <option selected="true" value="" > ----- </option>
+                                                      {% for s in status%}
+                                                        <option value="{{s}}" {% if s == values.status %} selected=true {% endif %}> {{s}} </option>
+                                                      {% endfor %}
+                                                    </select>
+                                                  </th>
+                                           </tr>
+                                       </div>
+                                       <tr>
+                                          <th class="btn top-btn-container" style="float: right; left: 0; ">
+                                            <button class="btn btn-info header-button" type="submit" style="width: 170px;">
+                                              Search
+                                            </button>
+                                          </th>
+                                       </tr>
+                                     </form>
+                               </div>
+                            </div>
+                          <div id="maxheight">
+                              <table class="table table-striped table-condensed table-hover">
+                                    <tbody>
+                                      {% if workorder_list %}
+                                          <tr class="table-header">
+                                              {% if '/manufacturing/tool_box/workorder_list_reverse' in request.path %}
+                                             <th> <button class="icon-text"> <a href="{% url 'manufacturing:workorder_list' %}">&#8595; </a> <span>From Oldest</span></button></th>
+
+                                                 {% elif '/manufacturing/tool_box/workorder_list' in request.path %}
+                                             <th> <button class="icon-text"> <a href="{% url 'manufacturing:workorder_list_reverse' %}">&#8593; </a> <span>From Latest</span></button> </th>
+                                                 {% endif %}
+                                              <th style="width: 180px;"><i class="icon_grid-3x3"></i> &nbsp; Work Order</th>
+                                              <th style="width: 180px;"><i class="icon_drawer_alt"></i> &nbsp; Model</th>
+                                              <th><i class="icon_cog"></i> &nbsp; Status</th>
+                                              <th><i class="icon_drawer_alt"></i> &nbsp; Line Name</th>
+                                              <th><i class="icon_archive_alt"></i> &nbsp; Target Qty</th>
+                                              <th><i class="icon_archive_alt"></i>&nbsp; Scheduled Date</th>
+                                              <th style="width: 220px;"><i class="icon_cogs"></i>&nbsp; Actions</th>
+                                          </tr>
+                                        {% for workorder in workorder_list %}
+                                          <tr>
+                                               {% if '/manufacturing/tool_box/workorder_list_reverse' in request.path %}
+                                              <th><p>&nbsp;&nbsp;{{ forloop.counter }}</p></th>
+                                              {% elif '/manufacturing/tool_box/workorder_list' in request.path %}
+                                              <th><p>&nbsp;&nbsp;{{ forloop.revcounter }}</p></th>
+                                              {% endif %}
+                                              {% comment %}
+                                              <th><button id="myBtn" style="width: 100%; padding: 0 12px; height: auto;" class="btn" data-toggle="modal" data-target="#{{ workorder.pk }}" ><p>{{ workorder.pk }}</p></button></th>
+                                              <form action="{% url 'manufacturing:workordermanager-wo-detail' workorder.pk %}" method="get">
+                                              {% csrf_token %}
+                                              </form>
+                                              {% endcomment %}
+                                               <th><a target="_blank" class="btn table-btn-a" href="{% url 'manufacturing:workordermanager-wo-detail' workorder.pk %}?searchID">
+                                                   <p class="wo-p" style="font-size: 12px; color: #00a0df;">{{ workorder.pk }}</p></a></th>
+                                               <th class="column-th"> <p>{{ workorder.skuno }}</p></th>
+                                               <th class="column-th"> <p>{{ workorder.status_id.name }}</p></th>
+                                               <th class="column-th"><p>{{ workorder.line_name }}</p></th>
+                                               <th class="column-th"><p>{{ workorder.target_qty }}</p> </th>
+                                               <th><p>{{ workorder.schedule_date }}</p> </th>
+                                                {% if workorder_list %}
+                                                      <div class="modal" id="{{ workorder.pk }}" role="dialog">
+                                                         <div class="modal-content-detail">
+                                                             <div class="row">
+                                                                 <div class="col-sm-12">
+                                                                    <section class="panel">
+                                                                          <div class="whole whole-status">
+                                                                          {% comment %}{% include 'manufacturing/include/workordermanager-wo-detail' %}{% endcomment %}
+                                                                           {% comment %}<p style="text-align: center;">Work Order Detail: {{ workorder }}</p>
+                                                                             <div class="" >
+                                                                                  <div class="table-header nav-user-search  clearfix wo-modal">
+                                                                                      <div class="popup-title"><strong>Part Number</strong></div>
+                                                                                      <div class="popup-title"><strong>Part Desc</strong></div>
+                                                                                      <div class="popup-title"><strong>Line Name</strong></div>
+                                                                                      <div class="popup-title"><strong>Operator</strong></div>
+                                                                                  </div>
+                                                                                  {% for wodetail in workorder.workorderdetail_set.all %}
+                                                                                   <div class="table-header nav-user-search  clearfix wo-modal">
+                                                                                     <div class="popup"><a href=""> <p>{{ wodetail.model_id }}</p></a></div>
+                                                                                     <div class="popup"> <p>{{ wodetail.model_desc }}</p></div>
+                                                                                     <div class="popup"> <p> {{ wodetail.line_name }}</p></div>
+                                                                                     <div class="popup"> <p>{{ wodetail.creator }}</p> </div>
+                                                                                   </div>
+                                                                                  {% empty %}
+                                                                                         <div class="modal-content"  style="width: 40%; margin-top: 1rem;">
+                                                                                              <div class="warning-modal-body">
+                                                                                                 <p>No related data found</p>
+                                                                                               </div>
+                                                                                           </div>
+                                                                                        <button style="display: none;" id="myBtn">Open Modal</button>
+                                                                                 {% endfor %}
+                                                                             </div>{% endcomment %}
+                                                                          </div>
+                                                                    </section></div></div>
+                                                              {% else %}
+                                                                </div>
+                                                                </div>
+                                                                  <div id="myModal" class="modal-log">
+                                                                     <div class="modal-content"  style="width: 40%;">
+                                                                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                                          <div class="warning-modal-body">
+                                                                             <p>No related data found</p>
+                                                                           </div>
+                                                                       </div>
+                                                                    <button style="display: none;" id="myBtn">Open Modal</button>
+                                                                 </div>
+                                                              {% endif %}
+                                                  <script src="{% static 'js/manufacturing/workorder-detail.js' %}"></script>
+                                                  <th class="column-action">
+                                                      {% load static %}
+
+                                                      {% include 'manufacturing/workorder_status.html' %}
+                                                      {% include 'manufacturing/workorder_status-release.html' %}
+                                                      {% include 'manufacturing/workorder_status-generate-sn.html' %}
+                                                      {% include 'manufacturing/workorder_status-reimport.html' %}
+                                                    </th>
+                                               </tr>
+                                        {% endfor %}
+                                  </tbody>
+                              </table>
+                            {% include 'manufacturing/include/pagination.html' %}
+                          </div>
+                        </div>
+                        {% include 'manufacturing/_modal.html' %}
+                        {% else %}
+                         <div id="myModal" class="modal-log">
+                             <div class="modal-content"  style="width: 40%;">
+                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                  <div class="warning-modal-body">
+                                     <p>No related data found</p>
+                                   </div>
+                               </div>
+                            <button style="display: none;" id="myBtn">Open Modal</button>
+                         </div>
+                        {% endif %}
+                 </section>
+              </div>
+           </div>
+    </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+{% endif%}
+{% endblock %}
+</body>
+</html>

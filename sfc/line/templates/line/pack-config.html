@@ -1,0 +1,66 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% if user.is_authenticated %}
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <ol class="breadcrumb">
+              <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+              <li><i class="fa fa-laptop"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>
+              <li><i class="fa fa-th-list"></i>Pack Configuration</li>
+            </ol>
+          </div>
+        </div>
+
+       <div class="row">
+          <div class="col-sm-12">
+            <section class="panel">
+                <div class="whole" style="background-color: #eeeeee;">
+                    <div class="main-content">
+                        <div class="nav-user-search  clearfix header-search-box">
+                             <div class="nav-icon-home center-header-icon">
+                              {% load static %}
+                              <div><img class="fit-picture" src="{% static 'svg/all-list.svg' %}" alt="icon"></div>
+                                      <div class="header-title">Pack</div>
+                                  <div>
+                             </div>
+                             </div>
+                             <ul class="nav top-menu top-button">
+                               <li>
+                                 <form  class="navbar-form" id="search" action="" method="get">
+                                  <div class="nav search-row list-title-search" id="top_menu">
+                                    <div><input name="q" class="form-control" type="text" placeholder=" Search"></div>
+                                       <div style="width: 30px;">
+                                           <button class="nav-user-search-icon" type="submit" style="padding: 0;">
+                                               <i _ngcontent-crw-c2="" style="font-size: 3rem;" class="icon_search-2 search-icon text-muted i-Magnifi-Glass1"></i>
+                                           </button>
+                                       </div>
+                                  </div>
+                                 </form>
+                               </li>
+                              </ul>
+                              <div id="top-btn-container" class="btn top-btn-container">
+                                <form action= "{% url 'line:create-pack' %}" method="GET">
+                                  <button type="submit" class="btn btn-primary" style="color: #fff;" >Create</button>
+                                </form>
+                              </div>
+                        </div>
+                     </div>
+                     {% include 'line/pack-config-list.html' %}
+                </div>
+              </section>
+          </div>
+       </div>
+      </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% endif%}
+</body>
+</html>
+{% endblock %}

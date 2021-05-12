@@ -1,0 +1,65 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/maskconfig/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!-- <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+            <li><i class="fa fa-th-list"></i><a href="{% url 'line:route' %}">Route List</a></li>
+            <li><i class="fa fa-th-list"></i><a href="/line/route/stations/?route_id={{route}}">Station Manager</a></li></li>
+            <li><i class="fa fa-square-o"></i><a href="/line/route/stations/rules/?station={{station}}&route_id={{route}}">Rules</a></li></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body">
+                <form method="POST" action= "{% url 'rules:create-rule' %}">
+                    <section class="login-wrap mask-container">
+                    {% csrf_token %}
+                         {{ form.non_field_errors }}
+                         {{ form.source.errors }}
+                          {{ form.source }}
+                        <div class="form-group">
+                             <label for="searchID">Model:</label>
+                             <input id="search_model_input" name="" class="form-control form-control-replacement" type="text" value="" style="color: #bbb8b8;" required placeholder="Search for models..."/>
+                            <!-- <input class="form-control" type="text" name="model" maxlength="20" required="" id="id_model">-->
+                             <select required onchange="getModelRoute(this);" name="material_group" class="form-control" id="searchID">
+                                <option value="" selected="">---------</option>
+                                  {% if material_groups %}
+                                     {% for material_group in material_groups %}
+                                     <option style="color: #222;" class="query-button" value="{{ material_group }}">{{ material_group }}</option>
+                                    {% endfor %}
+                                  {% endif %}
+                                   {% if form.errors %}
+                                      <div style="border: 1px solid grey; padding: 0.2rem 1rem; border-radius: 5px; background: #A51F28; color: #fff;"><p><strong>{{form.model.value}} exist in the database!</strong></p></div>
+                                   {% endif %}
+                              </select>
+                              <label for="searchID">Scan Type</label>
+                              <select required name="scan_type" class="form-control">
+                                 <option selected="true" value="">All</option>
+                                 <option value="CSERIALNO">CSERIALNO</option>
+                                 <option value="CUSTPARTNO">CUSTPARTNO</option>
+                                 <option value="OFFLINE">OFFLINE</option>
+                              </select>
+                           <input type="hidden" name="station" value="{{station}}">
+                           <input type="hidden" name="route" value="{{route}}">
+                        </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    </section>
+                 </form>
+              </div>
+          </section>
+        </div>
+      </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}
+<script src="{% static 'js/rules/rules-mask.js' %}"></script>

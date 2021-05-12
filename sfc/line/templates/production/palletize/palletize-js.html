@@ -1,0 +1,81 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  var textbox = $("#textbox1");
+  textbox.change(function() {
+     $("#table1").find("td").each(function(){
+        if($(this).html()==textbox.val()){
+           alert(textbox.val());
+        };
+     })
+  });
+});
+</script>
+<script>
+var tds;
+$('tr').each(function(i, item){
+    tds = $(this).find('td');
+    tds.each(function(j, elem1){
+        tds.each(function(k, elem2){
+            if($(elem1)[0] != $(elem2)[0] && $(elem1).text() == $(elem2).text()){
+                $(elem1).addClass('cl');
+            }
+        });
+    });
+});
+</script>
+<script>
+ $(document).ready(function() {
+    var tableRows = $("#sortable tbody tr"),
+        // we know exactly how large to make it, so don't use []
+        htmlStrings = new Array(tableRows.length),
+        i, j, current, comparing;
+
+    for (i = 0; i < tableRows.length; i++) {
+        current = htmlStrings[i];
+        // get each innerHTML just once
+        if (!current) {
+            current = {
+                html: tableRows.get(i).innerHTML,
+                isDup: false
+            };
+            htmlStrings[i] = current;
+        }
+
+        // if we already know it's a dup, so we're done
+        if (current.isDup) { continue; }
+
+        // start j at i+1 since we've already looked at the previous i rows
+        for (j = i + 1; j < tableRows.length; j++) {
+            // could stay DRY and put this into a function;
+            // doing so may decrease performance (not benchmarked)
+            comparing = htmlStrings[j];
+            if (!comparing) {
+                comparing = {
+                    html: tableRows.get(j).innerHTML,
+                    isDup: false
+                };
+                htmlStrings[j] = comparing;
+            }
+
+            if (comparing.isDup) { continue; }
+
+            // It comes to this: we must actually compare now.
+            if (current.html === comparing.html) {
+                current.isDup = true;
+                comparing.isDup = true;
+
+                // mark it
+                tableRows.eq(j).css('backgroundColor', '#a5bff4');
+            }
+        }
+
+        if (current.isDup) {
+            // mark it
+            tableRows.eq(i).css('backgroundColor', '#a5bff4');
+        }
+
+    }
+});
+</script>

@@ -1,0 +1,45 @@
+<section class="panel">
+   <div class="panel-body" style="height: 380px; overflow-y: scroll; padding: 0;">
+        <div class="tab tabs">
+            <button class="tablinks active" onclick="openForm(event, 'ItemDetail')" id="defaultOpen">QC Inspection Items</button>
+            <button class="tablinks" onclick="openForm(event, 'QcRelatedDoc')">QC related document</button>
+        </div>
+
+        <div id="ItemDetail" class="tabcontent">
+            <div class="col-md-12 mobile-tab-table">
+                 <table class="table table-striped table-bordered table-sm table-pallet"  style="margin:0; padding: 0;" id = 'inspection_detail_table'>
+                     <thead>
+                      <tr class="table-header">
+                           <th>Line name</th>
+                           <th>Inspection item</th>
+                           <th>Inspection level</th>
+                           <th>AQL</th>
+                           <th>Inspection Tool</th>
+                           <th>Inspection Standard</th>
+                           <th>Sampling number</th>
+                           <th>Inspection Result</th>
+                           <th>AC</th>
+                           <th>RE</th>
+                      </tr>
+                     </thead>
+<!--                     <tbody>-->
+<!--                     <tr>-->
+<!--                         <td>data</td>-->
+<!--                         <td>data</td>-->
+<!--                         <td></td>-->
+<!--                         <td></td>-->
+<!--                         <td></td>-->
+<!--                         <td></td>-->
+<!--                         <td></td>-->
+<!--                     </tr>-->
+<!--                     </tbody>-->
+                </table>
+           </div>
+        </div>
+
+         <div id="QcRelatedDoc" class="tabcontent">
+             <div class="table-header">2</div>
+        </div>
+   </div>
+</section>
+   <script src="{% static 'js/manufacturing/tab.js' %}"></script>

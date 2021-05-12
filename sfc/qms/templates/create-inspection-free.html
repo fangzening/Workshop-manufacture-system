@@ -1,0 +1,88 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/maskconfig/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!-- <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+            <li><i class="fa fa-th-list"></i><a href="{% url 'qms:inspection-free' %}">Inspection Free</a></li>
+
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body">
+
+                <form method="POST">
+                  
+                      <div  class="login-wrap mask-container">
+                        <label for="searchID_material">Manufacture Material Numbers:</label>
+                            <input id="scan_material_input" name="" class="form-control form-control-replacement" type="text" value="" style="color: #bbb8b8;"  placeholder="Search for materials..."/>
+                               <section>
+                                    {% csrf_token %}
+                                    {{ form.non_field_errors }}
+                                    {{ form.source.errors }}
+                                     {{ form.source }}
+                                    <div class="form-group">
+                                        <select onchange="getMaterial(this);" name="material_manufacture_data" class="form-control" required id="searchID_material">
+                                         <option value="">---------</option>
+                                        {% if manufacturing_materials %}
+                                        {% for material in manufacturing_materials %}
+                                          
+                                            <option style="color: #222;" {% if material.manufacture_part_no == inspectionfree.manufacture_part_no %} selected {% endif %} class="query-button" value="{{ material.manufacture_part_no }}">{{ material.manufacture_part_no }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% if form.errors %}
+                                         <div style="border: 1px solid grey; padding: 0.2rem 1rem; border-radius: 5px; background: #A51F28; color: #fff;"><p><strong>{{form.model.value}} exist in the database!</strong></p></div>
+                                        {% endif %}
+                                        </select>
+                                   </div>
+
+                           </section>
+                           <label for="searchID">Hon Hai Material Numbers:</label>
+                           <input id="scan_model_input" name="" class="form-control form-control-replacement" type="text" value="" style="color: #bbb8b8;"  placeholder="Search for materials..."/>
+                              <section>
+                                   {% csrf_token %}
+                                   {{ form.non_field_errors }}
+                                   {{ form.source.errors }}
+                                    {{ form.source }}
+                                   <div class="form-group">
+                                       <select onchange="getModel(this);" name="model" class="form-control" required id="searchID">
+                                        <option value="">---------</option>
+                                       {% if material_masters %}
+                                       {% for materialmaster in material_masters %}
+                                       <option style="color: #222;" class="query-button"{% if materialmaster == inspectionfree.material_hh_part_number %} selected {% endif %} value="{{ materialmaster.pk }}">{{ materialmaster.pk }}</option>
+                                       {% endfor %}
+                                       {% endif %}
+                                       {% if form.errors %}
+                                        <div style="border: 1px solid grey; padding: 0.2rem 1rem; border-radius: 5px; background: #A51F28; color: #fff;"><p><strong>{{form.model.value}} exist in the database!</strong></p></div>
+                                       {% endif %}
+                                       </select>
+                                  </div>
+                                  <input type="hidden" name="action" value="update" name="update">
+                              <button id="model_button"  class="btn btn-primary" type="submit">Submit</button>
+                          </section>
+                        </div>
+                            <!-- <input class="form-control"  type="text" name="material_manufacture_data" maxlength="255" required="" {% if tool %} value="{{free.material_manufacture_data}}" {% endif %} id="id_material_manufacture_data">
+
+                            <label style="font-size:18px;" for="id_material_hh_part_number">Hon Hai Part Number</label>
+                            <input class="form-control"  type="text" name="material_hh_part_number" maxlength="255" required="" {% if tool %} value="{{free.material_hh_part_number}}" {% endif %} id="id_material_hh_part_number">
+                            <input type="hidden" name="action" value="update" name="update">     -->
+
+                 </form>
+                </div>
+             </section>
+            </div>
+        </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}
+<script src="{% static 'js/maskconfig/mask.js' %}"></script>

@@ -1,0 +1,89 @@
+{% load static %}
+<link href="{% static 'css/qms.css' %}" rel="stylesheet">
+
+<div id="maxheight">
+
+      <table class="table table-striped table-advance table-hover table-flex table-margin">
+          <tbody>
+            <tr id="table-header" class = "column table-header">
+
+                <th> <button class="icon-text"> <a href="{% url 'maskconfig:home' %}">&#8595; </a> <span>Order</span></button></th>
+                 <th></th>
+                 <th ><i class="icon_grid-3x3"></i> &nbsp; Form Code</th>
+                 <th ><i class="icon_profile"></i> &nbsp; Model</th>
+                 <th><i class="icon_check"></i> &nbsp; Inspected</th>
+                 <th><i class="icon_cogs"></i>&nbsp; Material Qty</th>
+                <th><i class="icon_cogs"></i>&nbsp; Status</th>
+                <th><i class="icon_cogs"></i>&nbsp; Action</th>
+                 <th>&nbsp;</th>
+            </tr>
+          </tbody>
+            {% if waiting_list %}
+             {% for waiting in waiting_list %}
+            <tr class="column">
+                      <th><p>&nbsp;&nbsp;{{ forloop.counter }}</p></th>
+
+                        <iframe name="formDestination" style="display: none;"></iframe>
+                        <form action="" method="post" enctype="multipart/form-data" target="formDestination">
+                            <th><input type="hidden" name="chk"/>&nbsp;&nbsp;</th>
+                            <th class="column-action">{{ waiting.incoming_list_id }}</th>
+                            <th class=""> <p>{{ waiting.model_id }}</p></th>
+                            {% if waiting.inspected == 0 %}
+                            <th class=""><p>Not Inspected</p></th>
+                            {% elif waiting.inspected == 1 %}
+                            <th class=""><p>Inspected</p></th>
+                            {% endif %}
+                             <th class=""><p>{{ waiting.material_qty}}</p></th>
+                            {% if inspection_list %}
+                            {% for inspection in inspection_list %}
+                            {% ifequal waiting.pk inspection.pk %}
+                            {% if inspection.status == 0 %}
+                             <th><p>Waiting</p></th>
+                            {% else %}
+                            <th><p>Completed</p></th>
+                            {% endif %}{% endifequal %}{% endfor %}{% endif %}
+                             <th class="column-action">
+                         </form>
+                         <div class="mask-ul" style="display: flex; justify-content: center;">
+                             <div>
+                                {% if inspection_list %}
+                                {% for inspection in inspection_list %}
+                                {% ifequal waiting.pk inspection.pk %}
+                                {% if inspection.status == 0 %}
+                              <div class="icon-text">
+                                 <img style="width: 22px; margin-left: 3px;" src="{% static 'svg/exclamation.svg' %}" alt="icon">
+                                <span style="text-align: center; font-weight: 400;">Waiting</span></div>
+                              {% else %}
+
+                              <form onsubmit="return confirm('Confirm delete?');" action="{% url 'qms:waiting-list-delete' waiting.incoming_list_id %}" method="post" style="display: inline;">
+                              {% csrf_token %}
+                              <button class="icon-text">
+                                 <img style="width: 22px; margin-left: 3px;" src="{% static 'svg/delete.svg' %}" alt="icon">
+                                <span>Completed</span></button></form>
+                              {% endif %}{% endifequal %}{% endfor %}{% endif %}
+                          </div>
+                         </div>
+                   </th>
+                   <th>&nbsp;</th>
+            </tr>
+           {% endfor %}
+            {% endif %}
+
+              <table  class="table table-striped table-advance table-hover table-flex">
+                <tbody>
+                   <div class = "column">
+                        <!-- ############## page  ############## -->
+                        {% include 'manufacturing/include/pagination.html' %}
+                        <!-- #################### end page #########   -->
+                   </div>
+                 </tbody>
+            </table>
+        <form id="hi" action="/config" method="POST"></form>
+        </div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/inline.js' %}"></script>
+
+
+
+

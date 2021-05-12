@@ -1,0 +1,64 @@
+{% load static %}
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    {% include 'manufacturing/include/error-modal-style.html' %}
+<div id="maxheight">
+    {% if group_list %}
+   <table class="table table-striped  table-advance table-hover">
+        <tbody>
+              <tr class="table-header">
+                  <th> &nbsp; </th>
+                  <th><i class="icon_profile"></i> &nbsp; Group/Type Name</th>
+                  <th><i class="icon_cogs"></i>&nbsp; Others</th>
+              </tr>
+             {% for group in group_list %}
+                 <form action="{% url 'manufacturing:user_group_update' group.id  %}" method="post" enctype="multipart/form-data" target="formDestination">
+                     {% csrf_token %}
+                     {{ form.non_field_errors }}
+                     {{ form.source.errors }}
+                     {{ form.source }}
+                  <tr>
+                       <th> &nbsp; </th>
+                       <th class="edit-save-1 hover" id="edit-save-1">
+                           <input type="text" class="edit-input-1 edit-row form-control form-control-input" style="width: 35%;" name="name" value="{{ group.name }}">
+                       </th>
+                       <th class="column-action">
+                          {% load static %}
+                      <button type="submit" id="save-button-1"  style="background: none; border: none;" class="icon-text-mask icon-text" >
+                        <img  style="width: 22px; margin-left: 3px;" src="{% static 'svg/submit-id.svg' %}" alt="icon"><span>Save</span>
+                      </button>
+                  </form>
+
+                   {% if perms.manufacturing.can_user_delete_user %}
+                    <form onsubmit="return confirm('Confirm delete?');" action="{% url 'manufacturing:user-group-delete' group.id %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                    <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                      src="{% static 'svg/delete.svg' %}" alt="icon"><span>Delete</span></button>
+                    </form>
+                    {% endif %}
+
+                     {% if perms.manufacturing.can_add_permission %}
+                    <form action="{% url 'manufacturing:user_group_update' group.id  %}" method="get" style="display: inline;">
+                    <button class="icon-text"><img style="width: 22px; margin-left: 3px;"
+                     src="{% static 'svg/generate.svg' %}" alt="icon"><span style="z-index: 10;">Modify permission</span></button></form>
+                    {% endif %}
+                    </th>
+                  </tr>
+            {% endfor %}
+            {% else %}
+                <div id="myModal" class="modal-log">
+                     <div class="modal-content"  style="width: 40%;">
+                         <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                          <div class="warning-modal-body">
+                             <p>No related data found</p>
+                           </div>
+                       </div>
+                    <button style="display: none;" id="myBtn">Open Modal</button>
+                 </div>
+            {% endif %}
+        </tbody>
+   </table>
+</div>
+{% load static %}
+  <!-- javascripts -->
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/inline.js' %}"></script>

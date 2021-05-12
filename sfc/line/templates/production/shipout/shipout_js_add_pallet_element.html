@@ -1,0 +1,143 @@
+<script type="text/javascript">
+var datap = new Array(); // creating array
+var data = new Array();
+
+function sku_match(){
+    var SKUListStr = document.getElementById('SKU-list').innerText;
+    var SKUinTable = document.getElementById('display-sku').value;
+    var NewSS = String(SKUListStr);
+    var FineSku = NewSS.includes(SKUinTable);
+    if(FineSku || SKUListStr =='SKU'){
+    document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content-success"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The SKU No does not match</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+    }else{
+    document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The SKU No does not match</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+    }
+}
+
+function add_pallet_element(){
+    document.getElementById('btnGetCount').style.display = "none";
+    document.getElementById('total_scan').innerText = '0';
+    document.getElementById('total_row').innerText = '0';
+    document.getElementById('messageSKU').style.display = 'none';
+    document.getElementById('errorSection').style.display = 'none';
+    document.getElementById('count-number1').innerText = '';
+    document.getElementById('t1').value= '';
+
+    var getPalletValue = document.getElementById('scan_pallet_input').value;
+    var getPalletOption = document.getElementById('id_scan_pallet').value;
+    if(! getPalletOption){
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style=""><div class="modal-content"><div class="warning-modal-body"><p>Pallet <strong>' + getPalletValue + '</strong> does not exist.</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+        document.getElementById('content').innerHTML =
+        '<table id="save_pallet" class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; table-layout: fixed;">'
+        + '<tbody id="" class=" panel-body" style="height: 350px; overflow-y: scroll; padding: 0; margin: 0;">'
+        + '<tr class="table-header" > <th class="col-sm-3">Pallet</th> <th class="col-sm-3">SKU No</th> <th class="col-sm-3">SN</th></tr>'
+        + '<tr id="myUL" style="padding: 0; margin: 0; height: 250px; overflow-y: scroll;"></tr>'
+        + '</tbody></table>';
+    }
+
+    var SKUListStr = document.getElementById('SKU-list').innerText;
+    var SKUinTable = document.getElementById('display-sku').value;
+    var NewSS = String(SKUListStr);
+    var FineSku = NewSS.includes(SKUinTable);
+    document.getElementById("disp").innerHTML = " ";
+    var x = document.getElementById("id_scan_pallet").value;
+    var palletAll = document.getElementById("pallet_all");
+    var palletContent = document.getElementById('content');
+
+    document.getElementById("pallet_value").innerHTML = x;
+    document.getElementById("content").innerHTML = document.getElementById("pallet-option-value").innerHTML;
+
+    document.getElementById("pallet-option-value").style.display = "none";
+    palletAll.style.display = "none";
+    window.location = document.getElementById("id_scan_pallet").value;
+    document.getElementById('pallet_save_value').value = document.getElementById("scan_pallet_input").value;
+
+    var totalRowCount = 0;
+    var rowCount = 0;
+    var table = document.getElementById("pallet-option-value");
+    var rows = table.getElementsByTagName("tr")
+    for (var x = 0; x < rows.length; x++) {
+        totalRowCount++;
+        if (rows[x].getElementsByTagName("td").length > 0) {
+            rowCount++;
+        }
+    }
+    var countNumber = totalRowCount -1;
+    var getPalletID = document.getElementById("get_pallet_id").innerText;
+    document.getElementById("count-number").value = countNumber;
+    document.getElementById("count-number1").innerText = "";
+
+    var currentSKU = document.getElementById("sku").value;
+    var selectSKU = document.getElementById("display-sku").value;
+
+    if(currentSKU == selectSKU || !currentSKU){
+    datap.push(document.getElementById('t1').value);
+    document.getElementById("scan-sn-input").style.display = "block";
+
+    plist();
+    }
+    else if(currentSKU != selectSKU){
+    document.getElementById("scan-sn-input").style.display = "none";
+    document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style=""><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The SKU does not match.</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+    }
+}
+
+function plist(){
+    var str='';
+    str = '';
+    for (i=0;i<data.length;i++)
+    {
+    // str += i + ':'+data[i] + "<br >";
+    str = ' ' +  data[i] ;
+    }
+
+    document.getElementById('disp').innerHTML=str; // Display the elements of the array
+    document.getElementById("disp").innerHTML = "";
+}
+</script>
+<script>
+function TorF() {
+    var strAll = String(document.getElementById('pallet_sn_all').innerText);
+    var t1Value = document.getElementById('id_scan_sn').value;
+    var n = strAll.includes(t1Value);
+    document.getElementById("valid_match").innerHTML = n;
+    if (n){
+    document.getElementById("valid_match").innerHTML = '';
+    }else{
+    document.getElementById("valid_match").innerHTML = '';
+    }
+}
+
+document.addEventListener("click", function(){
+    var strAll = String(document.getElementById('pallet_sn_all').innerText);
+    var t1Value = document.getElementById('t1').value;
+    var n = strAll.includes(t1Value);
+
+    document.getElementById("valid_match").innerHTML = n;
+    if (n){
+    document.getElementById("valid_match").innerHTML = '';
+    }else if(!n){
+    document.getElementById("valid_match").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content">'
+    + '<div class="warning-modal-body"><p>SN: <strong>' + t1Value  + ' </strong>not found.</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+    }else{
+    document.getElementById("valid_match").style.display = 'none';
+    }
+});
+
+</script>
+<script>
+function gotosite() {
+    window.location = document.getElementById("id_salesorder").value;
+}
+
+
+function goGetPallet() {
+    window.location = document.getElementById("id_scan_pallet").value;
+
+}
+
+function goGetSN() {
+    window.location = document.getElementById("id_scan_sn").value;
+
+}
+</script>

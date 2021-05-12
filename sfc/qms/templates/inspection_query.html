@@ -1,0 +1,43 @@
+<div class="modal" id="generated" role="dialog">
+     <div class="row whole whole-status modal-content-detail modal-p">
+          <p> Query</p>
+          <div class="modal-button-container">
+<!--             <form name="create" class="form-horizontal modal-scanner-version" action="" method="POST" enctype="multipart/form-data">-->
+                {% csrf_token %}
+
+
+                    <div  class="col-sm-3">
+                        <label>Model: </label>
+                    </div>
+                    <div  class="col-sm-9">
+                         <input id="query_input" name="" class="form-control" type="text" value="" style="color: #bbb8b8;" required placeholder="Search for query ..."/>
+                            <section>
+                                 <div class="form-group" style="display: none;">
+                                     <select onchange="getQuery(this);" name="model" class="form-control" id="searchQuery">
+                                         <option value="">---------</option>
+                                         <option style="color: #222;" class="query-button" value="">model-1</option>
+                                         <option style="color: #222;" class="query-button" value="">model-2</option>
+                                         <option style="color: #222;" class="query-button" value="">model-3</option>
+                                         <option style="color: #222;" class="query-button" value="">model-4</option>
+                                         <option style="color: #222;" class="query-button" value="">model-5</option>
+                                         <option style="color: #222;" class="query-button" value="">model-6</option>
+                                     </select>
+                                </div>
+                        </section>
+                    </div>
+
+
+                <div class="flex-button flex-button-qms">
+
+                    <button class="nav-user-search-icon btn btn-error modal-button-red" type="submit" data-dismiss="modal">Cancel</button>
+                    <button class="nav-user-search-icon btn btn-primary modal-button-blue" type="submit">Confirm</button>
+                </div>
+
+<!--             </form>-->
+          </div>
+     </div>
+</div>
+
+
+
+

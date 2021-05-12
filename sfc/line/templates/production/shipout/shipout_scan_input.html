@@ -1,0 +1,27 @@
+<!--   ############################# scan so ###############################################-->
+           <div class="col-sm-12 shipout-input scanner-content shipout-input-scan">
+               <div class="icon-text col-sm-6 shipout-input " style="merge-bottom: 5px;">
+                 <input id="repaircode" name="serialnumber" class="form-control form-control-replacement" type="text" value="{{ salesorder.salesorder_id }}" style="color: #bbb8b8;" required placeholder="Scan SalesOrder..."/>
+                     <span class="span-repair">
+                       <select onchange="getOption(this);" name="serial_number_id" required="" class="col-sm-12" style="width: 100%;" id="id_salesorder">
+                          <option value="">---------</option>
+                             {% if salseorder_list %}
+                          {% for salesorder in salseorder_list %}
+                           <option value='{% url "shipping:ship_out_detail" salesorder.salesorder_id  %}'>{{ salesorder.salesorder_id }}</option>
+
+                          {% endfor %} {% endif %}
+
+                        </select>
+                     </span>
+                </div>
+               <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px;">
+                  <button id="so_button" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onclick="gotosite()"><strong>&nbsp;Sales Order </strong> </button>
+               </div>
+           </div>
+{% load static %}
+<script src="{% static 'js/ship_out/jquery-1.7.1.min.js' %}"></script>
+<script>
+function gotosite() {
+    window.location = document.getElementById("id_salesorder").value;
+}
+</script>

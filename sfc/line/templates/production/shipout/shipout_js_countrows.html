@@ -1,0 +1,200 @@
+ <script type="text/javascript">
+       var datarow = new Array();
+       var datanumber = new Array();
+       var datasku = new Array();
+
+       var palletID = document.getElementById('pallet_save_value');
+       var rowNO = document.getElementById("count-number");
+
+
+        function CountRows() {
+        document.getElementById('errorSection').style.display = "none";
+        document.getElementById('valid_match').innerText = '';
+        var SKUinTable = document.getElementById('get_pallet_sku').innerHTML;
+        document.getElementById("sku_filter_detail").value = SKUinTable;
+        document.getElementById("data-table").style.display = "table";
+
+
+        var PalletListStr = document.getElementById('plist').innerHTML;
+        var NewPS = String(PalletListStr);
+        var PalletId = document.getElementById('pallet_save_value').value;
+
+        var inputTabSKU =  document.getElementById("sku_filter_detail").value;
+        var remainQty = inputTabSKU + '-remain';
+        var requestQty = inputTabSKU + '-request';
+
+        var newRemainQty = String(remainQty);
+        var newRequestQty = String(requestQty);
+        var currentQty = String(inputTabSKU);
+
+        var IntRequestQty = document.getElementById(newRequestQty).innerHTML;
+        var newIntRequestQty = parseInt(IntRequestQty);
+
+        var IntCurrentQty = document.getElementById(currentQty).innerHTML;
+        var newIntCurrentQty = parseInt(IntCurrentQty);
+
+        var IntRemainQty =  document.getElementById(newRemainQty).innerHTML;
+        var newIntRemainQty = parseInt(IntRemainQty);
+
+
+        var rowNO = document.getElementById("count-number").value;
+        var IntrowNO =  parseInt(rowNO);
+        var NrowNo = Number(rowNO);
+
+
+
+        var n = NewPS.includes(PalletId);
+        if (n) {
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The pallet is on the saved list</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+
+        }
+
+        var result = String(n);
+
+        if(palletID.value !="" && rowNO.value != ""  && n != true && (IntrowNO + newIntCurrentQty ) <= IntRequestQty ){
+
+        document.getElementById('valid_match').innerText = '';
+        datarow.push(document.getElementById('pallet_save_value').value); // adding element to array
+        datanumber.push(document.getElementById("count-number").value);
+        datasku.push(document.getElementById("pallet_sku").value);
+
+        document.getElementById('pallet_save_value').value='';
+        document.getElementById('count-number').value='';
+
+        pallettable();
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content-success"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>Saved pallet</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+
+        }else if(palletID.value =="" && rowNO.value == "" ) {
+        document.getElementById('valid_match').innerText = '';
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The pallet is saved</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+        }else if (n) {
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The pallet is on the saved list</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+
+
+
+        }else if((IntrowNO + newIntCurrentQty) > IntRequestQty){
+       document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The total amount exceeds the request qty</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+        }else{
+        document.getElementById("count-number1").innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The SKU might not in<strong>{{ salesorder.salesorder_id }}</strong>></p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+
+       }
+        }
+
+
+        function pallettable(){
+        document.getElementById('count-number1').innerText = '';
+
+        var inputTabSKU =  document.getElementById("sku_filter_detail").value;
+        var remainQty = inputTabSKU + '-remain';
+        var requestQty = inputTabSKU + '-request';
+
+        var newRemainQty = String(remainQty);
+        var newRequestQty = String(requestQty);
+        var currentQty = String(inputTabSKU);
+
+        var IntRequestQty = document.getElementById(newRequestQty).innerHTML;
+        var newIntRequestQty = parseInt(IntRequestQty);
+
+        var IntCurrentQty = document.getElementById(currentQty).innerHTML;
+        var newIntCurrentQty = parseInt(IntCurrentQty);
+
+        var IntRemainQty =  document.getElementById(newRemainQty).innerHTML;
+        var newIntRemainQty = parseInt(IntRemainQty);
+        var IntRequestQty =  parseInt(requestQty);
+
+
+
+
+        var str='';
+        str = '';
+
+        var strTotalNo='';
+        strTotalNo = '';
+
+        var strPallet='';
+        strPallet = '';
+
+
+        for (i=0, x=0, z=0;(i<datarow.length) && (x<datanumber.length) && (z<datasku.length);i++, x++, z++)
+        {
+        str += '<tr><td class="column-th">' + datarow[i] + '</td><td class="column-th">' + datasku[z] +'</td><td class="column-th count-the-number">' + datanumber[x] + '</td></tr>';
+
+        strTotalNo += ' ' + datanumber[x];
+        strPallet +=  datarow[i] + ' ';
+        }
+
+
+
+
+        document.getElementById('plist').innerHTML=str;
+        document.getElementById('sn-total-list').innerHTML=strTotalNo;
+        document.getElementById('pallet-list').innerHTML=strPallet;
+        document.getElementById('valid_match').innerText = '';
+
+        var PalletList = document.getElementById('pallet-list').innerHTML;
+        var PalletString = String(PalletList);
+        var PalletArray = PalletString.split(', ');
+        document.getElementById("pallet_array").value = PalletArray;
+
+
+
+
+        var sn= document.getElementById('sn-total-list').innerText;
+        var snString = String(sn);
+        var snArray = snString.split(" ").map(function(item) {
+                return parseInt(item, 10);
+            });
+        document.getElementById("sn-string-test").innerHTML = snArray;
+        var sum = snArray.reduce(function(a, b){
+            return a + b;
+        }, 0);
+        document.getElementById("sn-string-test-sum").value = sum;
+
+        document.getElementById("sn-current-qty").innerHTML = sum;
+
+        document.getElementById(currentQty).innerHTML = sum;
+        document.getElementById(currentQty).style.background = "#222";
+        document.getElementById(newRemainQty).style.background = "#222";
+        document.getElementById(newRequestQty).style.background = "#222";
+        document.getElementById(currentQty).style.color = "#fff";
+        document.getElementById(newRemainQty).style.color = "#fff";
+        document.getElementById(newRequestQty).style.color = "#fff";
+
+        var finalResult = document.getElementById(newRemainQty ).innerHTML = newIntRequestQty - sum;
+        if(finalResult < 0){
+        document.getElementById(newRemainQty ).style.background = "#b8596b";
+        document.getElementById(newRemainQty ).style.color = "#fff";
+        document.getElementById('shortage' ).innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The current qty exceeds the request qty.</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+        }
+
+        if(finalResult = 0){
+        document.getElementById(newRemainQty ).style.background = "#59b895";
+        document.getElementById(newRemainQty ).style.color = "#fff";
+        document.getElementById('shortage' ).innerHTML = '<div id="myModal" class="modal-log-shipout message-box-bottom" style="padding-top: 0"><div class="modal-content-success"><span class="close" data-dismiss="modal" style="z-index: 100; top: 10px;"></span><div class="warning-modal-body"><p>The current qty is equal to the request qty.</p></div></div><button style="display: none;" id="myBtn">Open Modal</button></div>';
+        }
+
+
+        }
+
+
+        function countingSnNo() {
+          var SKUinTable = document.getElementsByClassName('pallet_sku').value;
+        document.getElementById("sku_filter_detail").value = SKUinTable;
+          }
+
+
+
+
+            $(document).ready(function(){
+                $(".delete-row").click(function(){
+                    $("table tbody").find('input[name="record"]').each(function(){
+                        if($(this).is(":checked")){
+                            $(this).parents("tr").remove();
+                        }
+                    });
+                });
+            });
+
+
+
+  </script>

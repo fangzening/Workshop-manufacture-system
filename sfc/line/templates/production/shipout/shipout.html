@@ -1,0 +1,108 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% load static %}
+<link href="{% static 'css/pallet.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/dist/jquery.tree-multiselect.min.css' %}" rel="stylesheet">
+<script src="{% static 'js/vendor/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/manufacturing/jquery.tree-multiselect.js' %}"></script>
+<script src="{% static 'js/modal.forms.min.js' %}"></script>
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+           <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!-- <li><i class="icon_genius"></i><a href="{% url 'manufacturing:sub_shipping_manager' %}">Shipping Management</a></li>-->
+           <li><i class="fa fa-square-o"></i>Ship out</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+              <div class="panel-body" style="padding-bottom: 0;">
+                   <div class="form-horizontal mobile-content-shipout">
+                      <div class="form-group section-border">
+
+                           <div class="col-sm-6 scanner-content">
+                              <section class="panel">
+                                   <div class="form-group section-border" style="margin-bottom: 0;">
+                                      <div class="col-sm-12 scanner-content">
+                                            <h2 class="pallettization-title">SalesOrder Info</h2>
+                                      </div>
+                                   </div>
+                                   {% include 'production/shipout/shipout_tabs_test.html' %}
+                              </section>
+                          </div>
+                            <div class="col-sm-6 scanner-content">
+                              <section class="panel">
+                                   <div class="form-group section-border" style="margin-bottom: 10px;">
+                                       <div class="col-sm-12 scanner-content">
+                                        <h2 class="pallettization-title">Ship Out Units</h2>
+                                       </div>
+                                    </div>
+                                    <!--  space -->
+                                    <div class="">
+                                       <div class="icon-text" style="merge-bottom: 15px; opacity: 0;" >
+                                           <div class="form-control form-control-replacement" style="merge-bottom: 10px;"></div>
+                                       </div>
+                                       <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px; display: none;">
+                                             <button  class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;"></button>
+                                       </div>
+                                    </div>
+                                    <!--  space -->
+                                    <div class="panel-body col-sm-12" style="height: 600px; overflow-y: scroll; padding: 0;">
+                                        <div class="tab tabs">
+                                             <button class="tablinks" style="cursor: none; background-color: #234192; color: #fff;">Pallet Info</button>
+                                        </div>
+                                       <div class="pallet-tab-content" style="padding: 0;">
+                                         <div class="form-horizontal">
+                                            <div class="col-md-12 mobile-tab-table" style="display: none;">
+                                                <div class="col-sm-6 pallet-button-div-left" >
+                                                     <button data-toggle="modal" data-target="#process-popup"  class="btn btn-info pallet-header-button padding-left-0" id="open_input" type="submit">Process</button>
+                                                </div>
+                                                  <div class="col-sm-6 pallet-button-div-right">
+                                                      <input class="btn btn-info pallet-header-button col-sm-12" type="button" id="btnGetCount" value="Save Pallet" onclick = "CountRows()" />
+                                                </div>
+
+                                                <input id="searchText" class="form-control" type="text" style="display: none;" value="" required/>
+                                                <div id="content" class="panel-body-table">
+                                                  <table id="save_pallet" class="table table-striped table-bordered table-sm table-pallet" style="margin:0; padding: 0; table-layout: fixed;">
+                                                     <tbody id="" class=" panel-body" style="height: 350px; overflow-y: scroll; padding: 0; margin: 0;">
+                                                         <tr class="table-header" >
+                                                               <th class="col-sm-3">Pallet</th>
+                                                               <th class="col-sm-3">SKU No</th>
+                                                               <th class="col-sm-3">SN</th>
+                                                         </tr>
+                                                      <tr id="myUL" style="padding: 0; margin: 0; height: 290px; overflow-y: scroll;"></tr>
+                                                     </tbody>
+                                                  </table>
+                                                </div>
+                                            </div>
+                                         </div>
+                                       </div>
+                                    </div>
+                                </section>
+                            </div>
+                           </div>
+                       </div>
+                    </div>
+             </section>
+        </div>
+     </div>
+  </section>
+</section>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/ship_out/ship_out.js' %}"></script>
+<link href="{% static 'css/mobile-version.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/javascript-for-permission.html' %}
+</body>
+</html>
+

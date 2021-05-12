@@ -1,0 +1,135 @@
+<div class="modal" id="material-name" role="dialog">
+     <div class="row whole whole-status modal-content-detail-qms modal-qms">
+          <div class="modal-button-container-qms">
+              <div class="" id="mobile-pallet-input">
+<!--              <input id="material-master-li" class="form-control form-control-replacement" name="pallet_id" type="text" onkeyup="getMaterialMaster()" style="width: 100%;" placeholder="Search..."/>-->
+                  <input id="MaterialQuery" onkeyup="getMaterialMaster()" class="form-control" type="text" value="" style="color: #bbb8b8;" required placeholder="Inspection Search..."/>
+              </div>
+               <table class="table table-striped table-bordered table-sm  panel-body table-pallet"  style="margin:0; padding: 0;">
+                 <thead>
+                  <tr class="table-header">
+                       <th class="">
+                           <span class="col-sm-4 qms-span">Model</span>
+                           <span class="col-sm-8 qms-span">Model Desc</span>
+                       </th>
+                   </tr>
+                 </thead>
+                 <tbody>
+
+                  <tr>
+                      <th style="padding: 0;">
+                          <ul id="MaterialMasterInfo" style="padding: 0; margin: 0;height: 645px; background: #fff; overflow: scroll; padding-left: 0;">
+                               {% if materialmaster_list %}
+                                 {% for materialmaster in materialmaster_list %}
+                                   <li class="liDetail"><button class="modelBtn" onClick="get_model(this.id)" id="{{ materialmaster.pk }}"><a class="pallet-a li-a">
+                                      <span id="" class="col-sm-4 qms-span">{{ materialmaster.pk }}</span>
+                                      <span id="li-{{ materialmaster.pk }}" class="col-sm-8 qms-span">{{ materialmaster.model_desc }}</span>
+                                  </a></button></li>
+                               <script type="text/javascript">
+                                  function get_model(clicked_id)
+                                  {
+
+                                  var rowID = clicked_id;
+                                  var getID = String(rowID);
+                                  var showMaterial =  document.getElementById('showMaterial');
+                                  var showMaterialDesc =  document.getElementById('showMaterialDesc');
+                                  var MaterialQuery =  document.getElementById('MaterialQuery');
+                                  var MaterialID = 'li-' + rowID;
+                                  var MaterialString = String(MaterialID);
+                                  var MaterialDesc = document.getElementById(MaterialString).innerHTML;
+                                   console.log(MaterialDesc);
+                                   console.log(getID);
+
+                                   document.getElementById("MaterialQuery").value = rowID + ', ' + MaterialDesc;
+                                   showMaterial.innerHTML = rowID;
+                                   showMaterialDesc.innerHTML = MaterialDesc;
+                                  }
+                                </script>
+                                  {% endfor %}
+                                {% endif %}
+                          </ul>
+                      </th>
+                  </tr>
+                 </tbody>
+            </table>
+          </div>
+     </div>
+</div>
+
+<div class="modal" id="mrb-name" role="dialog">
+     <div class="row whole whole-status modal-content-detail-qms modal-qms">
+          <div class="modal-button-container-qms">
+              <div class="" id="">
+<!--              <input id="material-master-li" class="form-control form-control-replacement" name="pallet_id" type="text" onkeyup="getMaterialMaster()" style="width: 100%;" placeholder="Search..."/>-->
+                  <input id="MRBQuery" onkeyup="getMRB()" class="form-control" type="text" value="" style="color: #bbb8b8;" required placeholder="Inspection Search..."/>
+              </div>
+               <table class="table table-striped table-bordered table-sm  panel-body table-pallet"  style="margin:0; padding: 0;">
+                 <thead>
+                  <tr class="table-header">
+                       <th class="">
+                           <span class="col-sm-2 qms-span">MRB Form No.</span>
+                           <span class="col-sm-3 qms-span">IQC Form No</span>
+                           <span class="col-sm-2 qms-span">Material Qty</span>
+                           <span class="col-sm-2 qms-span">Selector</span>
+                           <span class="col-sm-3 qms-span">Completed Time</span>
+                       </th>
+                   </tr>
+                 </thead>
+                 <tbody>
+
+                  <tr>
+                      <th style="padding: 0;">
+                          <ul id="MRBInfo" style="padding: 0; margin: 0;height: 645px; background: #fff; overflow: scroll; padding-left: 0;">
+                               {% if mrb_list %}
+                                 {% for mrb in mrb_list %}
+                                   <li class="liDetail"><button class="modelBtn" onClick="get_mrb(this.id)" id="{{ mrb.mrb_form_id }}"><a class="pallet-a li-a">
+                                      <span id="" class="col-sm-2 qms-span">{{ mrb.mrb_form_id }}</span>
+                                      <span id="li-{{ mrb.mrb_form_id }}" class="col-sm-3 qms-span">{{ mrb.inspection_form_id }}</span>
+                                      <span id="qty-{{ mrb.mrb_form_id }}" class="col-sm-2 qms-span">{{ mrb.selected_number }}</span>
+                                      <span id="selector-{{ mrb.mrb_form_id }}" class="col-sm-2 qms-span">{{ mrb.audit_person }}</span>
+                                      <span id="time-{{ mrb.mrb_form_id }}" class="col-sm-3 qms-span">{{ mrb.audit_date }}</span>
+                                  </a></button></li>
+                               <script type="text/javascript">
+                                  function get_mrb(clicked_id)
+                                  {
+
+                                  var rowID = clicked_id;
+                                  var getID = String(rowID);
+                                  var showMRB =  document.getElementById('showMRB');
+                                  var showIQCform =  document.getElementById('showIQCform');
+                                  var showMRBqy =  document.getElementById('showMRBqy');
+                                  var MRBQuery =  document.getElementById('MRBQuery');
+
+                                  var MRBID = 'li-' + rowID;
+                                  var MRBString = String(MRBID);
+                                  var MRBqty = 'qty-' + rowID;
+                                  var MRBqtyString = String(MRBqty);
+                                  var MRBselector = 'selector-' + rowID;
+                                  var MRBselectorString = String(MRBselector);
+                                  var MRBdate = 'time-' + rowID;
+                                  var MRBdateString = String(MRBdate);
+
+                                  var IQCform = document.getElementById(MRBString).innerHTML;
+                                  var MaterialQty = document.getElementById(MRBqtyString).innerHTML;
+                                  var selector = document.getElementById(MRBselectorString).innerHTML;
+                                  var completeTime = document.getElementById(MRBdateString).innerHTML;
+
+                                   document.getElementById("MRBQuery").value = rowID + ', ' + IQCform;
+                                   showMRB.innerHTML = rowID;
+                                   showIQCform.innerHTML = IQCform;
+                                   showMRBqy.innerHTML =  MaterialQty;
+                                   showSelector.innerHTML = selector;
+                                   showDate.innerHTML = completeTime;
+
+                                  }
+                                </script>
+                                  {% endfor %}
+                                {% endif %}
+                          </ul>
+                      </th>
+                  </tr>
+                 </tbody>
+            </table>
+          </div>
+     </div>
+</div>

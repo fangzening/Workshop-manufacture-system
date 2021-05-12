@@ -1,0 +1,71 @@
+{% load static %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<div class="modal" id="updated" role="dialog">
+     <div class="modal-content modal-content-segment">
+         <div class="row">
+             <div class="col-sm-12">
+                    <form action="{% url 'maskconfig:update-masksegment-row' segment.pk %}" method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                            <section class="panel">
+                                <header class="panel-heading">
+                                  Segment Manager <span style="color: #00a0df; font-size: 18px;"><strong>&nbsp;{{ model }}</strong></span>
+                                </header>
+                                  <div class="whole" style="background-color: #eeeeee;">
+                                  {% if segment_list %}
+                                     <table id="table" class="table table-striped table-advance table-hover table-flex" >
+                                          <tbody>
+                                          <tr id="table-header">
+                                              <th>&nbsp;</th>
+                                              <th> <input type="hidden" name="chk"/>&nbsp; Model</th>
+                                              <th ><i class="icon_grid-3x3"></i> &nbsp; Position</th>
+                                              <th ><i class="icon_grid-3x3"></i> &nbsp; Name</th>
+                                              <th ><i class="icon_profile"></i> &nbsp; Data Type</th>
+                                              <th ><i class="icon_check"></i> &nbsp; Length</th>
+                                              <th>&nbsp;</th>
+                                          </tr>
+                                          {% for segment in segment_list %}
+                                          <tr>
+                                              <th>&nbsp;</th>
+                                              <th><input type="text" class="edit-input-1 edit-row" name="mask_id" value="{{ model }}"></th>
+                                              <th><input type="text" class="edit-input-1 edit-row" name="position" value="{{ segment.position}}"></th>
+                                              <th><input type="text" class="edit-input-1 edit-row" name="name" value="{{ segment.name}}"></th>
+                                              <th><input type="text" class="edit-input-1 edit-row" name="data_type" value="{{ segment.data_type }}"></th>
+                                              <th> <div class="edit-save-2" id="edit-save-2">
+                                              <th><input type="text" class="edit-input-1 edit-row" name="length" value="{{ segment.length}}"></th>
+                                              <button  id="save-button-2" type="submit" class="save-button-2 save-button btn btn-success">Save</button></div>
+                                              </th>
+                                          </tr>
+                                              {% endfor %}
+                                             {% endif %}
+                                          </tbody>
+                                     </table>
+                                    </div>
+                           </section>
+                             <div class="whole" style="background-color: #eeeeee;">
+                             <button type="submit" class="nav-user-search-icon btn btn-primary modal-button-blue">Update</button>
+                             </div>
+                      </form>
+                 </div>
+           </div>
+    </div>
+</div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script>
+     var model = document.getElementsByClassName("model");
+     var model = document.getElementById("updated");
+     var btn = document.getElementById("myBtn");
+     var span = document.getElementsByClassName("close")[0];
+     btn.onclick = function() {
+          modal.style.display = "block";
+      }
+     span.onclick = function() {
+           modal.style.display = "none";
+      }
+      window.onclick = function(event) {
+           if (event.target == modal) {
+    modal.style.display = "none";
+     }
+   }
+</script>
+

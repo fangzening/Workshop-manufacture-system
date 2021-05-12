@@ -1,0 +1,69 @@
+<form method="POST" class="form-horizontal" action= "">
+    <div class="login-wrap">
+         <div style="width: 90%; margin: 0 auto;">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {{ form.source.errors }}
+                {{ form.source }}
+                 <!-- username -->
+                 <div class="form-group col-lg-12">
+                     <div>
+                          <label class="col-sm-12 control-label">
+                          <p style="float: left;">UserName</p>
+                          </label>
+                     </div>
+                     <div class="col-sm-6">
+                         <select name="user" class="form-control" required="" id="id_user">
+                              <option value="" selected="">---------</option>
+                               {% if user_list %}
+                                 {% for user in user_list %}
+                                    {% if user.profile.user %}
+                                    {% endif %}
+
+                                    {% empty %}
+                                   <option style="color: #222;" class="query-button" value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                              {% endif %}
+                         </select>
+                     </div>
+                 </div>
+                 <div class="form-group  col-lg-6">
+                      <label class="col-sm-12 control-label">
+                      <p style="float: left;">Role</p>
+                      </label>
+                  <div class="col-sm-12">
+                  <select name="role" class="form-control" id="id_role">
+                     <option class="query-button" value="Administrator" selected="">Administrator</option>
+                     <option class="query-button" value="Developer">Developer</option>
+                     <option class="query-button" value="Operator">Operator</option>
+                  </select>
+                 </div>
+                 </div>
+                 <div class="form-group  col-lg-6">
+                      <label class="col-sm-12 control-label">
+                      <p style="float: left;">Department</p>
+                      </label>
+
+                 <div class="col-sm-12">
+                    <input type="text" class="form-control" name="department" maxlength="100" required id="id_department">
+                 </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-sm-12 control-label">
+                      <p style="float: left;">Plant Code</p>
+                     </label>
+                     <div class="col-sm-3">
+                         <select name="plant_code" class="form-control" id="id_plant_code">
+                          <option class="query-button" value="FIIX" selected="">FIIX</option>
+                         </select>
+                     </div>
+                 </div>
+             <button class="btn btn-primary" style="margin-left: 1rem; float: left;" type="submit">Add Profile</button>
+         </div>
+    </div>
+</form>
+<script>django.jQuery('select.selectfilter, select.selectfilterstacked').each(function () {
+var $el = $(this),
+    data = $el.data();
+SelectFilter.init($el.attr('id'), data.fieldName, parseInt(data.isStacked, 10));
+});</script>

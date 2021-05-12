@@ -1,0 +1,143 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+
+<section id="main-content">
+   <section class="wrapper">
+        <div class="">
+            <div class="row">
+              <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a class="" href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                    <li>My Profile</li>
+            </ol>
+          </div>
+        </div>
+
+       <div class="row">
+          <div class="col-lg-12">
+            <section class="panel">
+                  <div class="panel-body tab-panel-body">
+                        <div class="tab tabs">
+                            {% comment %}{% if perms.manufacturing.can_user_view_user_list %}
+                            <button class="tablinks"> <a href="{% url 'manufacturing:user_list' %}">User List</a></button>
+                            {% endif %}
+                             {% if perms.manufacturing.can_add_user %}
+                            <button class="tablinks"><a href="{% url 'manufacturing:signup_sidebar' %}">Add User</a></button>
+                            {% endif %}
+                             {% if perms.manufacturing.can_add_permission %}{% endcomment %}
+                            <button class="tablinks active-id" id="defaultOpen" onclick="openForm(event, 'UserInfoUpdate')">My Profile</button>
+                            <button class="tablinks"><a href="{% url 'manufacturing:user_top_update' %}">Edit My Profile</a></button>
+                            <button class="tablinks"><a href="{% url 'manufacturing:change_password' %}">Change Password</a></button>
+                            {% comment %}{% endif %}
+                             {% if perms.manufacturing.can_add_profile %}
+                            <button class="tablinks"><a href="{% url 'manufacturing:users_add_profiles' %}">Add Profile</a></button>
+                            {% endif %}{% endcomment %}
+                        </div>
+
+                          <div  class="tabcontent"  id="UserInfoUpdate" style="display: block;">
+                            <div style="width: 90%; margin: 0 auto;">
+                                <div class="login-wrap">
+                                    <div class="form-group col-lg-12" style="width: 90%; margin: 0 auto;">
+                                        <div class=" form-group col-lg-3" style="margin-left: 3rem; margin-top: 4rem;">
+                                             <h2 style="margin-bottom: 0;">{{ user.username }}</h2>
+                                             <br>
+                                             <h2 style="margin-top: 0;">
+                                              <em>{{ user.groups.all.0 }}</em></h2>
+                                             <i class="icon_profile"></i>&nbsp; {{ user.get_full_name }} <br>
+                                             <i class="icon_mail_alt"></i>&nbsp; {{ user.email }}<br>
+                                        </div>
+                                         <hr style="width: 100%; color: #797979; margin: 0;">
+                                  <!--   ##### role #######-->
+                                             <div class="form-group col-lg-12" >
+                                                 <div class="col-lg-12">
+                                                  <div class="profile-h2" style="margin-top: 0;"><h2 style="margin-bottom: 0;">Permission Group/Role</h2></div>
+                                                     <br>
+
+                                                 <div>
+                                                      <label class="control-label col-sm-12">
+                                                      <p><strong>Role:</strong></p>
+                                                      </label>
+                                                 </div>
+                                                 <div class="form-group col-sm-12">
+                                                     {% if user.groups %}
+                                                     <p>{{ user.groups.all.0 }}</p>
+                                                     {% else %}
+                                                     <p>Not yet decide</p>
+                                                     {% endif %}
+                                                 </div>
+                                             </div>
+                                             </div>
+
+                                          <div class="col-lg-12">
+                                            <div class="col-lg-6" >
+                                                <div class="profile-h2"><h2 style="margin-bottom: 0;">Information</h2></div>
+                                                 <br>
+                                                <div>
+                                                      <label class="control-label col-sm-12">
+                                                      <p><strong>Department:</strong></p>
+                                                      </label>
+                                                 </div>
+                                                  <div class="col-sm-12">
+                                                   <p>{{ user.profile.department }}</p>
+                                                  </div>
+
+                                                  {% comment %}<div>
+                                                      <label class="control-label col-sm-12">
+                                                      <p><strong>Plant Code:</strong></p>
+                                                      </label>
+                                                 </div>
+                                                 <div class="col-sm-12">
+                                                {{ user.profile.plant_code }}
+                                                 </div>{% endcomment %}
+                                            </div>
+
+                                            <div class="col-lg-6" >
+                                                <div class="profile-h2" ><h2 style="margin-bottom: 0;">Time stamp</h2></div>
+                                                 <br>
+                                                  <div>
+                                                      <label class="control-label col-sm-12">
+                                                      <p><strong>Last Login:</strong></p>
+                                                      </label>
+                                                 </div>
+                                               <div class="col-sm-12">
+                                                {{ user.last_login }}
+                                               </div>
+                                                 <div>
+                                                      <label class="control-label col-sm-12">
+                                                      <p><strong>Date Joined:</strong></p>
+                                                      </label>
+                                                 </div>
+                                                <div class="col-sm-12">
+                                                {{ user.date_joined }}</p>
+                                                </div>
+                                            </div>
+                                          </div>
+
+                                         {% for message in messages %}
+                                           <div id="myModal" class="modal-log message-box-bottom">
+                                             <div class="modal-content-success">
+                                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                  <div class="warning-modal-body">
+                                                    <p style="color: #fff; font-size: 20px; text-align: center;">{{ message }}</p>
+                                                  </div>
+                                             </div>
+                                              <button style="display: none;" id="myBtn">Open Modal</button>
+                                             </div>
+                                         {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+                  </div>
+                </div>
+            </div>
+      </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+</body>
+</html>

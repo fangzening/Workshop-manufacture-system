@@ -1,0 +1,37 @@
+<section class="panel">
+   <div class="panel-body" style="height: 380px; overflow-y: scroll; padding: 0;">
+        <div class="tab tabs">
+            <button class="tablinks active" onclick="openForm(event, 'QualifiedProduct')" id="defaultOpen">Qualified product</button>
+            <button class="tablinks" onclick="openForm(event, 'UnQualifiedProduct')">Unqualified product</button>
+            <button class="tablinks" onclick="openForm(event, 'AttachmentInfo')">Attachment Information</button>
+
+        </div>
+
+        <div id="QualifiedProduct" class="tabcontent">
+         <div id="showMRB1">
+            <div class="col-md-12 mobile-tab-table">
+                 <table class="table table-striped table-bordered table-sm  table-pallet"  style="margin:0; padding: 0;">
+                 1 st default blank
+                </table>
+             </div>
+        </div>
+        </div>
+       <!--  2nd tab     -->
+         <div id="UnQualifiedProduct" class="tabcontent">
+         <div id="showMRB2">
+            <div class="col-md-12 mobile-tab-table">
+                <table class="table table-striped table-bordered table-sm table-pallet"  style="margin:0; padding: 0;">
+                2 sec default blank
+                </table>
+             </div>
+          </div>
+         </div>
+        <!--  3nd tab     -->
+         <div id="AttachmentInfo" class="tabcontent">
+             <div class="table-header">
+                 leave as blank for now
+             </div>
+         </div>
+   </div>
+</section>
+   <script src="{% static 'js/manufacturing/tab.js' %}"></script>

@@ -1,0 +1,71 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+<div id="maxheight">
+{% include 'manufacturing/include/error-modal-style.html' %}
+  {% comment %}{% if ooba_list %}{% endcomment %}
+      <table class="table table-striped table-advance table-hover table-flex table-margin">
+          <tbody>
+            <tr id="table-header" class = "column table-header">
+                {% load static %}
+                {% if 'reverse' in request.path %}
+                <th> <button class="icon-text"> <a href="#">&#8595; </a> <span>Order</span></button></th>
+                {% elif '' in request.path %}
+                <th> <button class="icon-text"> <a href="#">&#8593; </a> <span>Order</span></button> </th>
+                {% endif %}
+                 <th></th>
+                 <th ><i class="icon_grid-3x3"></i> &nbsp; Model</th>
+                 <th ><i class="icon_profile"></i> &nbsp; Station</th>
+                 <th><i class="icon_check"></i> &nbsp; Rate</th>
+                 <th><i class="icon_cogs"></i>&nbsp; Creator</th>
+                 <th><i class="icon_cogs"></i>&nbsp; Create Date</th>
+            </tr>
+          </tbody>
+         {% comment %}{% for ooba in ooba_list %}{% endcomment %}
+            <tr class="column">
+                 {% if 'reverse' in request.path %}
+                      <th><p>&nbsp;&nbsp;{{ forloop.counter }}</p></th>
+                      {% elif '' in request.path %}
+                      <th><p>&nbsp;&nbsp;{{ forloop.revcounter }}</p></th>
+                      {% endif %}
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th>&nbsp;</th>
+                          <th></th>
+            </tr>
+              {% comment %}{% empty %}
+              <div id="myModal" class="modal-log">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                         <p>No related data</p>
+                       </div>
+                   </div>
+                <button style="display: none;" id="myBtn">Open Modal</button>
+             </div>
+        {% endfor %}
+        {% else %}
+        <div id="myModal" class="modal-log">
+                 <div class="modal-content"  style="width: 40%;">
+                     <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                      <div class="warning-modal-body">
+                         <p>No related data found</p>
+                       </div>
+                   </div>
+                <button style="display: none;" id="myBtn">Open Modal</button>
+             </div>
+       {% endif %}{% endcomment %}
+              <table  class="table table-striped table-advance table-hover table-flex">
+                <tbody>
+                   <div class = "column">
+                        <!-- ############## page  ############## -->
+                        {% include 'manufacturing/include/pagination.html' %}
+                        <!-- #################### end page #########   -->
+                   </div>
+                 </tbody>
+            </table>
+        <form id="hi" action="/config" method="POST"></form>
+        </div>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/manufacturing/inline.js' %}"></script>

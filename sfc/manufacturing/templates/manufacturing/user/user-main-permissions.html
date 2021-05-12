@@ -1,0 +1,86 @@
+ {% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+ {% include 'manufacturing/include/sidebar.html' %}
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="">
+            <div class="row">
+              <div class="col-lg-12">
+                <ol class="breadcrumb">
+                     <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                     <li><i class="icon_genius"></i>User Management</li>
+<!--               <li><i class="fa fa-laptop"></i>Admin</li>-->
+<!--                <li><i class="icon_profile"></i><a class="" href="{% url 'manufacturing:user_list' %}">User List</a></li>-->
+<!--              <li><i class="fa fa-file-text-o"></i>User Info Update</li>-->
+            </ol>
+          </div>
+        </div>
+
+       <div class="row">
+          <div class="col-lg-12">
+            <section class="panel">
+                    <div class="panel-body tab-panel-body">
+                            <div class="tab tabs">
+                                {% if perms.manufacturing.can_user_view_user_list %}
+                                <button class="tablinks"> <a href="{% url 'manufacturing:user_list' %}">User List</a></button>
+                                {% endif %}
+                                 {% if perms.manufacturing.can_add_user %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:signup_sidebar' %}">Add User</a></button>
+                                {% endif %}
+                                {% if perms.manufacturing.can_view_user_group_list %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:user_group_list' %}">User Group/Type List</a></button>
+                                {% endif %}
+<!--                                        <button class="tablinks"><a href="{% url 'manufacturing:user-group' %}">User Group/Type</a></button>-->
+                                 {% if perms.manufacturing.can_add_permission %}
+                               <button class="tablinks active" id="defaultOpen" onclick="openForm(event, 'UserInfoUpdate')">User Permission</button>
+                                {% endif %}
+                                 {% if perms.manufacturing.can_add_profile %}
+                                <button class="tablinks"><a href="{% url 'manufacturing:users_add_profiles' %}">Add Profile</a></button>
+                                {% endif %}
+                            </div>
+
+                             <div  class="tabcontent"  id="UserInfoUpdate" style="display: block;">
+                                <div style="width: 90%; margin: 0 auto;">
+                                     <div class="login-wrap">
+                                          <div style="width: 90%; margin: 0 auto;">
+                                              <div class="form-group col-lg-12 form-horizontal">
+                                                 <label class="col-sm-12 control-label">
+                                                        <p style="float: left;">Choose a user</p>
+                                                </label>
+                                                   <div class="col-lg-6">
+                                                      <select  id="menu" class="form-control">
+                                                        <option value="#">------------</option>
+                                                      {% if user_list %}
+                                                         {% for user in user_list %}
+                                                         <option value="{% url 'manufacturing:add-permissions' pk=user.id  %}">{{ user.username }}</option>
+                                                       {% endfor %}
+                                                       {% endif %}
+                                                        <script>
+                                                      function gotosite() {
+                                                      window.location = document.getElementById("menu").value; // JQuery:  $("#menu").val();
+                                                    }
+                                                    </script>
+                                                    </select>
+                                                   </div>
+                                               <div class="col-lg-6">
+                                                     <button id="go" class="btn btn-primary" style="margin: 0 2rem; width: 40%;" onclick="gotosite()">Go</button>
+                                               </div>
+                                              </div>
+                                          </div>
+                                     </div>
+                                </div>
+                             </div>
+                        </div>
+                 </section>
+             </div>
+          </div>
+        </div>
+      </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}
+<script src="{% static 'js/manufacturing/bundle.min.js' %}"></script>
+<script src="{% static 'js/manufacturing/permission.js' %}"></script>
+</body>
+</html>

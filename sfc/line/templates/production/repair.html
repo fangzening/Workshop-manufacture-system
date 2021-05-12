@@ -1,0 +1,383 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/permission/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/dist/jquery.tree-multiselect.min.css' %}" rel="stylesheet">
+<script src="{% static 'js/vendor/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/manufacturing/jquery.tree-multiselect.js' %}"></script>
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content">
+   <section class="wrapper">
+      <div class="row">
+         <div class="col-lg-12">
+            <ol class="breadcrumb">
+               <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+               <li><i class="fa fa-square-o"></i>Repair</li>
+            </ol>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-lg-12">
+            <section class="panel">
+               <div class="panel-body" style="padding-bottom: 5rem;">
+                  <div style="width: 95%; margin: 2rem auto; padding:0.5rem;">
+                     <div class="form-horizontal">
+                        <!-- serial_number -->
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <div class="form-group section-border">
+                                 <label for="serial_number" class="col-sm-12"><strong>Serial Number:</strong> </label>
+                                 <div class="col-sm-6">
+                                    <div class="nav top-menu top-button">
+                                       <form  class="navbar-form" id="search" action="" method="POST">
+                                          {% csrf_token %}
+                                          <input type="hidden" name="submit" value="1">
+                                          <input type="hidden" name="template" value="{{template}}">
+                                          <input type="hidden" name="route" value="{{route_id}}">
+                                          <input type="hidden" name="station" value="{{station_id}}">
+                                          <input type="hidden" name="ver" value="{{ver}}">
+                                             <div class="nav search-row center-list list-title-search" id="top_menu">
+                                             <div><input name="serial_number" class="form-control" type="text" placeholder=" Search" value="{{serial_number.serial_number}}"></div>
+                                                 <div style="width: 30px;">
+                                          <div class="col-sm-4">
+                                             <!-- {% if serialnumber_list %}
+                                             <form action="" method="post" style="display: inline;">
+                                                {% csrf_token %}
+                                                {{ form.non_field_errors }}
+                                                {{ form.source.errors }}
+                                                {{ form.source }}
+                                                {{  messages.error }}
+                                                {{ pn_form.as_p }}
+                                                {{ result_form.as_p }}
+                                                {{ form }}
+                                                <input type="hidden" class="edit-input-1 edit-row" name="failure_sequence"
+                                                   value="{{ repairmain.failure_sequence }}">
+                                                <input type="hidden" class="edit-input-1 edit-row" name="replacement"
+                                                   value="1">
+                                                <input type="hidden" class="edit-input-1 edit-row" name="creator">
+                                                <input type="hidden" class="edit-input-1 edit-row" name="repaired_date">
+                                                <input type="hidden" name="serial_number"
+                                                   value="{{ serial_number.serial_number }}">
+                                                <input type="hidden" class="edit-input-1 edit-row" name="result" value="1">
+                                                <input type="hidden" name="submit" value="1">
+                                                <input type="hidden" name='template' value={{template}}>
+                                                <input type="hidden" name="route" value={{route_id}}>
+                                                <input type="hidden" name="station" value={{station_id}}>
+                                                <input type="hidden" name="model" value={{model}}>
+                                                <input type="hidden" name="submit-type" value="repair-unit">
+                                                <button class="btn btn-primary header-button" id="save-button-1"
+                                                   type="submit" style="float:left; mergin-left: 5px; width: 180px;">Repair Unit</button>
+                                             </form> -->
+                                          </div>
+                                       </div>
+                                     </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                        {% if repaired == True and repair_result != '' %}
+                           <p class="alert alert-success">{{ repair_result }}</p>
+                        {% else %}
+                        <div class="form-group section-border">
+                           {% for serialnumber in serialnumber_list %}
+                           {% for repairmain in serialnumber.repairmain_set.all %}
+                           {% if forloop.last %}
+                           <!-- station -->
+                           <div class="col-lg-4">
+                              <div class="col-sm-12 repair-text-font repair-LR" style="">
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="">SN: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div type="text" class="form-control repair-input-into">
+                                          {{ serialnumber.serial_number }}</div>
+                                    </div>
+                                 </div>
+                                 <!-- fail station -->
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="">Fail Station: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div type="text" class="form-control repair-input-into">{{ repairmain.station }}</div>
+                                    </div>
+                                 </div>
+                                 <!-- date -->
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="group-name">Fail Date: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div class="icon-text">
+                                          {% for repairmain in serialnumber.repairmain_set.all %}
+                                          {% if forloop.last %}
+                                          <div type="text" class="form-control repair-input-into">
+                                             {{ repairmain.create_date |truncatechars:18 }}
+                                          </div>
+                                          <span class="span-repair-out"
+                                             style="border-radius: 5px; padding: 4px;">{{ repairmain.create_date }}</span>
+                                       </div>
+                                       {% endif %}
+                                       {%endfor %}
+                                    </div>
+                                 </div>
+                                 <!-- Failure code -->
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="group-name">Failure Code: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div type="text" class="form-control repair-input-into">
+                                          {% for repairmain in serialnumber.repairmain_set.all %}
+                                          {% if repairmain.serial_number %}
+                                          {% if forloop.last %}
+                                          {{ repairmain.failure_code|truncatechars:20 }}
+                                          {% endif %}{% endif %}{% endfor %}
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- group -->
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="">Failure Group: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div type="text" class="form-control repair-input-into">
+                                          {% for repairmain in serialnumber.repairmain_set.all %}
+                                          {% if forloop.last %}
+                                          {{ repairmain.failure_code.group_id|truncatechars:20 }}
+                                          {% endif %}{% endfor %}</div>
+                                    </div>
+                                 </div>
+                                 <!-- Failure Category: -->
+                                 <div class="form-group section-border form-group-repair">
+                                    <div class="col-sm-4">
+                                       <label for="">Failure Category: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                       <div type="text" class="form-control repair-input-into">
+                                          {% for repairmain in serialnumber.repairmain_set.all %}
+                                          {% if forloop.last %}
+                                          {{ repairmain.failure_code.group_id.category_id }}
+                                          {% endif %}{% endfor %}</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-4" style="border-radius: 8px; background: none; padding: 10px 15px;">
+                              <form action="" method="post" style="display: inline;">
+                                 <div class="col-sm-12 repair-text-font" style="height: 35px;">
+                                    <!-- repair code -->
+                                    <div class="form-group section-border form-group-repair">
+                                       <div class="col-sm-4 repair-select">
+                                          {% if serialnumber_list %}
+                                          {% for repairmain in serialnumber.repairmain_set.all %}
+                                          {% if repairmain.result == 0 %}
+                                          {% if forloop.last %}
+                                          <button class="btn btn-info" style="width: 100%; font-size: 12px;" type="button"
+                                             onclick="getRepairCode()">Repair Code</button>
+                                          {% endif %}
+                                          {% elif repairmain.result == 1 %}
+                                          {% if forloop.first %}
+                                          <div id="myModal" class="modal-log">
+                                             <div class="modal-content-success" style="width: 40%;">
+                                                <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                <div class="warning-modal-body">
+                                                   <p>Repaired</p>
+                                                </div>
+                                             </div>
+                                             <button style="display: none;" id="myBtn">Open Modal</button>
+                                          </div>
+                                          {% endif %} {% endif %}
+                                          {% endfor %}
+                                          {% endif %}
+                                       </div>
+                                       <div class="col-sm-8" style="padding-left: 0;">
+                                          {% if repaircode_list %}
+                                          {% for repaircode in repaircode_list %}
+                                          {{ repaircode.repaired_code }}
+                                          {% endfor %}{% endif %}
+                                          <div class="icon-text">
+                                             {% for serialnumber in serialnumber_list %}
+                                             {% for repairmain in serialnumber.repairmain_set.all %}
+                                             {% if repairmain.result == 0 %}
+                                             {% if forloop.last %}
+                                             <input id="repaircode" class="form-control form-control-replacement"
+                                                type="text" placeholder="Search..." />
+                                             {% endif %}{% endif %}{% endfor %}{% endfor %}
+
+                                             <script>
+                                                var textToFind = '{{ repairdetail.repaired_code }}';
+
+                                                var dd = document.getElementById('select');
+                                                for (var i = 0; i < dd.options.length; i++) {
+                                                   if (dd.options[i].text === textToFind) {
+                                                      dd.selectedIndex = i;
+                                                      break;
+                                                   }
+                                                }
+                                             </script>
+
+                                             <span class="span-repair">
+                                                <select multiple style="{% comment %}height:0; opacity:0;{% endcomment %}" class="form-control repair-select" id="select"
+                                                   onchange="getOption(this);" required>
+                                                   <option value="">-- Pick --</option>
+                                                   {% comment %}{% for repairmain in serialnumber.repairmain_set.all %}
+                                                   {% if repairmain.serial_number %}{% endcomment %}
+                                                   {% if repaircodeonly_list %}
+                                                   {% for repaircodeonly in repaircodeonly_list %}
+                                                   {% comment %}{% if testingresult.result == 0 %}
+                                                   {% for repairdetail in repairmain.repairdetail_set.all %}
+                                                   {{ repairdetail.repaired_code }}{{ repairdetail.failure_sequence.serial_number }}
+                                                   {% if repairmain.serial_number %}
+                                                   {% if repairdetail.in_part_no == false %}{% endcomment %}
+                                                   <option id="repair-{{ repaircodeonly.repair_code }}" value='
+                                                      <table class="table-striped table-repair">
+                                                      <tr>
+                                                         <th class="col-sm-4 repair-select">Repair Code:</th>
+                                                         <th class="col-sm-8 repair-select" type="text" class="form-control repair-input-into" style="color:#234192;"><strong>{{ repaircodeonly.repair_code }}</strong></th>
+                                                      </tr>
+                                                      <tr>
+                                                         <th class="col-sm-4 repair-select">Group:</th>
+                                                         <th class="col-sm-8 repair-select" type="text" class="form-control repair-input-into">{{ repaircodeonly.group_id }}</th>
+                                                      </tr>
+                                                      <tr>
+                                                         <th class="col-sm-4 repair-select">Desc:</th>
+                                                         <th class="col-sm-8 repair-select" type="text" class="form-control repair-input-into">{{ repaircodeonly.description }}</th>
+                                                      </tr>
+                                                      <tr>
+                                                         <th class="col-sm-4 repair-select">
+                                                         <label for=""><strong>Comment:</strong> </label>
+                                                         </th>
+                                                         <th class="col-sm-8">
+                                                         <input type="text" name="repaired_description" id="repaired_description" class="form-control" placeholder="comment..." required>
+                                                         </th>
+                                                      </tr>
+                                                      </table>
+
+                                                      <input type="hidden" id="in-pn" name="in_part_no" style="width: auto;" value="{% comment %}{{ repairdetail.in_part_no }}{% endcomment %}">
+                                                         <div class="col-sm-12 repair-select">
+                                                      <!-- <button id="showReplacement" class="btn btn-danger header-button" style="width: 100%; display: block;" id="showTxt" type="button" onclick="Replacement()">Show Replacement</button>
+                                                      <button id="hideReplacement" class="btn btn-danger header-button" style="width: 100%; display: none;" type="button" onclick="HideReplacement()">Hide Replacement</button>
+                                                      </div> -->
+                                                      <input type="hidden" name="is-replacement" value="{{repaircodeonly.group_id.replacement}}" id="is-replacement">
+
+                                                      '>{{ repaircodeonly.repair_code }}
+                                                   </option>
+                                                   {% endfor %} {% endif %}
+                                                </select>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    {% if error %}
+                                    <div id="myModal" class="modal-log">
+                                       <div class="modal-content" style="width: 40%;">
+                                          <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                          <div class="warning-modal-body">
+                                             <p>{{ error }}</p>
+                                          </div>
+                                       </div>
+                                       <button style="display: none;" id="myBtn">Open Modal</button>
+                                    </div>
+                                    {% endif %}
+                                 </div>
+                                 <div id="repair" class="" style="padding-bottom: 18px;"></div>
+                                 <!-- replacement -->
+                                 <div id="replacement" class="col-sm-12 repair-text-font repair-select">
+                                    <div class="col-sm-4 repair-select" id="repair-select">
+                                       <button class="btn btn-info" style="width: 100%; font-size: 12px;" type="button"
+                                          onclick="getOutPart()">Out-Part No:</button>
+                                    </div>
+                                    {% if serialnumber_list %}
+                                    <div class="icon-text col-sm-8" style="padding:0; margin-bottom: 3px;">
+                                       <input id="outpn" type="text" class="form-control form-control-replacement"
+                                          name="out_part_no" value="{{ repairdetail.out_part_no }}"
+                                          placeholder="out part no...">
+                                       <!-- ##################### selection #######################-->
+                                       {% include 'production/repair/repair-replacement-form.html' %}
+                                       <!-- ##################### selection #######################-->
+                                    </div>
+                                    {% endif %}
+                                    <div id="csn"></div>
+                                    <div id="repaircsn" class="" style="padding-bottom: 18px;"></div>
+                                    <input id="divText" type="hidden" name="in_part_no" value="" class="form-control"
+                                       placeholder="in part no..." required>
+                                 </div>
+                                 <div class="repair-unit" id="repair-unit" style="float: right; display: none;">
+                                       {% csrf_token %}
+                                       {{ form.non_field_errors }}
+                                       {{ form.source.errors }}
+                                       {{ form.source }}
+                                       {{  messages.error }}
+                                       {{ pn_form.as_p }}
+                                       {{ result_form.as_p }}
+                                       {{ form }}
+                                       <input type="hidden" class="edit-input-1 edit-row" name="failure_sequence"
+                                          value="{{ repairmain.failure_sequence }}">
+                                       <input type="hidden" class="edit-input-1 edit-row" name="replacement"
+                                          value="1">
+                                       <input type="hidden" class="edit-input-1 edit-row" name="creator">
+                                       <input type="hidden" class="edit-input-1 edit-row" name="repaired_date">
+                                       <input type="hidden" name="serial_number"
+                                          value="{{ serial_number.serial_number }}">
+                                       <input type="hidden" class="edit-input-1 edit-row" name="result" value="1">
+                                       <input type="hidden" name="submit" value="1">
+                                       <input type="hidden" name="template" value="{{template}}">
+                                       <input type="hidden" name="route" value="{{route_id}}">
+                                       <input type="hidden" name="station" value="{{station_id}}">
+                                       <input type="hidden" name="ver" value="{{ver}}">
+                                       <input type="hidden" name="submit-type" value="repair-unit">
+                                       <button class="btn btn-primary header-button" id="btn-repair-unit"
+                                          type="submit" style="float:left; mergin-left: 5px; width: 180px;">Repair Unit</button>
+                                    </div>
+                             </form>
+                           </div>
+                           <!--    ################  replacement result ############################-->
+                           {% include 'production/repair/repair-replacement-result.html' %}
+                           <!--    ################  replacement result ############################-->
+                        </div>
+                        {% include 'production/repair/repair_tabs.html' %}
+                        <!--  end tabs  -->
+                        {% endif %}
+                        {% empty %}
+                        <div id="myModal" class="modal-log">
+                           <div class="modal-content" style="width: 40%;">
+                              <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                              <div class="warning-modal-body">
+                                 <p>No related data found</p>
+                              </div>
+                           </div>
+                           <button style="display: none;" id="myBtn">Open Modal</button>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                        {% comment %} End of if repaired {% endcomment %}
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+      </div>
+   </section>
+</section>
+{% load static %}
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+<script src="{% static 'js/repair/options.js' %}"></script>
+<script>
+   let keyparts = {{ key_parts | safe }};
+   console.log(keyparts);
+</script>
+</body>
+
+</html>

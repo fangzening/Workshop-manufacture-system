@@ -1,0 +1,349 @@
+@media (max-width: 768px) {
+#sidebar {
+height: auto;
+position: absolute;
+}
+
+#main-content {
+padding-left: 0;
+padding-right: 0;
+
+}
+.wrapper {
+padding-left: 0;
+padding-right: 0;
+}
+#mobile-pallet-input{
+padding: 15px;
+margin-top: 10px;
+margin-bottom: 0;
+padding-bottom: 0;
+}
+
+#pallet_id{
+margin-top: 0;
+}
+#add_sn, #mobile-extra-space {
+display: none;
+}
+
+
+
+
+.table-th-pallet {
+
+}
+
+.panel-body {
+margin: 0;
+}
+
+#dn-button-div  {
+padding: 0;
+}
+#dn-g-button{
+padding:0;
+margin:0;
+}
+
+
+
+#pallet-main-page {
+padding: 0;
+}
+.login-wrap {
+padding: 0;
+}
+#total_pallet_qty, #scanned_pallet_qty {
+ width: 49.9%;
+float: left;
+}
+#pallet_value {
+height: 0;
+padding: 0;
+margin: 0;
+}
+
+#PalletInfo, #DeliveryNumberDetail, .mobile-tab-table, #open-available-pallet, #create-button-div{
+padding-left: 0;
+padding-right: 0;
+}
+
+.modal .modal-p{
+width: 100%;
+}
+
+
+
+.header-button {
+width: 100%;
+padding:0;
+margin: 0;
+}
+
+#myUL li {
+width: 100%;
+
+}
+
+.table .table-th-pallet {
+    padding: 0.5rem 1rem;
+    height: 30px;
+    /*overflow-y: scroll;*/
+    width: 33%;
+    float: left;
+}
+.panel-body-table-truckload {
+    border-width: 1px 1px 2px;
+    border-style: solid;
+    border: #ccc;
+    box-shadow: 0 1px 15px rgba(0,0,0,0.1), 0 15px 15px rgba(0,0,0,0.1);
+    padding: 0;
+    height: 325px;
+
+
+}
+
+#truckload-button {
+width: 100%;
+}
+.tabcontent{
+height: auto;
+}
+#push_to_list, #go, #pallet_button, #so_button, #sn-button-main {
+display: none;
+}
+
+#pallet-DN {
+display: none;
+}
+
+#id_id_salesorder, #id_salesorder, #id_pallet_id, #id_scan_pallet, #id_scan_sn, #test_select {
+display: none;
+}
+
+.table-striped th, .table-striped td, .table-bordered th, .table-bordered td,
+#dn_information th, #dn_information td,
+#total_pallet_qty th, #total_pallet_qty td,
+#scanned_pallet_qty th, #scanned_pallet_qty td,
+#pallet_validation th, #pallet_validation td {
+font-size: 10px;
+padding-left: 10px;
+}
+
+.login-page-form, .desktop-login{
+width: 100%;
+height: auto;
+}
+
+.login-form {
+height: auto;
+}
+
+.pallet-button-div-right, .pallet-button-div-left {
+padding: 0;
+margin: 5px 0;
+}
+#scan_pallet_input, #t1 ,#id_scan_sn, #id_scan_pallet {
+margin: 0;
+margin-bottom: 5px;
+width: 100%;
+}
+#truckload-space {
+display: none;
+}
+
+.mobile-link {
+display: block;
+}
+
+.inspection_detail {
+height: auto;
+}
+#ReceivingDetail {
+padding: 0;
+}
+
+.panel .no-padding {
+padding: 0;
+}
+.wms-receiving {
+margin: 2px;
+}
+}
+
+
+/* scanner version */
+
+@media (max-width: 350px) {
+.scanner-content {
+padding: 0;
+}
+
+#main-content, #main-content {
+overflow: scroll;
+}
+
+.modal .modal-content-detail .modal-button-red, .modal .modal-content-detail .modal-button-blue {
+width: 100%;
+border-radius: 0;
+margin:0;
+}
+
+#show-current-sku, .shipout-qty-table {
+padding: 5px;
+padding-left: 5px;
+}
+#table_list_info {
+padding-left: 5px;
+}
+
+.modal .row .modal-button-red {
+margin-bottom: 1rem;
+}
+
+.row .form-group  .disable-add-sn {
+margin: 0;
+}
+.modal .modal-p {
+padding: 0;
+}
+
+.modal .modal-p p{
+margin-top: 1rem;
+}
+.modal-scanner-version {
+width: 100%;
+padding: 0;
+margin: 0;
+}
+
+.tab button.active, .tablinks, .flex-button {
+width: 100%;
+}
+
+.tabcontent {
+padding-right: 10px;
+}
+.shipout-input-scan {
+
+}
+#myUL li a span {
+font-size: 10px;
+}
+
+.scanner-td {
+border: #eee solid 1px;
+}
+
+.table .scanner-td-pallet{
+width:30%;
+}
+.login-wrap {
+height: auto;
+}
+
+
+.table .scanner-td-model {
+width: 54.9%;
+}
+.table .scanner-td-qty {
+width: 15%;
+}
+
+.btn {
+height: 40px;
+}
+
+.shipout-input{
+padding: 0;
+margin: 0;
+/*padding-left: 5px;*/
+width: 99%;
+}
+
+.login-page-form{
+padding: 0;
+}
+
+.desktop-login{
+height: auto; width: 100%; margin: 150px auto;
+}
+.login-form {
+height: auto;
+}
+
+#repaircode, #scan_pallet_input, #salesorder, #serial_number, .form-horizontal #id_salesorder, .form-horizontal #id_serial_number {
+width: 100%;
+height: 45px;
+
+}
+.panel-body input{
+border-radius: 0;
+border: #fff solid 1.5px;
+}
+
+.form-control{
+height: 45px;
+width: 100%;
+}
+
+.table-striped th, .table-striped td, .table-bordered th, .table-bordered td,
+#dn_information th, #dn_information td,
+#total_pallet_qty th, #total_pallet_qty td,
+#scanned_pallet_qty th, #scanned_pallet_qty td,
+#pallet_validation th, #pallet_validation td {
+font-size: 10px;
+padding-left: 10px;
+}
+
+.table tbody > tr > td {
+padding: 2px;
+}
+
+.truckload-input #pallet_id, .truckload-input #container_number, .truckload-input #seal_number{
+border: #dddddd solid 1px;
+}
+
+.truckload-input-area {
+padding: 0;
+}
+
+#pallet-DN {
+display: none;
+}
+
+#id_id_salesorder, #id_salesorder, #id_pallet_id, #id_scan_pallet, #id_scan_sn, #test_select {
+display: none;
+}
+
+.pallettization-title {
+margin-left: 10px;
+display: none;
+}
+.scanner-content .mobile-add-sn {
+border: 1px solid #eee;
+}
+.main-pallet-list {
+margin-left: 20px;
+}
+
+#scan_pallet_input, #t1 {
+border: 1px solid #ddd;
+}
+
+.panel-body-table-truckload-filter {
+height: auto;
+}
+.mobile-content {
+padding: 0 30px;
+}
+.mobile-content-shipout {
+padding: 0 10px;
+}
+.mobile-content-pallet {
+padding: 0 10px;
+}
+
+
+}

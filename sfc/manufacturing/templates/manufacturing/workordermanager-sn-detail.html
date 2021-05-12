@@ -1,0 +1,173 @@
+{% include 'manufacturing/include/header.html' %}
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content" class="login-wrap">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Home</a></li>
+                    <li><i class="fa fa-laptop"></i><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Manager</a></li>
+                    <li><i class="fa fa-th-list"></i><a href="{% url 'manufacturing:workordermanager-sn-detail' serialnumber.pk %}"> Serial Number Detail: <strong>{{serialnumber.serial_number}}</strong></a></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <div class="panel-body" style="padding: 0 0 6rem 0;">
+                        <div class="tab tabs">
+                            <button class="tablinks active" onclick="openForm(event, 'SerialNumber')" id="defaultOpen">Serial Number</button>                            
+                            <button class="tablinks" onclick="openForm(event, 'Stations')">Stations</button>
+                            <button class="tablinks" onclick="openForm(event, 'KeyParts')">Key Parts</button>                            
+                        </div>
+                        <!-- serial number -->
+                        <div id="SerialNumber" class="tabcontent trace-tab-content">
+                            <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-sm">
+                                        <tbody>
+                                            <tr class="table-header">
+                                                <th>Serial Number</th>
+                                                <th style="border: none;"></th>
+                                                <th style="border: none;"></th>
+                                                <th style="border: none;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Serial Number:</th>
+                                                <td> {{  serialnumber.serial_number }}</td>
+                                                <th scope="row">Route:</th>
+                                                <td>{{ route }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Work Order No:</th>
+                                                <td><a href="{% url 'manufacturing:workordermanager-wo-detail' serialnumber.workorder_id %}">{{ serialnumber.workorder_id }}</a> </td>
+                                                <th scope="row">Sales Order No:</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                {% if last_sn_log %}
+                                                    <th scope="row">Last Edit By:</th>
+                                                    <td>{{ last_sn_log.user }}</td>
+                                                    <th scope="row">Last Edit At:</th>
+                                                    <td> {{ last_sn_log.in_station_time }}</td>
+                                                {% else %}
+                                                    <th scope="row">Last Edit By:</th>
+                                                    <td>{{ serialnumber.user }}</td>
+                                                    <th scope="row">Last Edit At:</th>
+                                                    <td> {{ serialnumber.generated_date }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Current Station:</th>
+                                                <td> {{ serialnumber.station_id }}</td>
+                                                <th scope="row">Status:</th>
+                                                <td> {{ serialnumber.status }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of serial number -->
+                        <!-- stations -->
+                        <div id="Stations" class="tabcontent trace-tab-content">
+                            <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    {% if stations %}
+                                        <table class="table table-striped table-bordered table-sm">
+                                            <tbody>
+                                                <tr class="table-header">
+                                                    <th>Stations</th>
+                                                    <th style="border: none;"></th>
+                                                    <th>Completed</th>
+                                                    <th>Operator</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                                {% for station in stations %}
+                                                    <tr class="pallet-row-height">
+                                                        <td class='col-md-1'><p>{{ forloop.counter }}</p></td>
+                                                        <td class='col-md-2'>{{ station.pk }}</td>
+                                                        {% if station.completed %}
+                                                            <td class='col-md-1'>Yes</td>
+                                                            <td class='col-md-1'>{{ station.operator }}</td>
+                                                            <td class='col-md-1'>{{ station.in_station_time }}</td>
+                                                        {% else %}
+                                                            <td class='col-md-1'>No</td>
+                                                            <td class='col-md-1'></td>
+                                                            <td class='col-md-1'>{{ station.in_station_time }}</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                {% endfor%}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                         <div id="myModal" class="modal-log">
+                                             <div class="modal-content"  style="width: 40%;">
+                                                 <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                                                  <div class="warning-modal-body">
+                                                     <p> The route for workorder <strong>{{workorder.pk}}</strong> has not been defined yet.</p>
+                                                   </div>
+                                               </div>
+                                            <button style="display: none;" id="myBtn">Open Modal</button>
+                                         </div>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of stations -->
+                        <!-- keyparts -->
+                        <div id="KeyParts" class="tabcontent trace-tab-content">
+                            <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    {% if keyparts %}
+                                        <table class="table table-striped table-bordered table-sm">
+                                            <tbody>
+                                                <tr class="table-header">
+                                                    <th>Part No</th>
+                                                    <th style="border: none;">Part Desc</th>
+                                                    <th>Installed</th>
+                                                    <th>Part SN</th>
+                                                </tr>
+                                                {% for part in keyparts %}
+
+                                                <tr class="pallet-row-height">
+                                                    <td class='col-md-2'><p>{{part.model_id}}</p></td>
+                                                    <td class='col-md-3'>{{ part.desc }}</td>
+                                                        {% if part.cserialnumber != '' %}
+                                                            <td class="col-md-1"> Yes </td>
+                                                            <td class="col-md-2"> {{ part.cserialnumber }} </td>
+                                                        {% else %}
+                                                            <td class="col-md-1">No</td>
+                                                            <td class="col-md-2"></td>   
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor%}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <p class="alert alert-danger">
+                                            There are no keyparts for this serial number.
+                                        </p>                    
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of keyparts -->                        
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
+<!-- load js -->
+{% load static %}
+  <!-- javascripts -->
+<script src="{% static 'js/line/warning-modal.js' %}"></script>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+<script src="{% static 'js/manufacturing/tab.js' %}"></script>
+
+</body>
+</html>

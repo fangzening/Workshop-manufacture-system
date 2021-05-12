@@ -1,0 +1,142 @@
+{% include 'manufacturing/include/error-modal-style.html' %}
+<style>
+th,td{
+    border: 1px solid #dddddd;
+}
+</style>
+<div id="bottomSection" style="float: right;"></div>
+<div class="col-sm-12" style="padding: 0;">
+  {% include 'production/shipout/shipout_scan_so.html' %}
+    <section class="panel">
+         <div class="panel-body col-sm-12" style="height: 600px; overflow-y: scroll; padding: 0;">
+                <div class="tab tabs">
+                     <button class="tablinks active" onclick="openForm(event, 'PalletInfo')" id="defaultOpen">SalesOrder Detail</button>
+                     <button class="tablinks" onclick="openForm(event, 'DeliveryNumberDetail')">Delivery Number Detail</button>
+                </div>
+               <p></p>
+                <div style="height: 55px; overflow: scroll;">
+                <!--   pallet list  -->
+                  <div id="show-current-sku" class="icon-text" style="merge-bottom: 5px; display: none;">
+                       <label>Current SKU:</label>
+                     <input class="form-control" type="text" id="sku" name="sku" value="">
+                  </div>
+
+                 </div>
+               <!--  space -->
+                <div class="">
+                   <div class="icon-text" id="hidden-space" style="merge-bottom: 15px; opacity: 0; " >
+                       <div class="form-control form-control-replacement"></div>
+                   </div>
+                </div>
+                <!--  space -->
+                <!--   SO detail  -->
+                   <div id="PalletInfo" class="tabcontent pallet-tab-content" style="padding: 0;">
+                     <div class="form-horizontal">
+                        <div class="mobile-tab-table">
+                            <div id="shortage"></div>
+
+                            <input id="sku_filter_detail" value="" class="form-control form-control-replacement" name="pallet_id" type="text" style="display: none;" onkeyup="getSkuDetail()" style="width: 100%;margin-top: 5px;" placeholder="Cureent SKU..."/>
+                            <div id="sn-current-qty" style="display: none;">100</div>
+                            <div class="so-detail-table-div">
+                             <table class="table table-striped table-bordered table-sm  panel-body table-pallet" id="salesoorder_detail_tab"  style="margin:0; padding: 0;">
+                                 <thead>
+                                  <tr class="table-header">
+                                       <th>SKU</th>
+                                       <th>Line</th>
+                                       <th>Request Qty</th>
+                                       <th>Current Qty</th>
+                                       <th>Remain Qty</th>
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                     {% if salseorder_list %}
+                                     {% if salesorder.salesorder_id  %}
+                                     {% for salesorderdetail  in salesorder.salesorderdetail_set.all %}
+                                   <tr>
+                                      <td id="{{ salesorderdetail.skuno }}-sku" class="col-sm-2 table-th-shipout-first">{{ salesorderdetail.skuno }}</td>
+                                      <td class="col-sm-2 table-th-shipout">{{ salesorderdetail.salesorder_item }}</td>
+                                      <td id="{{ salesorderdetail.skuno }}-request" class="col-sm-2 table-th-shipout">{{ salesorderdetail.salesorder_qty }}</td>
+                                      <td id="{{ salesorderdetail.skuno }}" class="col-sm-2 table-th-shipout">0</td>
+                                      <td id="{{ salesorderdetail.skuno }}-remain" class="col-sm-2  table-th-shipout">{{ salesorderdetail.salesorder_qty }}</td>
+                                   </tr>
+                                   {% empty %}
+                                   <div id="myModal" class="modal-keypart"></div>
+                                   {% endfor %}
+                                   {% endif %}{% endif %}
+                                 </tbody>
+                            </table>
+                            </div>
+                              <div id="messageSKU" class="modal-keypart" style="display: none;">
+                                 <div class="modal-content"  style="width: 40%;">
+                                      <div class="warning-modal-body">
+                                         <p>No matched sku.</p>
+                                       </div>
+                                   </div>
+                                <button style="display: none;" id="myBtn">Open Modal</button>
+                             </div>
+
+                               <div style="height: 225px; overflow: scroll;">
+                                <!-- pallet list table -->
+                                  <div class="scanner-content">
+                                       <table id="data-table"  class="" style="display: none; margin-bottom: 0; width: 100%;">
+                                            <thead>
+                                            <tr class="table-header">
+                                                <th class="col-sm-3">Pallet</th>
+                                                <th class="col-sm-6">SKU</th>
+                                                <th class="col-sm-3">QTY</th>
+                                            </tr>
+                                            </thead>
+                                          <tbody id="plist" class="saved-content"></tbody>
+                                      </table>
+                                  </div>
+                               <!-- pallet list table -->
+                           </div>
+                       </div>
+                     </div>
+                   </div>
+                   <!--   DN detail  -->
+                   <div id="DeliveryNumberDetail" class="tabcontent pallet-tab-content" style="padding: 0;">
+                     <div class="form-horizontal">
+                        <div class="col-md-12 mobile-tab-table">
+                            <table class="table table-striped table-bordered table-sm  panel-body table-pallet" style="margin:0; padding: 0;" >
+                                 <tbody>
+                                   <p></p>
+                                   <tr class="table-header">
+                                      <td><i class="icon_grid-3x3"></i> &nbsp; DN</td>
+                                      <td><i class="icon_drawer_alt"></i> &nbsp; QTY</td>
+                                      <td><i class="icon_cog"></i> &nbsp; SKU</td>
+                                      <td><i class="icon_drawer_alt"></i> &nbsp; Line</td>
+                                      <td><i class="icon_archive_alt"></i> &nbsp; Pallet</td>
+                                   </tr>
+                                         {% if salseorder_list %}
+                                         {% if salesorder.salesorder_id %}
+                                         {% for deliverynumberdetail  in salesorder.deliverynumberdetail_set.all %}
+                                   <tr>
+                                       <th> <p>{{ deliverynumberdetail.deliverynumber_id.deliverynumber_id }}</p></th>
+                                       <th> <p>{{ deliverynumberdetail.current_qty }}</p></th>
+                                       <th><p>{{deliverynumberdetail.skuno}}</p></th>
+                                      {% for salesorderdetail  in salesorder.salesorderdetail_set.all %}
+                                      {% if forloop.last %}
+                                       <th><p>{{salesorderdetail.salesorder_item}}</p> </th>
+                                      {% endif %}
+                                      {% endfor %}
+                                      {% for deliverynumber  in salesorder.deliverynumber_set.all %}
+                                      {% ifequal deliverynumber.deliverynumber_id deliverynumberdetail.deliverynumber_id.deliverynumber_id %}
+                                      {% for palletdeliverynumber  in deliverynumber.palletdeliverynumber_set.all %}
+                                      <th><p>{{ palletdeliverynumber.pallet_id }}</p> </th>
+                                      {% endfor %} {% endifequal %}  {% endfor %}
+                                   </tr>
+                                     {% endfor %}
+                                     {% endif %}
+                                     {% endif %}
+                                 </tbody>
+                            </table>
+                        </div>
+                     </div>
+                   </div>
+             </div>
+    </section>
+</div>
+
+
+

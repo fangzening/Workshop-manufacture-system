@@ -1,0 +1,197 @@
+
+
+
+#button-nav {
+    padding: 2rem 2rem 0 0;
+    
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #ffffff;
+}
+.button-container {
+    padding: 5rem;
+    width: 80%;
+}
+
+#maskconfig-btn{
+    height: 100px;
+    width: 100%;
+    right: 10px;
+    color: #222;
+    padding: 30px;
+    
+ }
+ #maskconfig-btn:hover {
+     background-color: darkgray;
+ }
+
+/* #maskconfig-btn{
+    height: 100px;
+    width: 100%;
+    right: 10px;
+ } */
+ #maskconfig-btn p{
+    font-size: 2.5rem;
+    
+ }
+
+#maxheight {
+  /*  height: 720px; */
+  box-shadow: 0 1px 15px rgba(0,0,0,0.1), 0 15px 15px rgba(0,0,0,0.1);
+}
+
+#no-width {
+    width: .5em;
+}
+
+/* 2/25 row */
+.col-xs-3 .add-row {
+border: none;
+border-radius: 5px;
+height: 35px;
+}
+
+.col-xs-3 .edit-row {
+border: none;
+background: none;
+}
+
+
+
+#dataTable{
+border: 0.5px solid #fff;
+margin: 0;
+}
+
+.row-table, .table-margin {
+margin: 0;
+}
+
+
+.icon-text-mask span {
+display:none;
+position: absolute;
+background: #797979;
+color: #fff;
+padding:0.5rem; border-radius: 8px;
+width: 100px;
+
+opacity: 0.9;
+}
+
+.icon-text {
+background: none; border: none;position: relative;
+width: 100px;
+}
+.icon-text:hover span {
+display:block;
+z-index: 10;
+}
+
+
+.icon-text img {
+width: 22px;
+margin-left: 3px;
+}
+
+#top-btn-container {
+float: right;
+padding: 0.5rem;
+}
+
+#top-btn-container button, .top-input, .top-btn-container button{
+/* color: #797979; */
+}
+
+.top-btn-container {
+/* padding: 0.5rem; */
+
+}
+
+
+form .input-segment-blue{
+color: #ffffff !important;
+background-color: #007aff !important;
+}
+.input-segment-blue {
+color: #ffffff !important;
+background-color: #357ecd !important;
+}
+
+.input-segment-red {
+color: #ffffff !important;
+background-color: #ff2d55 !important;
+}
+.table form button {
+    cursor: pointer;
+    width: 100px;
+    margin: 0 auto;
+}
+
+table .modal-content-segment {
+width: 85%;
+}
+
+/* mask 3/4 */
+.row .col-lg-12 .panel .panel-body .mask-container {
+width: 45%;
+margin: 0 auto;
+}
+
+.mask-container #id_model,
+.mask-container #id_line_name,
+.mask-container #id_position,
+.mask-container select,
+.mask-container #id_name,
+.mask-container #id_length,
+.mask-container #id_value
+{
+width: 100%;
+height: 35px;
+}
+
+.mask-container p {
+width: 100%;
+
+}
+.col-sm-12 .panel .panel-heading span {
+
+
+}
+
+.btn-danger {
+    color: #ffffff;
+    background-color: #b8596b;
+    border-color:#b8596b;
+    width: 150px;
+    height: 35px;
+}
+
+.whole .column th .mask-ul{
+display: flex;
+justify-content: center;
+}
+
+#sn-label-container{
+    width: 100%;
+    display: flex;
+    margin-top: 5px;
+    flex-direction: row;
+}
+.segment-label-container {
+    margin: 5px 10px 0 0;
+    display: flex;
+    flex-direction: row;
+    
+    
+}
+
+.segment-label-container p {
+   font-size: 20px;
+   margin-right: 5px;
+}
+.serial-display {
+    height: 35px;
+    background-color: white !important;
+}

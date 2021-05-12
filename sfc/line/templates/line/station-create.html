@@ -1,0 +1,98 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/line/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+  <section class="wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <ol class="breadcrumb">
+          <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!-- <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+            <li><i class="fa fa-th-list"></i><a href="{% url 'line:all-stations' %}">Stations</a>
+            <span class="path-breadcrumb">	&nbsp;{{station.pk}}</span></li>
+          <li><i class="fa fa-square-o"></i>Create</li>
+        </ol>
+      </div>
+    </div>
+
+     <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body" style="padding-bottom: 5rem;">
+                 <div class="station-container">
+                      <!-- station name -->
+                      <form action="" method="POST">
+                            {%csrf_token%}
+                            <input type="hidden" name='route-id' value="{{route_id}}">
+                                <div class="station col-md-6">
+                                  <div class="form-group">
+                                    <label for="station-name">Station Name: </label>
+                                    <input required type="text" class="form-control" id="station-name" name="station-name" aria-describedby="stationName" placeholder="Station...">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="template">Template: </label>
+                                    <select required class="form-control" id="template" name="template">
+                                          <option selected>Select template...</option>
+                                      {% if templates %}
+                                        {% for template in templates %}
+                                          <option value="{{template.template_id}}">{{template.name}}</option>
+                                        {% endfor %}
+                                      {% endif %}
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="station-name">Station Description: </label>
+                                    <textarea required class="form-control" id="station-description" name="station-description" aria-describedby="stationName" placeholder="Description..." rows="5"></textarea>
+                                  </div>
+
+                                  <div class="col-sm-12" style="float: right; padding-left: 0;">
+                                    <button type="submit" class="btn btn-primary mb-2 col-sm-4">Save</button>
+                                  </div>
+                                </div>
+                          </form>
+                          <div class="action-list col-md-6">
+                              <div class="form-group panel-body-table verify-pallet-truckload">
+                                <header class="panel-heading">Actions</header>
+                                <table class="table table-striped" id="table-action-list">
+                                      <thead>
+                                        <tr class="table-header">
+                                          <th scope="col">#</th>
+                                          <th scope="col">Name</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for template, actions in template_actions.items %}
+                                            <!-- <td>{{key}}</td> -->
+                                            {% for action in actions %}
+                                            <tr class="template template-{{template}} hidden">
+                                              <td>{{forloop.counter}}</td>
+                                              <td> {{action}} </td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                 <!-- insert actions based on the template -->
+                                </div>
+                          </div>
+                    </div>
+                 </div>
+             </section>
+          </div>
+      </div>
+   </section>
+</section>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollTo.min.js"></script>
+<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="js/scripts.js"></script>
+<script>
+  let templates_data = {{data | safe}};
+  console.log(typof(templ))
+</script>
+<script src="{% static 'js/line/station/station-create.js'  %}"></script>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

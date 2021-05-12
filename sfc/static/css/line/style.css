@@ -1,0 +1,205 @@
+/* p input{
+    width: 100%;
+    height: 40px !important; 
+    } */
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+/* pallet station */
+.flex-split{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+}
+.pallet-container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-bottom: 8px;
+
+}
+#table-height{
+    /*height: 500px;*/
+    overflow: scroll;
+
+    border-width: 1px 1px 2px;
+    border-style: solid;
+    border: #ccc;
+    box-shadow: 0 1px 15px rgba(0,0,0,0.1), 0 15px 15px rgba(0,0,0,0.1);
+    padding: 0;
+    height: 325px;
+
+}
+.pallet-row-height{
+    height: 25px;
+    min-width: 15px;
+}
+.information-container{
+    font-size: 18px;
+    font-weight: 300;
+    color: #797979;
+    margin: 0;
+    width: 50%;
+    border-bottom: 1px solid #c7c7cc;
+    border-right: 1px solid #c7c7cc;
+}
+
+/* end pallet */
+
+
+#border {
+
+    border: 1.5px solid  rgba(170, 175, 170, 0.513);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 4rem auto;
+}
+
+#route-search-label{
+    font-size: 20px;
+    color: #797979;
+
+}
+
+#error-container {
+    height: 35px;
+    width: auto;
+    margin: 0 auto;
+    background-color: lightcoral;
+    border: 1px solid lightcoral;
+    padding: 6px 12px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 4px;
+    white-space: nowrap;
+
+
+}
+#error-text {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: darkred;
+}
+
+
+.line-form  #id_model {
+height: 35px;
+width: 80%;
+margin: 0 auto;
+}
+
+.button-hover:hover {
+    /* display: none; */
+    transition: 0.2s;
+    opacity: 0.7;
+    background: #eeeeee;
+    }
+
+
+
+
+
+.panel .panel-body .sn-input {
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+}
+
+.station-container{
+height: auto;
+width: 80%;
+margin: 1rem auto;
+}
+
+.btn-group {
+height: auto;
+}
+
+.right-station-container {
+    margin: 1rem;
+    text-align: left;
+    padding: 1rem;
+    padding: 1rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.mr-2, .mb-2 {
+width: 31%;
+border-radius: 5px;
+margin:0.2rem;
+}
+
+.control-label {
+/* color: #f7f7f7; */
+}
+
+.panel .station-bottom-border {
+    border-bottom: 1px solid #eff2f7;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.station-route {
+width: 60%;
+margin: 2rem auto;
+display: flex;
+justify-content: center;
+flex-direction: column;
+}
+
+
+.check-in-qty {
+height: 80px;
+border: none;
+font-size: 4rem;
+font-weight: 800;
+}
+.palletize-qty {
+height: 60px;
+border: none;
+font-size: 4rem;
+font-weight: 800;
+}
+.table .bottom-table td {
+padding:0.5rem 0;
+width: 10%;
+color: #797979;
+}
+
+.table .bottom-table-five td {
+padding:0.5rem 0;
+width: 20%;
+color: #797979;
+}
+
+.bottom-table-border {
+border: 1px solid #eff2f7;
+}
+
+.bottom-table-border p {
+padding-left: 1.5rem;
+color: #797979;
+}
+
+.p-buttons {
+width: 150px;
+}
+
+@media (max-width: 778px) {
+.mr-2, .mb-2 {
+width: 100%;
+margin: 0.5rem 0.5rem;
+border-radius: 5px;
+}
+
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 5px;
+}
+}
+
+

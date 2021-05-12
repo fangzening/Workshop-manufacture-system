@@ -1,0 +1,44 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link href="{% static 'css/maskconfig/style.css' %}" rel="stylesheet">
+{% include 'manufacturing/include/sidebar.html' %}
+<section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+            <!-- <li><i class="icon_cogs"></i><a href="{% url 'manufacturing:sub_config' %}">Configuration</a></li>-->
+            <li><i class="fa fa-th-list"></i><a href="{% url 'qms:inspection-level' %}">Inspection Level</a></li>
+
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <section class="panel">
+            <div class="panel-body">
+                <form method="POST">
+                    <section class="login-wrap mask-container">
+                    {% csrf_token %}
+                         {{ form.non_field_errors }}
+                         {{ form.source.errors }}
+                          {{ form.source }}
+                        <div class="form-group">
+                            <label style="font-size:18px;" for="id_inspection_level">Inspection Level</label>
+                            <input class="form-control"  type="text" name="inspection_level" maxlength="255" required="" {% if level %} value="{{level.inspection_level}}" {% endif %} id="id_inspection_level">    
+                            <input type="hidden" name="action" value="update" name="update">    
+                                                   
+                        </div>
+                    <button class="btn btn-primary" value="Save" type="submit">Submit</button>
+                    </section>
+                 </form>
+              </div>
+          </section>
+        </div>
+      </div>
+  </section>
+</section>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+{% load static %}

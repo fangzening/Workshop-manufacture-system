@@ -1,0 +1,127 @@
+{% include 'manufacturing/include/header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/maskconfig/style.css' %}">
+{% include 'manufacturing/include/sidebar.html' %}
+{% include 'manufacturing/include/error-modal-style.html' %}
+<section id="main-content" class="login-wrap">
+  <div class="wrapper">
+       <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                     <li><i class="fa fa-home"></i><a href="{% url 'manufacturing:home' %}">Dashboard</a></li>
+                     <!-- <li><i class="fa fa-laptop"></i><a href="{% url 'manufacturing:sub_toolbox' %}">Assembly Management</a></li>-->
+                     <li><i class="fa fa-th-list"></i><a href="{% url 'manufacturing:serialnumber_list' %}">Serial Number Manager</a></li>
+                </ol>
+            </div>
+        </div>
+
+       <div class="row" >
+          <div class="col-lg-12">
+            <section class="panel">
+                <div class="whole whole-table">
+                    <div class="main-content">
+                        <div class="nav-user-search  clearfix header-search-box">
+                          <div class="nav top-menu top-button">
+                               <form  class="navbar-form" id="search" action="" method="get">
+                                 <div class="nav search-row list-title-search" id="top_menu">
+                                     <div><input class="form-control" name="q" class="form-control" type="text" placeholder="SN Number" value="{{ values.q }}" autofocus></div>
+                                     <div style="width: 30px;">
+                                     <button class="nav-user-search-icon" type="submit" style="padding: 0;">
+                                          <i _ngcontent-crw-c2="" style="font-size: 3rem;" class="icon_search-2 search-icon text-muted i-Magnifi-Glass1"></i>
+                                     </button>
+                                    </div>
+                                 </div>
+                              </form>
+                          </div>
+                           <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="printer-error-modal" aria-hidden="true" id="printer-error-modal">
+                             <div class="modal-dialog modal-sm">
+                               <div class="modal-content">
+                               </div>
+                             </div>
+                           </div>
+                        </div>
+                     </div>
+                    {% if serialnumber_list %}
+                    <div id="maxheight">
+                          <table class="table table-striped table-advance table-hover" id="serial-number-manager">
+                            <thead>
+                              <tr class="table-header">
+                                <th> No.</th>
+                                <th><i class="icon_cogs"></i> Serial Number No.</th>
+                                <th><i class="icon_cogs"></i> WorkOrder</th>
+                                <th><i class="icon_cogs"></i> Model</th>
+                                <th><i class="icon_cogs"></i> Status</th>
+                                <th><i class="icon_cogs"></i> Station</th>
+                                <th ><i></i> &nbsp; Update</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for serialnumber in object_list %}
+                              <iframe name="formDestination" style="display: none;"></iframe>
+                                <tr>
+                                  <th><p>&nbsp;&nbsp;{{ forloop.counter }}</p></th>
+                                  <th><p>{{ serialnumber}} </p></th>
+                                  <th><p>{{ serialnumber.workorder_id }}</p></th>
+                                  <th><p>{{ serialnumber.model_id }}</p> </th>
+                                  <th> <p>{{ serialnumber.sn_status_category }}</p></th>
+                                      {% comment %}<form class="navbar-form" id="search1" action="{% url 'manufacturing:update-serialnumber_list-row' serialnumber.pk  %}" method="get" enctype="multipart/form-data" target="formDestination">{% endcomment %}
+                                         {% csrf_token %}
+                                         {{ form.non_field_errors }}
+                                         {{ form.source.errors }}
+                                        {{ form.source }}
+                                  <th  contenteditable="true" class="column-action">
+                                       <div class="edit-save-1 hover" id="edit-save-1">
+                                           <select onchange="changeStation(event)" id="{{serialnumber.pk}}" name="station" class="form-control form-control-selection form-control-input" style="padding-left: 5px;">
+                                                <option selected="true" value="{{ serialnumber.station_id }}">{{ serialnumber.station_id }}</option>
+                                                {% for station in stations %}
+                                                {% if station != serialnumber.station_id %}
+                                                 <option style="color: #222;" class="query-button" value="{{ station.pk }}">{{ station.pk }}</option>
+                                                 {% endif %}
+                                                 {% endfor %}
+                                             </select>
+                                           {% comment %}<p><input type="text" class="edit-input-1 edit-row" name="station" value="{{ serialnumber.station_id }}"></p>{% endcomment %}
+                                       </div>
+                                  </th>
+                                  <form class="navbar-form" id="search1" action="{% url 'manufacturing:serialnumber_update' %}" method="POST" {% comment %}enctype="multipart/form-data" target="formDestination"{% endcomment %}>
+                                      <th>
+                                        <div>
+                                            {% load static %}
+                                            {% csrf_token %}
+                                              <button type="submit" id="save-button-1"  style="background: none; border: none;" class="icon-text-mask icon-text  btn-confirm simple-confirm">
+                                                    <img  src="{% static 'svg/submit-id.svg' %}" alt="icon"><span>Save</span></button>
+                                              <input type="hidden" value="{{serialnumber.pk}}" name="serialnumber">
+                                              <input id="currentStation{{serialnumber.pk}}" type="hidden" name="station" value="{{serialnumber.station_id.pk}}">
+                                         </div>
+                                      </th>
+                                   </form>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                         {% include 'manufacturing/include/pagination.html' %}
+                    </div>
+                   {% else %}
+                        <div id="myModal" class="modal-log">
+                         <div class="modal-content"  style="width: 40%;">
+                             <span class="close" data-dismiss="modal" style="z-index: 100;">×</span>
+                              <div class="warning-modal-body">
+                                 <p>No related data found</p>
+                               </div>
+                           </div>
+                        <button style="display: none;" id="myBtn">Open Modal</button>
+                     </div>
+                   {% endif %}
+                </div>
+             </section>
+          </div>
+       </div>
+    </div>
+  </section>
+</section>
+{% load static %}
+ <script src="{% static 'js/line/warning-modal.js' %}"></script>
+ <script src="{% static 'js/manufacturing/inline.js' %}"></script>
+ <script src="{% static 'js/manufacturing/scripts.js' %}"></script>
+{% include 'manufacturing/include/javascript-sidebar.html' %}
+</body>
+</html>

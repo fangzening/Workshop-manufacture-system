@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            width: 93%;
+            margin: 0 auto;
+            
+        }
+        h3 {
+            padding: 0;
+            margin: 0;
+        }
+        /* HEADER CSS START*/
+        header{
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .form-header {
+            display: flex;
+            flex-direction: column;
+            width: 87.5%;
+            margin: 0 auto 5px auto;
+        }
+        .top-head{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .header-flex{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            flex: 1 1 100%;
+            padding: 0;
+        }
+        .header-flex-item {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            margin: 0;
+        }
+        .header-flex-item p{
+            font-size: 18px;
+            border: 1.5px solid black;
+            padding: 5px;
+            margin: 0;
+        }
+        /* HEADER CSS END */
+        .barcodes {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            border: 3px solid black;
+            border-style: double;
+            height: auto;
+        }
+        .pallet-list {
+            
+            width: 300%;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .title {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .title p{
+            border: 1px solid black;
+            font-size: 20px;
+            margin: 0;
+            
+        }
+        .small-title {
+            flex: 1 1 30%;
+            padding-left: 5px;
+            background-color: #fffaeb;
+            
+        }
+        .big-title {
+            flex: 1 0 70%;
+            /* min-width: 70%; */
+            padding: 0;
+        }
+
+        .label-color {
+            background-color: #e2efd9;
+        }
+
+        .carton{
+            flex: 1 1 100%;
+            display: flex;
+            flex-direction: row;
+            /* box-sizing: border-box; */
+            text-align: center;
+        }
+        .carton *{
+            font-size: 24px;
+            margin: 0;
+            padding: 25px 0;
+            border-right: 2px solid black;
+            border-bottom: 3px solid black;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>PALLET IDENTIFICATION FORM</h2>
+    </header>
+    <div class="form-header">
+        <div class="top-head">
+            <div class="header-flex">
+                <div class="header-flex-item">
+                    <p>Part Number: {{part_number}}</p>
+                </div>
+                <div class="header-flex-item">
+                    <p>Revision:</p>
+                </div>      
+            </div>
+        </div>
+        <div class="top-head">
+            <div class="header-flex">
+                <div class="header-flex-item">
+                    <p>Pallet ID: {{pallet_id}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="barcodes">
+        <div class="pallet-list">
+            <div class="title">
+                <p class="small-title carton-color">Cartons</p>
+                <p class="big-title label-color">Label Serial Number</p>
+            </div>
+            {% if first_range %}
+                {% for x in first_range %}
+                    <div class="carton">
+                        <p class="small-title">{{x}}</p>
+                        <svg id="barcode{{x}}" class="big-title"></svg>
+                    </div>
+                {% endfor %}
+            {% endif %}  
+        </div>
+
+        <div class="pallet-list">
+            <div class="title">
+                <p class="small-title carton-color">Cartons</p>
+                <p class="big-title label-color">Label Serial Number</p>
+            </div>
+            {% if second_range %}
+                {% for x in second_range %}
+                    <div class="carton">
+                        <p class="small-title">{{x}}</p>
+                        <svg id="barcode{{x}}" class="big-title"></svg>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <div class="signature">
+            <label for="operator">Operator</label>
+            <input type="text" name="operator" id="" value="{{user}}">
+        </div>
+        
+        <div class="date">
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date-today" value="{{date | safe}}" >
+        </div>
+    </footer>
+    <script>
+        var serial_numbers = {{ serial_numbers|safe }}
+    </script>
+    <script src="{% static 'js/JsBarcode.all.min.js' %}"></script>
+    <script src="{% static 'js/ship_out/pallet-printer.js' %}"></script>
+    
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script src="{% static 'js/ship_out/ship_out_validate_sku.js' %}"></script>
+<script src="{% static 'js/ship_out/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'js/ship_out/ship_out_verify_sn.js' %}"></script>
+<!--  space -->
+
+<!--  scan so -->
+<div class="">
+   <div class="icon-text" style="merge-bottom: 5px;">
+        <input id="salesorder" name="salesorder" class="form-control form-control-replacement" type="text" value="{{ salesorder.salesorder_id }}" style="color: #bbb8b8; margin-bottom: 10px;" required placeholder="Scan SalesOrder..."/>
+           <span class="span-repair">
+              <select  onchange="getSO(this);" id="test_select" class="form-control" id="id_id_salesorder" required="" style="display: none;">
+                <option value="#">------------</option>
+                 {% if salseorder_list %}
+                 {% for salesorder in salseorder_list %}
+                <option value='{% url "shipping:ship_out_detail" salesorder.salesorder_id  %}'>{{ salesorder.salesorder_id }}</option>
+                 {% endfor %} {% endif %}
+                <script>
+                  function gotDetail() {
+                  window.location = document.getElementById("test_select").value;
+                }
+                </script>
+            </select>
+       </span>
+   </div>
+   <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px; display: none;">
+         <button id="go" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onclick="gotDetail()">SalesOrder</button>
+   </div>
+</div>
+<!--scan so test -->
+<div class="col-sm-12 shipout-input" style="mergin-bottom: 5px; display: none;">
+   {% comment %}<a href="{% url 'shipping:ship_out_detail' salesorder.salesorder_id  %}">link</a>{% endcomment %}
+       <div class="icon-text col-sm-6 shipout-input shipout-input-scan" style="merge-bottom: 5px;">
+           <div class="" style="width:100%;">
+           <input id="repaircode" name="serialnumber" class="form-control form-control-replacement" type="text" value="{{ salesorder.salesorder_id }}" style="color: #bbb8b8;" required placeholder="Scan SalesOrder..."/>
+           </div>
+           <span class="span-repair">
+                <select onchange="getSO(this);"  name="serial_number_id" required="" class="col-sm-12" style="width: 100%;" id="id_salesorder">
+                  <option value="">---------</option>
+                     {% if salseorder_list %}
+                  {% for salesorder in salseorder_list %}
+                   <option value='{% url "shipping:ship_out_detail" salesorder.salesorder_id  %}'>{{ salesorder.salesorder_id }}</option>
+                  {% endfor %} {% endif %}
+                </select>
+           </span>
+       </div>
+       <div class="col-sm-5 shipout-input" style="padding-left:0; merge-bottom: 5px; display: none;">
+          <button id="so_button" class="btn btn-info header-button col-sm-12" style="margin: 0;float: left;" onclick="gotosite()"><strong>&nbsp;Sales Order </strong> </button>
+       </div>
+</div>
